@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Load TensorFlow.js -->
+    <!-- <script src="lb/tfjs@0.13.0"> </script>-->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"> </script>
+    <script src="lb/jquery-3.3.1.min.js"> </script>
+    <canvas id="orig" width="512" height="512"></canvas>
+    <canvas id="result" width="512" height="512"></canvas>
+
+    <!-- Place your code in the script tag below. You can also use an external .js file -->
+    <script>
+      // Notice there is no 'import' statement. 'tf' is available on the index-page
+      // because of the script tag above.
+    const canvas = document.getElementById("orig");
+    const ctx = canvas.getContext("2d");
+    const width = 200;
+    const height = 200;
+
+    img = new Image;
+    img.src = "img/lena.jpg";
+    //var ys = [];
+    img.onload = () => {
+	    ctx.drawImage(img, 0, 0);
+	    imageData = ctx.getImageData(0, 0, width,height);//width, height);
+	    console.log(imageData);
+            train(imageData);
+            //while(imageData.data.length) ys.push(imageData.data.prototype.splice(0,3)); 
+    }
+   //tys;
+function train(imageData) {
+  console.log(width);
+  var xs = [];
+  for(i=0;i<width;i++){
+    for(j=0;j<height;j++){
+      xs.push([i,j]);
+    }
+  }
+
+  console.log(img);
+  // Define a model for linear regression.
+  const model = tf.sequential();
+  //model.add(tf.input({shape: [2]}));
+  model.add(tf.layers.dense({units: 60, inputShape: [2], activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 60, activation: 'relu'}));
+  model.add(tf.layers.dense({units: 3, activation: 'relu'}));
+
+  const LEARNING_RATE = 0.1;
+  const optimizer = tf.train.sgd(LEARNING_RATE);
+
+  // Prepare the model for training: Specify the loss and the optimizer.
+  model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+
+  var txs = tf.tensor(xs);
+  var tys = tf.fromPixels(imageData, 3).reshape([width*height,3]);
+  tys = tf.cast(tys,'float32');
+  tys = tys.div(tf.scalar(255));
+  // const tys = tf.tensor(ys);
+  console.log("lalal");
+  tys.print();
+  // Train the model using the data.
+  //txs = tf.tensor2d([0,0,0,1,1,0,1,1],[4,2]);
+  //tys = tf.tensor2d([0,0,0,1,1,1,2,2,2,3,3,3],[4,3]);
+  model.fit(txs, tys, { batchSize: 100, epochs: 5, verbose: 1}).then(() => {
+    // Use the model to do inference on a data point the model hasn't seen before:
+    // Open the browser devtools to see the output
+    /*var out_img = []
+    for(i=0;i<width;i++){
+      for(j=0;j<height;j++){
+        //model.predict(tf.tensor2d([i,j], [1, 2])).print();
+      }
+    }*/
+    console.log(txs);
+    txs.print();
+    img_out = model.predict(txs);//);
+    img_out.print();
+    img_out = img_out.mul(tf.scalar(255));
+    img_out.print();
+    img_out = tf.cast(img_out,'int32');
+    img_out.print();
+    img_out_data = Array.from(img_out.dataSync());
+    
+    console.log(img_out_data);
+    for(i=3;i<img_out_data.length+1;i+=4){
+      img_out_data.splice(i,0,255);
+    }
+    console.log(img_out_data);
+
+    img_out_data = Uint8ClampedArray.from(img_out_data);
+
+    console.log(img_out_data);
+
+    imagedata = new ImageData(img_out_data,200,200);
+
+    const canvas = document.getElementById("result");
+    const ctx = canvas.getContext("2d");
+
+    var tmpcanvas = document.createElement('canvas');
+    var tmpctx = tmpcanvas.getContext('2d');
+    tmpcanvas.width = canvas.width;
+    tmpcanvas.height = canvas.height;
+    tmpctx.putImageData(imagedata, 0, 0);
+
+    var image = new Image();
+    image.onload=function(){
+            // drawImage the img on the canvas
+            ctx.drawImage(image,0,0);
+        }
+    image.src = tmpcanvas.toDataURL();
+  });
+}
+
+
+    </script>
+  </head>
+
+  <body>
+  </body>
+</html>
+
+        
+
+
