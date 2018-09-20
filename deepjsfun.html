@@ -11,24 +11,33 @@
 
     <!-- Place your code in the script tag below. You can also use an external .js file -->
     <script>
-      // Notice there is no 'import' statement. 'tf' is available on the index-page
-      // because of the script tag above.
-    const canvas = document.getElementById("orig");
-    const ctx = canvas.getContext("2d");
-    const w= 200;
-    const h= 200;
+// Notice there is no 'import' statement. 'tf' is available on the index-page
+// because of the script tag above.
+/* TODO:
+ * - make it faster
+ * - more accurate 
+ * - consistent start (avoid starting at loss = 0.8 and a color missing etc.)
+ * - clean the code
+ * - asynchronous updates (if even possible)
+ * - display loss chart, value
+ * - interactivity
+ */
+const canvas = document.getElementById("orig");
+const ctx = canvas.getContext("2d");
+const w= 200;
+const h= 200;
 
-    img = new Image;
-    img.src = "img/lena.jpg";
-    //var ys = [];
-    img.onload = () => {
-	    ctx.drawImage(img, 0, 0);
-	    imageData = ctx.getImageData(0, 0, w,h);
-	    console.log(imageData);
-            train(imageData);
-            //while(imageData.data.length) ys.push(imageData.data.prototype.splice(0,3)); 
-    }
-   //tys;
+img = new Image;
+img.src = "img/lena.jpg";
+//var ys = [];
+img.onload = () => {
+  ctx.drawImage(img, 0, 0);
+  imageData = ctx.getImageData(0, 0, w,h);
+  console.log(imageData);
+  train(imageData);
+  //while(imageData.data.length) ys.push(imageData.data.prototype.splice(0,3)); 
+}
+//tys;
 function train(imageData) {
   console.log(w);
   var xs = [];
@@ -37,7 +46,7 @@ function train(imageData) {
       xs.push([i,j]);
     }
   }
-//  shuffle(xs);
+  //  shuffle(xs);
 
   console.log(img);
   // Define a model for linear regression.
@@ -72,7 +81,7 @@ function train(imageData) {
   // Train the model using the data.
   //txs = tf.tensor2d([0,0,0,1,1,0,1,1],[4,2]);
   //tys = tf.tensor2d([0,0,0,1,1,1,2,2,2,3,3,3],[4,3]);
-  model.fit(txs, tys, { batchSize: 1000, epochs: 400, validationSplit: 0, shuffle: true,callbacks: {
+  model.fit(txs, tys, { batchSize: 2500, epochs: 4000, validationSplit: 0, shuffle: true,callbacks: {
     onTrainBegin: async () => {
       console.log("onTrainBegin")
     },
@@ -82,62 +91,59 @@ function train(imageData) {
     onEpochBegin: async (epoch, logs) => {
       console.log("onEpochBegin" + epoch + JSON.stringify(logs))
     },
-    onEpochEnd: async (epoch, logs) => {
+    onEpochEnd: (epoch, logs) => {
       console.log("onEpochEnd" + epoch + JSON.stringify(logs))
+      console.log(txs);
+      if(epoch%10 != 0 && epoch > 0)
+        return;
+      txs.print();
+      img_out = model.predict(txs, {batchSize: 1000, verbose: true});//);
+      img_out.print();
+      img_out = img_out.mul(tf.scalar(255));
+      img_out.print();
+      img_out = tf.cast(img_out,'int32');
+      img_out.print();
+      img_out_data = Array.from(img_out.dataSync());
+
+      console.log(img_out_data);
+      for(i=3;i<img_out_data.length+1;i+=4){
+        img_out_data.splice(i,0,255);
+      }
+      console.log(img_out_data);
+
+      img_out_data = Uint8ClampedArray.from(img_out_data);
+
+      console.log(img_out_data);
+
+      imagedata = new ImageData(img_out_data,w,h);
+
+      const canvas = document.getElementById("result");
+      const ctx = canvas.getContext("2d");
+
+      var tmpcanvas = document.createElement('canvas');
+      var tmpctx = tmpcanvas.getContext('2d');
+      tmpcanvas.width = canvas.width;
+      tmpcanvas.height = canvas.height;
+      tmpctx.putImageData(imagedata, 0, 0);
+
+      var image = new Image();
+      image.onload=function(){
+        // drawImage the img on the canvas
+        ctx.drawImage(image,0,0);
+      }
+      image.src = tmpcanvas.toDataURL();
     },
     onBatchBegin: async (epoch, logs) => {
-  //    console.log("onBatchBegin" + epoch + JSON.stringify(logs))
+      //    console.log("onBatchBegin" + epoch + JSON.stringify(logs))
     },
     onBatchEnd: async (epoch, logs) => {
-   //   console.log("onBatchEnd" + epoch + JSON.stringify(logs))
+      //   console.log("onBatchEnd" + epoch + JSON.stringify(logs))
     }
   }
   }).then(() => {
     // Use the model to do inference on a data point the model hasn't seen before:
     // Open the browser devtools to see the output
-    /*var out_img = []
-    for(i=0;i<width;i++){
-      for(j=0;j<height;j++){
-        //model.predict(tf.tensor2d([i,j], [1, 2])).print();
-      }
-    }*/
-    console.log(txs);
-    txs.print();
-    img_out = model.predict(txs, {batchSize: 32, verbose: true});//);
-    img_out.print();
-    img_out = img_out.mul(tf.scalar(255));
-    img_out.print();
-    img_out = tf.cast(img_out,'int32');
-    img_out.print();
-    img_out_data = Array.from(img_out.dataSync());
-    
-    console.log(img_out_data);
-    for(i=3;i<img_out_data.length+1;i+=4){
-      img_out_data.splice(i,0,255);
-    }
-    console.log(img_out_data);
-
-    img_out_data = Uint8ClampedArray.from(img_out_data);
-
-    console.log(img_out_data);
-
-    imagedata = new ImageData(img_out_data,w,h);
-
-    const canvas = document.getElementById("result");
-    const ctx = canvas.getContext("2d");
-
-    var tmpcanvas = document.createElement('canvas');
-    var tmpctx = tmpcanvas.getContext('2d');
-    tmpcanvas.width = canvas.width;
-    tmpcanvas.height = canvas.height;
-    tmpctx.putImageData(imagedata, 0, 0);
-
-    var image = new Image();
-    image.onload=function(){
-            // drawImage the img on the canvas
-            ctx.drawImage(image,0,0);
-        }
-    image.src = tmpcanvas.toDataURL();
+    console.log("done")
   });
 }
 
@@ -160,10 +166,10 @@ function shuffle(a) {
     </script>
   </head>
 
-  <body>
-  </body>
+      <body>
+      </body>
 </html>
 
-        
+
 
 
