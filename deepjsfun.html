@@ -6,8 +6,9 @@
     <!-- <script src="lb/tfjs@0.13.0"> </script>-->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"> </script>
     <script src="lb/jquery-3.3.1.min.js"> </script>
-    <canvas id="orig" width="512" height="512"></canvas>
-    <canvas id="result" width="512" height="512"></canvas>
+    <canvas id="orig" width="200" height="200"></canvas>
+    <canvas id="result" width="200" height="200"></canvas>
+    <span id="loss">0</span>
 
     <!-- Place your code in the script tag below. You can also use an external .js file -->
     <script>
@@ -139,6 +140,7 @@ function train(imageData) {
     },
     onBatchEnd: async (epoch, logs) => {
       //   console.log("onBatchEnd" + epoch + JSON.stringify(logs))
+      $('#loss')[0].innerHTML=JSON.stringify(logs);
     }
   }
   }).then(() => {
