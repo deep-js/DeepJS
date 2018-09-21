@@ -9,6 +9,7 @@
     <canvas id="orig" width="200" height="200"></canvas>
     <canvas id="result" width="200" height="200"></canvas>
     <span id="loss">0</span>
+    <span>epoch: <span id="epoch">0</span></span>
 
     <!-- Place your code in the script tag below. You can also use an external .js file -->
     <script>
@@ -23,6 +24,7 @@
  * - display loss chart, value
  * - interactivity
  */
+const updating = '<strong id="updating">updating</strong>';
 const canvas = document.getElementById("orig");
 const ctx = canvas.getContext("2d");
 const w= 200;
@@ -95,6 +97,8 @@ function train(imageData) {
     },
     onEpochEnd: (epoch, logs) => {
       console.log("onEpochEnd" + epoch + JSON.stringify(logs))
+      $('#epoch')[0].innerHTML=epoch;
+      //$('head')[0].after(updating);
       console.log(txs);
       if(epoch%3 != 0 && epoch > 0)
         return;
