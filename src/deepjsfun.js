@@ -111,7 +111,7 @@ function train(imageData) {
    * callbacks are a list of function to be called at the end/beginning of each epoch/batch
    * it is used to update the image during the training
    */
-  model.fit(txs, tys, { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true,callbacks: {
+  model.fit(txs, tys, { batchSize: BATCH_SIZE, epochs: 4000, validationSplit: 0, shuffle: true,callbacks: {
     onTrainBegin: () => {
       clear_canvas(document.getElementById("result"));
     },
@@ -162,6 +162,8 @@ function make_config_forms(){
   model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
   model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
   // 3 outputs : rgb \n\
+  \n\
+  const BATCH_SIZE = 250;\n\
   \n\
   // did not tinker much with that \n\
   const LEARNING_RATE = 0.1;\n\
