@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style/deepjsfun.css"> 
     <!-- Load TensorFlow.js -->
     <script src="lb/tfjs@0.13.0"> </script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"> </script> -->
@@ -12,23 +13,39 @@
     <!-- Load Chart.js -->
     <script src="lb/Chart.min.js"> </script>
 
-    <!-- Original picture canvas -->
-    <canvas id="orig" width="200" height="200"></canvas>
+    <div class="main" >
+      <!-- model config forms -->
+      <div class="config">
+        <textarea id='model_config' rows='22' cols='120' ></textarea>
+        <button id='reload'  onclick='reload()'>Reload</button>
 
-    <!-- Result picture canvas -->
-    <canvas id="result" width="200" height="200"></canvas>
+      </div>
 
-    <!-- Result picture canvas -->
-    <canvas id="plot" ></canvas>
+      <div class="pic" >
+        <!-- Original picture canvas -->
+        <canvas id="orig" width="200" height="200"></canvas>
 
-    <div id="plot" ></div>
+        <!-- Result picture canvas -->
+        <canvas id="result" width="200" height="200"></canvas>
+      </div>
 
+      <div class="infos" >
+        <!-- Displaying log infos -->
+        <ul>
+          <li>Epoch: <span id="epoch_info">0</span></li>
+          <li>Batch: <span id="batch_info">0</span></li>
+          <li>Loss: <span id="loss_info">0</span></li>
+        </ul>
+        
+      </div>
 
-    <!-- Displaying log infos -->
-    <span id="loss">0</span>
-    <span>epoch: <span id="epoch">0</span></span>
+        <canvas id="plot" ></canvas>
+
+    </div>
+
 
     <script src="src/deepjsfun.js"></script>
+
   </head>
 
       <body>

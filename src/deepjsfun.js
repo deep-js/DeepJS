@@ -21,6 +21,8 @@ const h= 200;
 const canvas = document.getElementById("orig");
 const ctx = canvas.getContext("2d");
 
+var model;
+var imageData;
 
 var plotctx = document.getElementById("plot");
 
@@ -28,6 +30,9 @@ var lossdata = {
   labels: [],
   datasets:[{
     label: 'loss',
+//    backgroundColor: 'rgba(230,53,93,0.4)',
+    //backgroundColor: 'rgba(188,45,81,0.4)',
+    backgroundColor: 'rgba(255,99,132,0.4)',
     data:[]
   }]
 }
@@ -44,15 +49,18 @@ var options = {
       }
     }]
 
-  }
+  },
+  maintainAspectRatio: true
 } 
 //var data = [{x:0, y:1},{x:1, y:2},{x:2, y:3},{x:3, y:4}];
 
 var losschart = new Chart(plotctx, {
-    type: 'line',
-    data: lossdata,
-    options:options
+  type: 'line',
+  data: lossdata,
+  options:options
 });
+
+make_config_forms();
 
 img.onload = () => {
   // image is loaded
@@ -65,42 +73,9 @@ img.onload = () => {
 
 function train(imageData) {
 
-  /* generate pixel coords
-   * makes a 2d array of wize h,w containing every pixel coordinates
-   * [[0,0],[0,1]...[0,h],
-   *  [1,0],  ...  ,[1,h],
-   *  [w,0],  ...  ,[w,h]]
-   * is used as input to the model
-   */
-  var xs = [];
-  for(i=0;i<w;i++){
-    for(j=0;j<h;j++){
-      xs.push([i,j]);
-    }
-  }
+  const xs = gen_pixel_coords(w,h);
 
-  // Define a model for linear regression.
-  const model = tf.sequential();
-  // model layout is similar ConvNetJs' model
-  // 2 inputs : x,y
-  model.add(tf.layers.dense({units: 20, inputShape: [2], activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: 'varianceScaling'}));
-  // 3 outputs : rgb
-
-  // did not tinker much with that
-  const LEARNING_RATE = 0.1;
-
-  // ConvNetJS has a momentum variable, so the optimizer was chosen accordingly
-  const MOMENTUM = 0.9;
-  const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);
-
-  // Prepare the model for training: Specify the loss and the optimizer.
-  model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+  eval($("#model_config").val());
 
   // make a tensor from the pixel coords array, shape is inferred from the original array : [w*h,2]
   var txs = tf.tensor(xs);
@@ -137,83 +112,161 @@ function train(imageData) {
    * it is used to update the image during the training
    */
   model.fit(txs, tys, { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true,callbacks: {
-    onTrainBegin: async () => {
-      console.log("onTrainBegin")
+    onTrainBegin: () => {
+      clear_canvas(document.getElementById("result"));
     },
-    onTrainEnd: async (epoch, logs) => {
-      console.log("onTrainEnd" + epoch + JSON.stringify(logs))
+    onTrainEnd: (epoch, logs) => {
+      clear_chart();
     },
     onEpochBegin: async (epoch, logs) => {
-      console.log("onEpochBegin" + epoch + JSON.stringify(logs))
     },
     onEpochEnd: (epoch, logs) => {
-      console.log("onEpochEnd" + epoch + JSON.stringify(logs))
-      
-      console.log("loss" + logs.loss);
 
-      losschart.data.labels.push(epoch);
-      losschart.data.datasets[0].data.push(logs.loss);
-      losschart.update();
+      update_loss_chart(epoch,logs.loss);
 
-      // print epoch number inside tag having id #epoch
-      $('#epoch')[0].innerHTML=epoch;
+      update_metrics({epoch: epoch, batch: logs.batch, loss: logs.loss});
 
       // every 3 epoch, update the result image
-      if(epoch%1 != 0 && epoch > 0)
+      if(epoch%2 != 0 && epoch > 0)
         return;
 
-      // get the model outputs for all pixel coordinates
-      img_out = model.predict(txs, {batchSize: 1000, verbose: true});//);
+      model_output = get_model_output(txs);
 
-      // reformat it to bytes
-      img_out = img_out.mul(tf.scalar(255));
-      img_out = tf.cast(img_out,'int32');
-
-      // actually request the data (model.predict gives a promise)
-      img_out_data = Array.from(img_out.dataSync());
-
-      // for some reason a canvas only takes 4 channel images
-      // so the Alpha channel has to be inserted
-      // this is hugely inefficient
-      // Chrome takes ~0.5s 
-      // Firefox takes ~2s and complains about the script being frozen 
-      for(i=3;i<img_out_data.length+1;i+=4){
-        img_out_data.splice(i,0,255);
-      }
-
-      // ImageData must be constructed using this typed array
-      img_out_data = Uint8ClampedArray.from(img_out_data);
-      imagedata = new ImageData(img_out_data,w,h);
-
-
-      // get result canvas
-      const canvas = document.getElementById("result");
-      const ctx = canvas.getContext("2d");
-
-      // trickery to draw the image on the canvas
-      // ref : https://stackoverflow.com/questions/24236470/html5-can-i-create-an-image-object-from-an-imagedata-object
-      var tmpcanvas = document.createElement('canvas');
-      var tmpctx = tmpcanvas.getContext('2d');
-      tmpcanvas.width = canvas.width;
-      tmpcanvas.height = canvas.height;
-      tmpctx.putImageData(imagedata, 0, 0);
-
-      var image = new Image();
-      image.onload=function(){
-        // drawImage the img on the canvas
-        ctx.drawImage(image,0,0);
-      }
-      image.src = tmpcanvas.toDataURL();
+      draw_image(model_output, document.getElementById("result"));
     },
     onBatchBegin: async (epoch, logs) => {
       //    console.log("onBatchBegin" + epoch + JSON.stringify(logs))
     },
     onBatchEnd: async (epoch, logs) => {
+      if(logs.batch%5 != 0 )
+        return;
       // print log infos (loss etc) in the tag having id #epoch
-      $('#loss')[0].innerHTML=JSON.stringify(logs);
+      update_metrics({batch: logs.batch, loss: logs.loss});
     }
   }
   }).then(() => {
     console.log("done")
   });
+}
+
+function make_config_forms(){
+  model_def = " // Define a model for linear regression.\n\
+  model = tf.sequential();\n\
+  // model layout is similar ConvNetJs' model \n\
+  // 2 inputs : x,y \n\
+  model.add(tf.layers.dense({units: 20, inputShape: [2], activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  // 3 outputs : rgb \n\
+  \n\
+  // did not tinker much with that \n\
+  const LEARNING_RATE = 0.1;\n\
+  \n\
+  // ConvNetJS has a momentum variable, so the optimizer was chosen accordingly \n\
+  const MOMENTUM = 0.9;\n\
+  const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
+  // Prepare the model for training: Specify the loss and the optimizer. \n\
+  model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
+
+  $("#model_config").val(model_def);
+
+}
+
+function gen_pixel_coords(w,h){
+  /* generate pixel coords
+   * makes a 2d array of wize h,w containing every pixel coordinates
+   * [[0,0],[0,1]...[0,h],
+   *  [1,0],  ...  ,[1,h],
+   *  [w,0],  ...  ,[w,h]]
+   * is used as input to the model
+   */
+  var xs = [];
+  for(i=0;i<w;i++){
+    for(j=0;j<h;j++){
+      xs.push([i,j]);
+    }
+  }
+  return xs
+}
+
+function reload(){
+  model.stopTraining = true;
+  
+  train(imageData);
+}
+
+function clear_chart(){
+  losschart.data.labels = [];
+  losschart.data.datasets[0].data = [];
+  losschart.update();
+}
+
+function clear_canvas(canvas){
+  const context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function draw_image(data,canvas){
+
+  const ctx = canvas.getContext("2d");
+
+  // for some reason a canvas only takes 4 channel images
+  // so the Alpha channel has to be inserted
+  // this is hugely inefficient
+  // Chrome takes ~0.5s 
+  // Firefox takes ~2s and complains about the script being frozen 
+  for(i=3;i<data.length+1;i+=4){
+    data.splice(i,0,255);
+  }
+
+  // ImageData must be constructed using this typed array
+  data = Uint8ClampedArray.from(data);
+  imagedata = new ImageData(data,w,h);
+
+
+
+  // trickery to draw the image on the canvas
+  // ref : https://stackoverflow.com/questions/24236470/html5-can-i-create-an-image-object-from-an-imagedata-object
+  var tmpcanvas = document.createElement('canvas');
+  var tmpctx = tmpcanvas.getContext('2d');
+  tmpcanvas.width = canvas.width;
+  tmpcanvas.height = canvas.height;
+  tmpctx.putImageData(imagedata, 0, 0);
+
+  var image = new Image();
+  image.onload=function(){
+    // drawImage the img on the canvas
+    ctx.drawImage(image,0,0);
+  }
+  image.src = tmpcanvas.toDataURL();
+
+}
+
+function update_loss_chart(x, loss){
+  losschart.data.labels.push(x);
+  losschart.data.datasets[0].data.push(loss);
+  losschart.update();
+}
+
+function get_model_output(input){
+  // get the model outputs for all pixel coordinates
+  img_out = model.predict(input, {batchSize: 1000, verbose: true});//);
+
+  // reformat it to bytes
+  img_out = img_out.mul(tf.scalar(255));
+  img_out = tf.cast(img_out,'int32');
+
+  // actually request the data (model.predict gives a promise)
+  return Array.from(img_out.dataSync());
+}
+
+function update_metrics(metrics){
+  // print epoch number inside tag having id #epoch
+  typeof metrics.epoch !== 'undefined' && ($('#epoch_info')[0].innerHTML=metrics.epoch);
+  typeof metrics.batch !== 'undefined' && ($('#batch_info')[0].innerHTML=metrics.batch);
+  typeof metrics.loss !== 'undefined' && ($('#loss_info')[0].innerHTML=metrics.loss);
 }

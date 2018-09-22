@@ -1,0 +1,33 @@
+#reload {
+
+  width: 100px;
+  height: 100px; 
+  display: inline-block;
+  vertical-align: bottom;
+  background-color: #d8728c;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#model_config {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.pic {
+  display: inline-block;
+}
+
+.infos {
+  display: inline-block;
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+span {
+  font-weight: normal;
+}
+ul {
+  list-style-type:none;
+}
