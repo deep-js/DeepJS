@@ -21,6 +21,39 @@ const h= 200;
 const canvas = document.getElementById("orig");
 const ctx = canvas.getContext("2d");
 
+
+var plotctx = document.getElementById("plot");
+
+var lossdata = {
+  labels: [],
+  datasets:[{
+    label: 'loss',
+    data:[]
+  }]
+}
+var options = {
+  scales: {
+    yAxes: [{
+      display: true,
+      //type: 'linear',
+      //position: 'bottom',
+      ticks: {
+        //    suggestedMin: 0,
+        beginAtZero: true
+        //suggestedMax: 1
+      }
+    }]
+
+  }
+} 
+//var data = [{x:0, y:1},{x:1, y:2},{x:2, y:3},{x:3, y:4}];
+
+var losschart = new Chart(plotctx, {
+    type: 'line',
+    data: lossdata,
+    options:options
+});
+
 img.onload = () => {
   // image is loaded
 
@@ -116,11 +149,17 @@ function train(imageData) {
     onEpochEnd: (epoch, logs) => {
       console.log("onEpochEnd" + epoch + JSON.stringify(logs))
       
+      console.log("loss" + logs.loss);
+
+      losschart.data.labels.push(epoch);
+      losschart.data.datasets[0].data.push(logs.loss);
+      losschart.update();
+
       // print epoch number inside tag having id #epoch
       $('#epoch')[0].innerHTML=epoch;
 
       // every 3 epoch, update the result image
-      if(epoch%3 != 0 && epoch > 0)
+      if(epoch%1 != 0 && epoch > 0)
         return;
 
       // get the model outputs for all pixel coordinates
