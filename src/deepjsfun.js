@@ -75,6 +75,8 @@ function train(imageData) {
 
   const xs = gen_pixel_coords(w,h);
 
+  var BATCH_SIZE;
+
   eval($("#model_config").val());
 
   // make a tensor from the pixel coords array, shape is inferred from the original array : [w*h,2]
@@ -163,8 +165,7 @@ function make_config_forms(){
   model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
   // 3 outputs : rgb \n\
   \n\
-  const BATCH_SIZE = 250;\n\
-  \n\
+  BATCH_SIZE = 250;\n\
   // did not tinker much with that \n\
   const LEARNING_RATE = 0.1;\n\
   \n\
