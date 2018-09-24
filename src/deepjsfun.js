@@ -12,16 +12,16 @@
 
 // original image
 img = new Image;
-img.src = "img/lena.jpg";
+img.src = "img/kitty.jpg";
 
-const w= 200;
-const h= 200;
+const w = 200;
+const h = 200;
 
 // to get raw image data
 const canvas = document.getElementById("orig");
 const ctx = canvas.getContext("2d");
 
-var model;
+var model;//, imageData;
 var imageData;
 
 var plotctx = document.getElementById("plot");
@@ -52,7 +52,6 @@ var options = {
   },
   maintainAspectRatio: true
 } 
-//var data = [{x:0, y:1},{x:1, y:2},{x:2, y:3},{x:3, y:4}];
 
 var losschart = new Chart(plotctx, {
   type: 'line',
@@ -70,6 +69,21 @@ img.onload = () => {
   train(imageData);
 }
 
+$("#browse").on('change', function(ev) {
+      var f = ev.target.files[0];
+      var fr = new FileReader();
+      model.stopTraining = true;
+      fr.onload = function(ev2) {
+        var image = new Image();
+        image.onload = function(){
+          ctx.drawImage(image, 0, 0);
+          imageData = ctx.getImageData(0, 0, w, h);
+          reload();
+        }
+        img.src = ev2.target.result;
+      };
+      fr.readAsDataURL(f);
+});
 
 function train(imageData) {
 
