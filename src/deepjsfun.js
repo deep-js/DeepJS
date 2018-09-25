@@ -23,6 +23,7 @@ const ctx = canvas.getContext("2d");
 
 var model;//, imageData;
 var imageData;
+var LEARNING_RATE;
 
 var plotctx = document.getElementById("plot");
 
@@ -85,6 +86,16 @@ $("#browse").on('change', function(ev) {
       fr.readAsDataURL(f);
 });
 
+$("#slider").slider({
+  orientation: "horizontal",
+  min: -4,
+  max: -1,
+  step: 0.05,
+  value: Math.log(LEARNING_RATE) / Math.LN10,
+  slide: update_lr,
+  change: update_lr
+});
+
 function train(imageData) {
 
   const xs = gen_pixel_coords(w,h);
@@ -136,7 +147,7 @@ function train(imageData) {
     },
     onEpochBegin: async (epoch, logs) => {
     },
-    onEpochEnd: (epoch, logs) => {
+    onEpochEnd: async (epoch, logs) => {
 
       update_loss_chart(epoch,logs.loss);
 
@@ -149,6 +160,7 @@ function train(imageData) {
       model_output = get_model_output(txs);
 
       draw_image(model_output, document.getElementById("result"));
+      console.log(model.getWeights());
     },
     onBatchBegin: async (epoch, logs) => {
       //    console.log("onBatchBegin" + epoch + JSON.stringify(logs))
@@ -168,20 +180,23 @@ function train(imageData) {
 function make_config_forms(){
   model_def = " // Define a model for linear regression.\n\
   model = tf.sequential();\n\
+  \n\
+  const KERNEL_INIT = 'varianceScaling';\n\
+  \n\
   // model layout is similar ConvNetJs' model \n\
   // 2 inputs : x,y \n\
-  model.add(tf.layers.dense({units: 20, inputShape: [2], activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
-  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
-  model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: 'varianceScaling'}));\n\
+  model.add(tf.layers.dense({units: 20, inputShape: [2], activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
+  model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
+  model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
   // 3 outputs : rgb \n\
   \n\
   BATCH_SIZE = 250;\n\
   // did not tinker much with that \n\
-  const LEARNING_RATE = 0.1;\n\
+  LEARNING_RATE = 0.1;\n\
   \n\
   // ConvNetJS has a momentum variable, so the optimizer was chosen accordingly \n\
   const MOMENTUM = 0.9;\n\
@@ -231,29 +246,28 @@ function draw_image(data,canvas){
 
   const ctx = canvas.getContext("2d");
 
-  // for some reason a canvas only takes 4 channel images
-  // so the Alpha channel has to be inserted
-  // this is hugely inefficient
-  // Chrome takes ~0.5s 
-  // Firefox takes ~2s and complains about the script being frozen 
-  for(i=3;i<data.length+1;i+=4){
-    data.splice(i,0,255);
-  }
-
-  // ImageData must be constructed using this typed array
-  data = Uint8ClampedArray.from(data);
-  imagedata = new ImageData(data,w,h);
-
-
-
   // trickery to draw the image on the canvas
   // ref : https://stackoverflow.com/questions/24236470/html5-can-i-create-an-image-object-from-an-imagedata-object
   var tmpcanvas = document.createElement('canvas');
   var tmpctx = tmpcanvas.getContext('2d');
   tmpcanvas.width = canvas.width;
   tmpcanvas.height = canvas.height;
-  tmpctx.putImageData(imagedata, 0, 0);
 
+  
+  imagedata = tmpctx.createImageData(w,h);
+  
+  // for some reason a canvas only takes 4 channel images
+  // copying data that way is faster than trying to insert
+  // the 4th channel into the existing array
+  var j = 0;
+  for(i=0;i<data.length;){
+    imagedata.data[j++] = data[i++];
+    imagedata.data[j++] = data[i++];
+    imagedata.data[j++] = data[i++];
+    imagedata.data[j++] = 255; 
+  }
+
+  tmpctx.putImageData(imagedata, 0, 0);
   var image = new Image();
   image.onload=function(){
     // drawImage the img on the canvas
@@ -286,4 +300,8 @@ function update_metrics(metrics){
   typeof metrics.epoch !== 'undefined' && ($('#epoch_info')[0].innerHTML=metrics.epoch);
   typeof metrics.batch !== 'undefined' && ($('#batch_info')[0].innerHTML=metrics.batch);
   typeof metrics.loss !== 'undefined' && ($('#loss_info')[0].innerHTML=metrics.loss);
+}
+
+function update_lr() {
+
 }
