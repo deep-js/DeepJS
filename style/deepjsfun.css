@@ -35,3 +35,13 @@ span {
 ul {
   list-style-type:none;
 }
+
+.layer_output {
+  padding-bottom: 15px;
+}
+
+.layer_n {
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: normal;
+  font-size: 24px;
+}

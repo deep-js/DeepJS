@@ -16,6 +16,13 @@ img.src = "img/kitty.jpg";
 
 const w = 200;
 const h = 200;
+const node_output_scale = 2;
+
+// to be refactored
+const visual_input = tf.tensor(gen_pixel_coords(w/node_output_scale, h/node_output_scale)) // visualisation input
+  .sub(tf.scalar(w/node_output_scale/2))
+  .cast('float32')
+  .div(tf.scalar(w/node_output_scale));
 
 // to get raw image data
 const canvas = document.getElementById("orig");
@@ -104,6 +111,8 @@ function train(imageData) {
 
   eval($("#model_config").val());
 
+  make_layers_canvas();
+
   // make a tensor from the pixel coords array, shape is inferred from the original array : [w*h,2]
   var txs = tf.tensor(xs);
 
@@ -160,7 +169,8 @@ function train(imageData) {
       model_output = get_model_output(txs);
 
       draw_image(model_output, document.getElementById("result"));
-      console.log(model.getWeights());
+
+      draw_layers_output(visual_input);
     },
     onBatchBegin: async (epoch, logs) => {
       //    console.log("onBatchBegin" + epoch + JSON.stringify(logs))
@@ -288,11 +298,16 @@ function get_model_output(input){
   img_out = model.predict(input, {batchSize: 1000, verbose: true});//);
 
   // reformat it to bytes
-  img_out = img_out.mul(tf.scalar(255));
-  img_out = tf.cast(img_out,'int32');
+  img_out = float2byte(img_out);
+  //img_out.mul(tf.scalar(255));
+  //img_out = tf.cast(img_out,'int32');
 
   // actually request the data (model.predict gives a promise)
   return Array.from(img_out.dataSync());
+}
+
+function float2byte(input){
+  return tf.cast(input.mul(tf.scalar(255)),'int32');
 }
 
 function update_metrics(metrics){
@@ -304,4 +319,125 @@ function update_metrics(metrics){
 
 function update_lr() {
 
+}
+
+function draw_layers_output(input){
+  /*const w = model.getWeights()[0].slice(0,2);
+  const b = model.getWeights()[1].slice(0,2);
+
+  for(i=0;i<w.length/2;i++){
+    node_out = tf.addN([
+      input.mul(tf.scalar(w[i])),
+      input.mul(tf.scalar(w[i+1]))
+    ]).add(tf.scalar(b[i])),
+    node_out = float2byte(node_out).clipByValue(x,0,255);
+  }
+  const canvas = document.getElementsByClassName("node_out");
+  //draw_image()
+  */
+
+
+
+
+  /*for(l=0;l<model.layers.length;l++){
+    data.push(float2byte(model.layers[0].apply(input).add(tf.scalar(0.5)).clipByValue(0,1)).dataSync());
+  }*/
+
+  // trickery to draw the image on the canvas
+  // ref : https://stackoverflow.com/questions/24236470/html5-can-i-create-an-image-object-from-an-imagedata-object
+
+  // for some reason a canvas only takes 4 channel images
+  // copying data that way is faster than trying to insert
+  // the 4th channel into the existing array
+
+  const visu_h = 200/node_output_scale;
+  const visu_w = 200/node_output_scale;
+
+  var ts = input;
+  //console.log(ts.dataSync());
+  var data;
+  const layer_divs = $(".layer_output");
+  for(l=0;l<model.layers.length;l++){
+    ts = model.layers[l].apply(ts)
+    //console.log(ts.dataSync());
+    data = float2byte(ts.add(tf.scalar(0.5)).clipByValue(0,1)).dataSync();
+    const canvases = layer_divs.eq(l).find(".node_output");
+    for(n=0;n<model.layers[l].units;n++){
+
+      const ctx = canvases[n].getContext("2d");
+
+      /*var tmpcanvas = document.createElement('canvas');
+      var tmpctx = tmpcanvas.getContext('2d');
+      tmpcanvas.width = canvas.width;
+      tmpcanvas.height = canvas.height;*/
+
+
+      //var imagedata = tmpctx.createImageData(visu_w,visu_h);
+      var imagedata = ctx.createImageData(visu_w,visu_h);
+      var j = 0, k = 0;
+      if(l == model.layers.length-1){
+        for(i=0;i<data.length;i+=model.layers[l].units){
+          for(m=0;m<3;m++){
+            if(n==m)
+              imagedata.data[k++] = data[i+n];
+            else
+              imagedata.data[k++] = 0;
+          }
+          imagedata.data[k++] = 255; 
+        }
+      }
+      else{
+        for(i=0;i<data.length;i+=model.layers[l].units){
+          imagedata.data[k++] = data[i+n];
+          imagedata.data[k++] = data[i+n];
+          imagedata.data[k++] = data[i+n];
+          imagedata.data[k++] = 255; 
+        }
+      }
+      ctx.putImageData(imagedata, 0, 0);
+      //tmpctx.putImageData(imagedata, 0, 0);
+      /*var image = new Image();
+      image.onload=function(){
+        // drawImage the img on the canvas
+        ctx.drawImage(image,0,0);
+      }
+      image.src = tmpcanvas.toDataURL();*/
+    }
+  }
+
+
+
+}
+
+// refactoring with draw_image is badly needed
+function draw_node_output(data,canvas){
+
+
+}
+
+function make_layers_canvas(){
+  const cols = 5*node_output_scale;
+  const visu_h = 200/node_output_scale;
+  const visu_w = 200/node_output_scale;
+  const div = $(".network_output").first();
+  var c,r,d,h;
+  for(i=0;i<model.layers.length;i++){
+    d = $("<div class='layer_output'></div>");
+    h = $("<p class='layer_n'>Layer "+i+"</p>");
+    d.append(h);
+    r = $();
+    for(j=0;j<model.layers[0].units;j++){
+      if(j%cols == 0){
+        d.append(r);
+        r = $("<tr class='layer_output_row'></tr>");
+      }
+        c = $("<canvas></canvas>");
+      c.attr("class","node_output");
+      c.attr("height",visu_h);
+      c.attr("width",visu_w);
+      r.append(c);
+    }
+    d.append(r);
+    div.append(d);
+  }
 }
