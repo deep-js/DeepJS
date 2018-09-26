@@ -6,8 +6,6 @@
  * - consistent start (avoid starting at loss = 0.8 and a color missing etc.)
  * - clean the code : split it in functions, put in good variable names
  * - asynchronous image updates (if even possible) : update the image without stopping the learning process
- * - display loss chart, make a nice tab for loss values etc
- * - interactivity : model layout inputed in a form, some sliders/forms for batch size etc, training has to be restarted when those settings are tweaked. A learning rate slider, possibly without reloading the model
  */
 
 // original image
@@ -16,9 +14,12 @@ img.src = "img/kitty.jpg";
 
 const w = 200;
 const h = 200;
+// node output visualisation size ratio compared to original image (2 : half the original image size)
 const node_output_scale = 2;
 
-// to be refactored
+// smaller version of the input array, being the size of the node output visualisation image
+// to avoid computing pixels that wont get displayed
+// to be refactored with tys generation code
 const visual_input = tf.tensor(gen_pixel_coords(w/node_output_scale, h/node_output_scale)) // visualisation input
   .sub(tf.scalar(w/node_output_scale/2))
   .cast('float32')
@@ -28,10 +29,11 @@ const visual_input = tf.tensor(gen_pixel_coords(w/node_output_scale, h/node_outp
 const canvas = document.getElementById("orig");
 const ctx = canvas.getContext("2d");
 
-var model;//, imageData;
+var model;
 var imageData;
 var LEARNING_RATE;
 
+/*------plot initialisation (chart js library)------*/
 var plotctx = document.getElementById("plot");
 
 var lossdata = {
@@ -66,7 +68,9 @@ var losschart = new Chart(plotctx, {
   data: lossdata,
   options:options
 });
+/*--------------------------------------------------*/
 
+// place model editor text area
 make_config_forms();
 
 img.onload = () => {
@@ -77,6 +81,7 @@ img.onload = () => {
   train(imageData);
 }
 
+// when user image is provided
 $("#browse").on('change', function(ev) {
       var f = ev.target.files[0];
       var fr = new FileReader();
@@ -93,24 +98,16 @@ $("#browse").on('change', function(ev) {
       fr.readAsDataURL(f);
 });
 
-$("#slider").slider({
-  orientation: "horizontal",
-  min: -4,
-  max: -1,
-  step: 0.05,
-  value: Math.log(LEARNING_RATE) / Math.LN10,
-  slide: update_lr,
-  change: update_lr
-});
-
 function train(imageData) {
 
   const xs = gen_pixel_coords(w,h);
 
   var BATCH_SIZE;
 
+  // executes the code inside the model editor text area
   eval($("#model_config").val());
 
+  // construct node output visualisation canvases
   make_layers_canvas();
 
   // make a tensor from the pixel coords array, shape is inferred from the original array : [w*h,2]
@@ -162,7 +159,7 @@ function train(imageData) {
 
       update_metrics({epoch: epoch, batch: logs.batch, loss: logs.loss});
 
-      // every 3 epoch, update the result image
+      // every 2 epoch, update the result image
       if(epoch%2 != 0 && epoch > 0)
         return;
 
@@ -187,6 +184,7 @@ function train(imageData) {
   });
 }
 
+// construct the model editor text area, initialize it with the default model layout
 function make_config_forms(){
   model_def = " // Define a model for linear regression.\n\
   model = tf.sequential();\n\
@@ -317,66 +315,53 @@ function update_metrics(metrics){
   typeof metrics.loss !== 'undefined' && ($('#loss_info')[0].innerHTML=metrics.loss);
 }
 
-function update_lr() {
-
-}
-
+/* computes the output of each layer
+ * for every input (txs)
+ * then isolates each node output
+ * (still for every input) and displays it 
+ * in a grayscale image (or rgb for the last layer)
+ */
 function draw_layers_output(input){
-  /*const w = model.getWeights()[0].slice(0,2);
-  const b = model.getWeights()[1].slice(0,2);
 
-  for(i=0;i<w.length/2;i++){
-    node_out = tf.addN([
-      input.mul(tf.scalar(w[i])),
-      input.mul(tf.scalar(w[i+1]))
-    ]).add(tf.scalar(b[i])),
-    node_out = float2byte(node_out).clipByValue(x,0,255);
-  }
-  const canvas = document.getElementsByClassName("node_out");
-  //draw_image()
-  */
-
-
-
-
-  /*for(l=0;l<model.layers.length;l++){
-    data.push(float2byte(model.layers[0].apply(input).add(tf.scalar(0.5)).clipByValue(0,1)).dataSync());
-  }*/
-
-  // trickery to draw the image on the canvas
-  // ref : https://stackoverflow.com/questions/24236470/html5-can-i-create-an-image-object-from-an-imagedata-object
-
-  // for some reason a canvas only takes 4 channel images
-  // copying data that way is faster than trying to insert
-  // the 4th channel into the existing array
-
+  // size of the node output visualisation
   const visu_h = 200/node_output_scale;
   const visu_w = 200/node_output_scale;
 
   var ts = input;
-  //console.log(ts.dataSync());
   var data;
   const layer_divs = $(".layer_output");
+  // for each layer
   for(l=0;l<model.layers.length;l++){
+
+    /* apply layer l to layer l-1 output
+     * gives each node output for every input
+     * data is layed out this way :
+     *
+     * with N nodes and M inputs
+     * [ node0input0, ..., nodeNinput0, node0input1, ..., nodeNinput1, ..., nodeNinputM ]
+     *
+     * so to get all outputs for node 0 we start at 0 and take every N elements
+     */
     ts = model.layers[l].apply(ts)
-    //console.log(ts.dataSync());
+
+    // map the data from 0,1 to 0,255
+    // tidy() intends to reduce memory leak
     data = tf.tidy( () => { return float2byte(ts.add(tf.scalar(0.5)).clipByValue(0,1)) }).dataSync();
+
+    // get canvases on which the node outputs will be drawn
     const canvases = layer_divs.eq(l).find(".node_output");
+    // for each node
     for(n=0;n<model.layers[l].units;n++){
 
       const ctx = canvases[n].getContext("2d");
 
-      /*var tmpcanvas = document.createElement('canvas');
-      var tmpctx = tmpcanvas.getContext('2d');
-      tmpcanvas.width = canvas.width;
-      tmpcanvas.height = canvas.height;*/
-
-
-      //var imagedata = tmpctx.createImageData(visu_w,visu_h);
       var imagedata = ctx.createImageData(visu_w,visu_h);
       var j = 0, k = 0;
+
       if(l == model.layers.length-1){
+        // last layer, draw output nodes in their respective color
         for(i=0;i<data.length;i+=model.layers[l].units){
+          // for each of this node's outputs
           for(m=0;m<3;m++){
             if(n==m)
               imagedata.data[k++] = data[i+n];
@@ -387,7 +372,9 @@ function draw_layers_output(input){
         }
       }
       else{
+        // not last layer, draw output in grayscale
         for(i=0;i<data.length;i+=model.layers[l].units){
+          // for each of this node's outputs
           imagedata.data[k++] = data[i+n];
           imagedata.data[k++] = data[i+n];
           imagedata.data[k++] = data[i+n];
@@ -395,29 +382,21 @@ function draw_layers_output(input){
         }
       }
       ctx.putImageData(imagedata, 0, 0);
-      //tmpctx.putImageData(imagedata, 0, 0);
-      /*var image = new Image();
-      image.onload=function(){
-        // drawImage the img on the canvas
-        ctx.drawImage(image,0,0);
-      }
-      image.src = tmpcanvas.toDataURL();*/
     }
   }
+  // remove ts from memory (garbage collector is a lazy chap)
   ts.dispose();
 
 
 
 }
 
-// refactoring with draw_image is badly needed
-function draw_node_output(data,canvas){
-
-
-}
-
+// make html canvases on which individual nodes outputs will be drawn
 function make_layers_canvas(){
+
+  // nb of node output image per column
   const cols = 5*node_output_scale;
+
   const visu_h = 200/node_output_scale;
   const visu_w = 200/node_output_scale;
   const div = $(".network_output").first();
