@@ -360,7 +360,7 @@ function draw_layers_output(input){
   for(l=0;l<model.layers.length;l++){
     ts = model.layers[l].apply(ts)
     //console.log(ts.dataSync());
-    data = float2byte(ts.add(tf.scalar(0.5)).clipByValue(0,1)).dataSync();
+    data = tf.tidy( () => { return float2byte(ts.add(tf.scalar(0.5)).clipByValue(0,1)) }).dataSync();
     const canvases = layer_divs.eq(l).find(".node_output");
     for(n=0;n<model.layers[l].units;n++){
 
@@ -404,6 +404,7 @@ function draw_layers_output(input){
       image.src = tmpcanvas.toDataURL();*/
     }
   }
+  ts.dispose();
 
 
 
