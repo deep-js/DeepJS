@@ -1,9 +1,18 @@
-/*
-/*/
-!*.html
-!.gitignore
-!/lb/
-!/img/
-!/src/
-!/style/
+# compiled output
+/dist
+/tmp
+/out-tsc
 
+# dependencies
+/node_modules
+
+# IDEs and editors
+*.swp
+*/*.swp
+
+# bs
+/bs
+
+# System Files
+.DS_Store
+Thumbs.db
