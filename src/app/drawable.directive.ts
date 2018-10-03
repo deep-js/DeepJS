@@ -25,34 +25,9 @@ export class DrawableDirective implements OnInit {
   ngOnInit() {
     this.canvas = this.el.nativeElement as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
-    this.width = this.canvas.offsetWidth;
-    this.height = this.canvas.offsetHeight;
-  }
-
-  @HostListener('mouseup', ['$event'])
-  onUp(e) {
-    this.newImage.emit(this.getImgData());
-  }
-
-  @HostListener('mouseenter', ['$event'])
-  onEnter(e) {
-    this.setPosition(e);
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMove(e) {
-    this.setPosition(e);
-  }
-
-  @HostListener('resize', ['$event'])
-  onResize(e) {
-    this.ctx.canvas.width = window.innerWidth;
-    this.ctx.canvas.height = window.innerHeight;
-  }
-
-  setPosition(e) {
-    this.pos.x = e.offsetX;
-    this.pos.y = e.offsetY;
+    this.width = 200;//this.canvas.offsetWidth;
+    this.height = 200;//this.canvas.offsetHeight;
+    //this.ctx.createImageData(this.width,this.height);
   }
 
   clear() {
