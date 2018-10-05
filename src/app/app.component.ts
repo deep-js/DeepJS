@@ -3,6 +3,7 @@ import { DrawableDirective } from './drawable.directive';
 
 import * as tf from '@tensorflow/tfjs';
 import * as data from './data';
+import * as d3 from "d3";
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
   resultSize: number;
   allInputs: tf.Tensor2D
   @ViewChild(DrawableDirective) canvas;
+  @ViewChild('points') svg:d3.Selection<any>;
 
   ngOnInit() {
     this.resultSize = 200;
@@ -29,7 +31,8 @@ export class AppComponent implements OnInit {
     console.log(inputs);
     this.allInputs = tf.tensor2d(inputs).sub(tf.scalar(100)).cast('float32').div(tf.scalar(20));
     this.allInputs.print();
-    this.train();
+    this.displayInput(data.pointsCoords);
+    //this.train();
   }
 
 
@@ -65,7 +68,7 @@ export class AppComponent implements OnInit {
     const out: any = this.predictAll();
     var imgdata = this.canvas.getImgData();
     const data = out.clipByValue(0,1).mul(tf.scalar(255)).cast('int32').dataSync(); 
-    console.log(data);
+    //console.log(data);
     //out.forEach(x => x.dispose());
     var k = 0;
     for(var i=0;i<data.length;i++){
@@ -86,6 +89,19 @@ export class AppComponent implements OnInit {
     this.prediction = Array.from(output.dataSync())
   }
 
+  displayInput(inputs:number[][]){
+    inputs.filter(x => x[0]>=-5 && x[0]<=5 && x[1]>=-5 && x[1]<=5);
+    console.log(this.svg);
+    let selection = this.svg.select("circle").data(inputs);
+    selection.enter().append("circle").attr("r", 3);
+    selection
+          .attr({
+                  cx: (d: number[]) => d[0],
+                  cy: (d: number[]) => d[1],
+                });
+    //.style("fill", d => this.co;
+    console.log(inputs);
+  }
 
 
 }
