@@ -17,9 +17,11 @@ export class AppComponent implements OnInit {
   resultSize: number;
   allInputs: tf.Tensor2D
   @ViewChild(DrawableDirective) canvas;
-  @ViewChild('points') svg:d3.Selection<any>;
+  //@ViewChild('container') container;
+  @ViewChild('points') svg;
 
   ngOnInit() {
+    this.svg = d3.select(this.svg)
     this.resultSize = 200;
     // init all inputs
     var inputs: number[][] = [];
@@ -32,7 +34,7 @@ export class AppComponent implements OnInit {
     this.allInputs = tf.tensor2d(inputs).sub(tf.scalar(100)).cast('float32').div(tf.scalar(20));
     this.allInputs.print();
     this.displayInput(data.pointsCoords);
-    //this.train();
+    this.train();
   }
 
 
@@ -54,11 +56,23 @@ export class AppComponent implements OnInit {
 
 
     // Train
-    await this.model.fit(xs, ys, { batchSize: 10, epochs: 400, validationSplit: 0, callbacks: { onEpochEnd: (epoch,log) => { this.printResult(epoch,log);} }});
-
-    console.log('model trained!')
-  }
-
+    await this.model.fit(xs, ys, { batchSize: 10, epochs: 400, validationSplit: 0, callbacks: { 
+      onTrainBegin: () => {
+      },
+      onTrainEnd: (epoch, logs) => {
+      },
+      onEpochBegin: async (epoch, logs) => {
+      },
+      onBatchBegin: async (epoch, logs) => {
+      },
+      onBatchEnd: async (epoch, logs) => {
+      },
+      onEpochEnd: (epoch,log) => { 
+      this.printResult(epoch,log);
+console.log(epoch);
+      }
+    } as tf.CustomCallbackConfig});
+}
   printResult(epoch, log) {
     console.log("epoch "+epoch);
 
@@ -92,14 +106,15 @@ export class AppComponent implements OnInit {
   displayInput(inputs:number[][]){
     inputs.filter(x => x[0]>=-5 && x[0]<=5 && x[1]>=-5 && x[1]<=5);
     console.log(this.svg);
-    let selection = this.svg.select("circle").data(inputs);
-    selection.enter().append("circle").attr("r", 3);
-    selection
+    let selection = d3.select("svg").selectAll("circle")
+      .data(inputs)
+      .enter().append("circle").attr("r", 3)
+    
           .attr({
                   cx: (d: number[]) => d[0],
                   cy: (d: number[]) => d[1],
-                });
-    //.style("fill", d => this.co;
+                })
+    .style("fill", d => blue);
     console.log(inputs);
   }
 
