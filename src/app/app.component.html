@@ -1,23 +1,6 @@
-<div class="cont" >
-  <div #container >
-    <svg #points  style="position: absolute; left: 8; top: 8; width: 200; height: 200;" ></svg>
-  </div>
-  <canvas drawable width="{{ resultSize }}" height="{{ resultSize }}"></canvas>
-</div>
 <div class="container">
+<app-model-def></app-model-def>
 
-    <div class="row justify-content-center">
-      <div class="col-sm">
-        <h1>Linear Model</h1>
-        
-          <h4>Predicted Value: <span class="badge badge-info">{{ prediction }}</span></h4>
 
-          <p>Basic TensorFlow linear regression model that was trained in the browser.</p>
-        
-          <hr>
-        
-          <input type="number" (change)="predict($event.target.value)" class="form-control" placeholder="enter any random numbner">
-      </div>
-    </div>
-  </div>
+</div>
   
