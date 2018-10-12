@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 
 import { DrawableDirective } from './drawable.directive';
 import { ModelDefComponent } from './model-def/model-def.component';
+import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DrawableDirective,
-    ModelDefComponent
+    ModelDefComponent,
+    NeuronVisualisationComponent
   ],
   imports: [
     BrowserModule,
