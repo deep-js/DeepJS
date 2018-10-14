@@ -11,6 +11,7 @@ import * as ts from "typescript";
 export class ModelDefComponent implements OnInit {
 
   model: tf.Sequential;
+  training: tf.ModelFitConfig;
   model_def: string;
   training_def: string;
   constructor() { }
@@ -42,7 +43,7 @@ const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
 // Prepare the model for training: Specify the loss and the optimizer. \n\
 model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
 
-    this.training_def = "this.model.fit(xs, ys, { batchSize: BATCH_SIZE, epochs: 4000, validationSplit: 0, shuffle: true })"
+    this.training_def = "const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true }"
   }
 
   /* Evaluating typescript code in the browser is a pain
@@ -53,11 +54,23 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
    * evaluated
    * #uglyhack
    */
+  evaluateFields() {
+    this.evaluateModelDef();
+    this.evaluateTrainingDef();
+  }
+
   evaluateModelDef() {
     console.log(this.model_def);
     let result = ts.transpile(this.model_def+";model;");
     this.model = eval(result);
     console.log(this.model);
+  }
+
+  evaluateTrainingDef() {
+    console.log(this.training_def);
+    let result = ts.transpile(this.training_def+";training");
+    this.training = eval(result);
+    console.log(this.training);
   }
 
 
