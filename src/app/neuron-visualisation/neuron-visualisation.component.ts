@@ -10,7 +10,7 @@ import * as d3 from 'd3';
 export class NeuronVisualisationComponent implements OnInit {
 
 	model : tf.Sequential;
-	modelJSON : JSON;
+	modelJSON : String;
 
 
 
@@ -30,7 +30,7 @@ export class NeuronVisualisationComponent implements OnInit {
 	  this.model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: KERNEL_INIT}));
 	  console.log(this.model.layers.length);
 	  this.modelJSON = JSON.stringify(this.model);
-  	console.log(JSON.stringify(this.object));
+  	console.log(JSON.stringify(this));
   }
 
 
