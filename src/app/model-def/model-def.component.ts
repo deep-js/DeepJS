@@ -46,7 +46,7 @@ this.model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
 
   evaluateModelDef() {
     //console.log(this.model_def);
-    eval(this.model_def);
+//    eval(this.model_def);
     console.log(this.model);
   }
   
