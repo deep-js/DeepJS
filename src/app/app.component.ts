@@ -18,10 +18,10 @@ export class AppComponent implements OnInit {
   allInputs: tf.Tensor2D
   @ViewChild(DrawableDirective) canvas;
   //@ViewChild('container') container;
-  @ViewChild('points') svg;
+  @ViewChild('points') svg :ElementRef;
 
   ngOnInit() {
-    this.svg = d3.select(this.svg)
+    //this.svg = d3.select(this.svg)
     this.resultSize = 200;
     // init all inputs
     var inputs: number[][] = [];
@@ -105,16 +105,15 @@ console.log(epoch);
 
   displayInput(inputs:number[][]){
     inputs.filter(x => x[0]>=-5 && x[0]<=5 && x[1]>=-5 && x[1]<=5);
-    console.log(this.svg);
-    let selection = d3.select("svg").selectAll("circle")
+    console.log(this.svg.nativeElement);
+    let selection = d3.select(this.svg.nativeElement).selectAll("circle")
       .data(inputs)
       .enter().append("circle").attr("r", 3)
-    
-          .attr({
-                  cx: (d: number[]) => d[0],
-                  cy: (d: number[]) => d[1],
-                })
-    .style("fill", d => blue);
+      .attr({
+        cx: (d: number[]) => d[0],
+        cy: (d: number[]) => d[1]
+      });
+      //.style("fill", d => "blue");
     console.log(inputs);
   }
 
