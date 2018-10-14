@@ -25,7 +25,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "lb/tfjs@0.13.0"
+            ]
           },
           "configurations": {
             "production": {

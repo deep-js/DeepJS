@@ -9,6 +9,14 @@ import { DrawableDirective } from './drawable.directive';
 import { ModelDefComponent } from './model-def/model-def.component';
 import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
 
+
+declare global {
+  interface Window {
+      fs: any;
+      os: any;
+    }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
