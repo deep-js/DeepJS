@@ -18,6 +18,8 @@ export class EpochVisualisationComponent implements OnInit {
 
   ngOnInit() {
     this.epoch = 1;
+  }
+  sub(){
     console.log("subscribing");
     this.modelTrainer.trainer$.subscribe(
       data => this.epoch = data.epoch

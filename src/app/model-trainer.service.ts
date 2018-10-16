@@ -23,23 +23,38 @@ export class ModelTrainerService {
   callbacks: tf.CustomCallbackConfig;
 
   constructor() {
-    this.trainer$ = Observable.create(function (observer) {
-      observer.next(new TrainingData(0));
-      var i = 0;
-      setInterval(() => {
-        observer.next(new TrainingData(Math.random()));i++;
-      },1000);
-      //observer.complete();
-    }).pipe(share());
+    //const inputs = tf.tensor([1, 2, 3, 4], [4, 1])
   }
 
   train( model:tf.Sequential, training:tf.ModelFitConfig, inputs:any ){
     this.currentModel = model;
     // notify observers subscribed to model-def
     
-    training.callbacks = this.callbacks;
+    //    training.callbacks = this.callbacks;
 
-    model.fit(inputs.x, inputs.y, training);
+    this.trainer$ = Observable.create(observer => {
+      const inputs = tf.tensor([[0,0], [0,1]]);
+      const outputs = tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]);
+
+      this.currentModel.fit(inputs, outputs, {epochs: 1000, callbacks: {
+        onTrainBegin: () => {
+          
+        },
+        onTrainEnd: (epoch, logs) => {
+        },
+        onEpochBegin: async (epoch, logs) => {
+        },
+        onEpochEnd: async (epoch, logs) => {
+          observer.next(new TrainingData(epoch));
+        },
+        onBatchBegin: async (epoch, logs) => {
+        },
+        onBatchEnd: async (epoch, logs) => {
+        }
+
+      } as tf.CustomCallbackConfig});
+
+    }).pipe(share());
   
   }
 

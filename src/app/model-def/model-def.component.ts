@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import * as ts from "typescript";
+import { ModelTrainerService } from '../model-trainer.service';
 
 @Component({
   selector: 'app-model-def',
@@ -14,9 +15,13 @@ export class ModelDefComponent implements OnInit {
   training: tf.ModelFitConfig;
   model_def: string;
   training_def: string;
-  constructor() { }
+  model_trainer: ModelTrainerService;
+  constructor( model_trainer: ModelTrainerService ) {
+    this.model_trainer = model_trainer;
+  }
 
   ngOnInit() {
+
     this.model_def="// Define a model for linear regression.\n\
 const model = tf.sequential();\n\
 \n\
@@ -57,6 +62,7 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
   evaluateFields() {
     this.evaluateModelDef();
     this.evaluateTrainingDef();
+    this.model_trainer.train(this.model, null, null);
   }
 
   evaluateModelDef() {
