@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { DrawableDirective } from './drawable.directive';
 import { ModelDefComponent } from './model-def/model-def.component';
 import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
+import { EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component';
+import { ModelTrainerService } from './model-trainer.service';
 
 
 declare global {
@@ -22,13 +24,14 @@ declare global {
     AppComponent,
     DrawableDirective,
     ModelDefComponent,
-    NeuronVisualisationComponent
+    NeuronVisualisationComponent,
+    EpochVisualisationComponent
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ModelTrainerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
