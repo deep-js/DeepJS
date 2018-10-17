@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
-import {Observable, Observer} from 'rxjs'
+import {Observable, Observer, NEVER} from 'rxjs'
 import {share} from 'rxjs/operators'
 
 @Injectable({
@@ -24,6 +24,7 @@ export class ModelTrainerService {
 
   constructor() {
     //const inputs = tf.tensor([1, 2, 3, 4], [4, 1])
+    this.trainer$ = NEVER;
   }
 
   train( model:tf.Sequential, training:tf.ModelFitConfig, inputs:any ){

@@ -14,6 +14,12 @@ export class EpochVisualisationComponent implements OnInit {
 
   constructor( modelTrainer: ModelTrainerService ) {
     this.modelTrainer = modelTrainer;
+    this.modelTrainer.trainer$.subscribe(
+      data => this.epoch = data.epoch
+      /*next(data) { console.log(this); console.log(data.epoch);   = data.epoch },
+     error(err) { console.error('Error: ' + err); },
+      complete() { console.log('Completed'); }*/
+    );
   }
 
   ngOnInit() {
