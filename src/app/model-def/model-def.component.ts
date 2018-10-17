@@ -1,6 +1,8 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import * as ts from "typescript";
+import { fromEvent, Observable, Observer } from 'rxjs'
+import {map} from 'rxjs/operators'
 import { ModelTrainerService } from '../model-trainer.service';
 
 @Component({
@@ -16,11 +18,18 @@ export class ModelDefComponent implements OnInit {
   model_def: string;
   training_def: string;
   model_trainer: ModelTrainerService;
+  @ViewChild('button') button: ElementRef;
+  reload$: Observable<tf.Sequential>;
+
   constructor( model_trainer: ModelTrainerService ) {
     this.model_trainer = model_trainer;
   }
 
   ngOnInit() {
+    this.reload$ = fromEvent(this.button.nativeElement, 'click')
+      .pipe(map((event) => this.evaluateFields()));
+    this.model_trainer.setEvent(this.reload$);
+    this.reload$.subscribe((model) => console.log(model));
 
     this.model_def="// Define a model for linear regression.\n\
 const model = tf.sequential();\n\
@@ -59,10 +68,11 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
    * evaluated
    * #uglyhack
    */
-  evaluateFields() {
+  evaluateFields():tf.Sequential {
     this.evaluateModelDef();
     this.evaluateTrainingDef();
-    this.model_trainer.train(this.model, null, null);
+    //this.model_trainer.train(this.model, null, null);
+    return this.model;
   }
 
   evaluateModelDef() {
