@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
-import { ModelTrainerService, TrainingData } from '../model-trainer.service';
+import { ModelTrainerService, TrainData } from '../model-trainer.service';
 
 @Component({
   selector: 'app-epoch-visualisation',
@@ -16,7 +16,7 @@ export class EpochVisualisationComponent implements OnInit {
   @ViewChild('plus') plus: ElementRef;
   @ViewChild('minus') minus: ElementRef;
   private period: number;
-  private trainer$: Observable<TrainingData>;
+  private trainer$: Observable<TrainData>;
 
   constructor( modelTrainer: ModelTrainerService ) {
     this.modelTrainer = modelTrainer;

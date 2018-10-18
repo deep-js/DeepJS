@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import {Observable, Observer} from 'rxjs'
 import {share, switchMap} from 'rxjs/operators'
+import { Training } from './model-def/model-def.component';
 
 
 enum TrainEvent {
@@ -14,7 +15,7 @@ enum TrainEvent {
 }
 
 
-export class TrainingData {
+export class TrainData {
   epoch:number;
   batch:number;
   event:TrainEvent;
@@ -34,9 +35,9 @@ export class TrainingData {
 })
 export class ModelTrainerService {
 
-  currentModels$: Observable<tf.Sequential>;
-  currentModel: tf.Sequential;
-  trainer$: Observable<TrainingData>;
+  currentTrainings$: Observable<Training>;
+  currentTraining: Training;
+  trainer$: Observable<TrainData>;
   callbacks: tf.CustomCallbackConfig;
 
   constructor() {
@@ -44,17 +45,19 @@ export class ModelTrainerService {
     console.log("modeltrainerservice constructor")
   }
 
-  setEvent( reload$:Observable<tf.Sequential>){
+  setEvent( reload$:Observable<Training>){
     console.log("modeltrainerservice setevent")
-    this.currentModels$ = reload$;
-    this.trainer$ = reload$.pipe( switchMap((model) =>
+    this.currentTrainings$ = reload$;
+    this.trainer$ = reload$.pipe( switchMap((training) =>
       Observable.create(observer => {
-        this.currentModel = model;
-        console.log(model);
-        const inputs = tf.tensor([[0,0], [0,1]]);
-        const outputs = tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]);
+        this.currentTraining = training;
+        //console.log(model);
 
-        this.currentModel.fit(inputs, outputs, {epochs: 1000, callbacks: {
+        let x = this.currentTraining.inputs.x;
+        let y = this.currentTraining.inputs.y;
+        let m = this.currentTraining.model as tf.Sequential;
+        console.log(training);
+        m.fit(x, y, {epochs: 1000, callbacks: {
           onTrainBegin: () => {
 
           },
@@ -63,7 +66,7 @@ export class ModelTrainerService {
           onEpochBegin: async (epoch, logs) => {
           },
           onEpochEnd: async (epoch, logs) => {
-            observer.next(new TrainingData(TrainEvent.EpochEnd, epoch,0,0));
+            observer.next(new TrainData(TrainEvent.EpochEnd, epoch,0,0));
           },
           onBatchBegin: async (epoch, logs) => {
           },
@@ -77,7 +80,7 @@ export class ModelTrainerService {
   }
   /*
   train( model:tf.Sequential, training:tf.ModelFitConfig, inputs:any ){
-    this.currentModel = model;
+    this.currentTraining = model;
     // notify observers subscribed to model-def
 
     //    training.callbacks = this.callbacks;
@@ -86,7 +89,7 @@ export class ModelTrainerService {
       const inputs = tf.tensor([[0,0], [0,1]]);
       const outputs = tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]);
 
-      this.currentModel.fit(inputs, outputs, {epochs: 1000, callbacks: {
+      this.currentTraining.fit(inputs, outputs, {epochs: 1000, callbacks: {
         onTrainBegin: () => {
 
         },
@@ -95,7 +98,7 @@ export class ModelTrainerService {
         onEpochBegin: async (epoch, logs) => {
         },
         onEpochEnd: async (epoch, logs) => {
-          observer.next(new TrainingData(epoch));
+          observer.next(new TrainData(epoch));
         },
         onBatchBegin: async (epoch, logs) => {
         },

@@ -18,10 +18,10 @@ export class TestModelVisualisationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.modelTrainer.currentModels$.subscribe( (model) => {
+    this.modelTrainer.currentTrainings$.subscribe( (training) => {
       // do whatever with model
       this.out = "";
-      model.summary(80,[30,60,90], x => this.out+=x+"\n");
+      training.model.summary(80,[30,60,90], x => this.out+=x+"\n");
       console.log(this.out);
     }
     )

@@ -7,7 +7,17 @@ import { ModelTrainerService } from '../model-trainer.service';
 
 
 export class Training {
+  /*x: tf.Tensor;
+  y: tf.Tensor;*/
   inputs:any;
+  config: tf.ModelFitConfig;
+  model: tf.Model;
+
+  constructor(inputs, config, model){
+    this.inputs = inputs;
+    this.config = config;
+    this.model = model;
+  }
 
 }
 
@@ -19,13 +29,12 @@ export class Training {
 
 export class ModelDefComponent implements OnInit {
 
-  model: tf.Sequential;
-  training: tf.ModelFitConfig;
+  training: Training;
   model_def: string;
   training_def: string;
   model_trainer: ModelTrainerService;
   @ViewChild('button') button: ElementRef;
-  reload$: Observable<tf.Sequential>;
+  reload$: Observable<Training>;
 
   constructor( model_trainer: ModelTrainerService ) {
     this.model_trainer = model_trainer;
@@ -35,7 +44,7 @@ export class ModelDefComponent implements OnInit {
     this.reload$ = fromEvent(this.button.nativeElement, 'click')
       .pipe(map((event) => this.evaluateFields()));
     this.model_trainer.setEvent(this.reload$);
-    this.reload$.subscribe((model) => console.log(model));
+    //this.reload$.subscribe((model) => console.log(model));
 
     this.model_def="// Define a model for linear regression.\n\
 const model = tf.sequential();\n\
@@ -74,25 +83,27 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
    * evaluated
    * #uglyhack
    */
-  evaluateFields():tf.Sequential {
-    this.evaluateModelDef();
-    this.evaluateTrainingDef();
+  evaluateFields():Training {
+    
+    
     //this.model_trainer.train(this.model, null, null);
-    return this.model;
+    return new Training(
+      {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
+      this.evaluateTrainingDef(),
+      this.evaluateModelDef()
+    );
   }
 
   evaluateModelDef() {
     console.log(this.model_def);
     let result = ts.transpile(this.model_def+";model;");
-    this.model = eval(result);
-    console.log(this.model);
+    return eval(result);
   }
 
   evaluateTrainingDef() {
     console.log(this.training_def);
     let result = ts.transpile(this.training_def+";training");
-    this.training = eval(result);
-    console.log(this.training);
+    return eval(result);
   }
 
 
