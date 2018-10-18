@@ -3,21 +3,38 @@ import * as tf from '@tensorflow/tfjs';
 import {Observable, Observer} from 'rxjs'
 import {share, switchMap} from 'rxjs/operators'
 
-@Injectable({
-  providedIn: 'root'
-})
+
+enum TrainEvent {
+  TrainBegin,
+  TrainEnd,
+  EpochBegin,
+  EpochEnd,
+  BatchBegin,
+  BatchEnd
+}
+
 
 export class TrainingData {
   epoch:number;
+  batch:number;
+  event:TrainEvent;
+  loss:number;
 
-  constructor(e:number){
-    this.epoch = e;
+  constructor(ev:TrainEvent, ep:number, b:number, l:number){
+    this.event = ev;
+    this.epoch = ep;
+    this.batch = b;
+    this.loss = l;
   }
 
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ModelTrainerService {
 
+  currentModels$: Observable<tf.Sequential>;
   currentModel: tf.Sequential;
   trainer$: Observable<TrainingData>;
   callbacks: tf.CustomCallbackConfig;
@@ -29,6 +46,7 @@ export class ModelTrainerService {
 
   setEvent( reload$:Observable<tf.Sequential>){
     console.log("modeltrainerservice setevent")
+    this.currentModels$ = reload$;
     this.trainer$ = reload$.pipe( switchMap((model) =>
       Observable.create(observer => {
         this.currentModel = model;
@@ -45,7 +63,7 @@ export class ModelTrainerService {
           onEpochBegin: async (epoch, logs) => {
           },
           onEpochEnd: async (epoch, logs) => {
-            observer.next(new TrainingData(epoch));
+            observer.next(new TrainingData(TrainEvent.EpochEnd, epoch,0,0));
           },
           onBatchBegin: async (epoch, logs) => {
           },

@@ -10,6 +10,7 @@ import { ModelDefComponent } from './model-def/model-def.component';
 import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
 import { EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component';
 import { ModelTrainerService } from './model-trainer.service';
+import { TestModelVisualisationComponent } from './test-model-visualisation/test-model-visualisation.component';
 
 
 declare global {
@@ -25,7 +26,8 @@ declare global {
     DrawableDirective,
     ModelDefComponent,
     NeuronVisualisationComponent,
-    EpochVisualisationComponent
+    EpochVisualisationComponent,
+    TestModelVisualisationComponent
   ],
   imports: [
     BrowserModule,

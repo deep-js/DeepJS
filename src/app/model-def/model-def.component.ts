@@ -2,8 +2,14 @@ import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import * as ts from "typescript";
 import { fromEvent, Observable, Observer } from 'rxjs'
-import {map} from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 import { ModelTrainerService } from '../model-trainer.service';
+
+
+export class Training {
+  inputs:any;
+
+}
 
 @Component({
   selector: 'app-model-def',
