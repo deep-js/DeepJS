@@ -5,7 +5,7 @@ import {share, switchMap} from 'rxjs/operators'
 import { Training } from './model-def/model-def.component';
 
 
-enum TrainEvent {
+export enum TrainEvent {
   TrainBegin,
   TrainEnd,
   EpochBegin,
@@ -59,18 +59,22 @@ export class ModelTrainerService {
         console.log(training);
         m.fit(x, y, {epochs: 1000, callbacks: {
           onTrainBegin: () => {
-
+            observer.next(new TrainData(TrainEvent.TrainBegin, 0, 0, 0));
           },
           onTrainEnd: (epoch, logs) => {
+            observer.next(new TrainData(TrainEvent.TrainEnd, epoch, 0, 0));
           },
           onEpochBegin: async (epoch, logs) => {
+            observer.next(new TrainData(TrainEvent.EpochBegin, epoch, logs.batch, logs.loss));
           },
           onEpochEnd: async (epoch, logs) => {
-            observer.next(new TrainData(TrainEvent.EpochEnd, epoch,0,0));
+            observer.next(new TrainData(TrainEvent.EpochEnd, epoch, logs.batch, logs.loss));
           },
           onBatchBegin: async (epoch, logs) => {
+            observer.next(new TrainData(TrainEvent.BatchBegin, epoch, logs.batch, logs.loss));
           },
           onBatchEnd: async (epoch, logs) => {
+            observer.next(new TrainData(TrainEvent.BatchEnd, epoch, logs.batch, logs.loss));
           }
 
         } as tf.CustomCallbackConfig});

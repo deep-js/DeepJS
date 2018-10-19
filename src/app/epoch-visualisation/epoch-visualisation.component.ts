@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
-import { ModelTrainerService, TrainData } from '../model-trainer.service';
+import { ModelTrainerService, TrainData, TrainEvent } from '../model-trainer.service';
 
 @Component({
   selector: 'app-epoch-visualisation',
@@ -28,7 +28,7 @@ export class EpochVisualisationComponent implements OnInit {
     fromEvent(this.plus.nativeElement, "click").subscribe(ev => ++this.period);
     fromEvent(this.minus.nativeElement, "click").subscribe(ev => --this.period);
     this.trainer$ = this.modelTrainer.trainer$.pipe(
-      filter(train => train.epoch % this.period === 0)
+      filter(train => train.event == TrainEvent.EpochEnd && train.epoch % this.period === 0)
     );
     this.trainer$.subscribe(
       data => this.epoch = data.epoch
