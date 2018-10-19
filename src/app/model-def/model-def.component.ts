@@ -5,8 +5,20 @@ import { fromEvent, Observable, Observer } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ModelTrainerService } from '../model-trainer.service';
 
+export interface Training {
 
-export class Training {
+  getInputs(): any;
+  getConfig(): tf.ModelFitConfig;
+  getModel(): tf.Model;
+  
+  setInputs(inputs: any):void;
+  setConfig(config: tf.ModelFitConfig):void;
+  setModel(model: tf.Model):void;
+  
+
+}
+
+export class TrainingImpl implements Training{
   /*x: tf.Tensor;
   y: tf.Tensor;*/
   inputs:any;
@@ -19,6 +31,13 @@ export class Training {
     this.model = model;
   }
 
+  getInputs(): any;
+  getConfig(): tf.ModelFitConfig;
+  getModel(): tf.Model;
+  
+  setInputs(inputs: any):void;
+  setConfig(config: tf.ModelFitConfig):void;
+  setModel(model: tf.Model):void;
 }
 
 @Component({
@@ -43,7 +62,7 @@ export class ModelDefComponent implements OnInit {
   ngOnInit() {
     this.reload$ = fromEvent(this.button.nativeElement, 'click')
       .pipe(map((event) => this.evaluateFields()));
-    this.model_trainer.setEvent(this.reload$);
+    this.model_trainer.train(this.reload$);
     //this.reload$.subscribe((model) => console.log(model));
 
     this.model_def="// Define a model for linear regression.\n\

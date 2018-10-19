@@ -5,6 +5,7 @@ import {share, switchMap} from 'rxjs/operators'
 import { Training } from './model-def/model-def.component';
 
 
+
 export enum TrainEvent {
   TrainBegin,
   TrainEnd,
@@ -45,7 +46,7 @@ export class ModelTrainerService {
     console.log("modeltrainerservice constructor")
   }
 
-  setEvent( reload$:Observable<Training>){
+  train( reload$:Observable<Training>){
     console.log("modeltrainerservice setevent")
     this.currentTrainings$ = reload$;
     this.trainer$ = reload$.pipe( switchMap((training) =>
