@@ -70,7 +70,8 @@ const LEARNING_RATE = 0.1;\n\
 const MOMENTUM = 0.9;\n\
 const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
 // Prepare the model for training: Specify the loss and the optimizer. \n\
-model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
+model.compile({loss: 'meanSquaredError', optimizer: optimizer});\n\
+const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true };"
 
     this.training_def = "const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true }"
   }
@@ -87,16 +88,18 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
     
     
     //this.model_trainer.train(this.model, null, null);
+    let evaluated = this.evaluate();
+    console.log(evaluated);
     return new Training(
       {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
-      this.evaluateTrainingDef(),
-      this.evaluateModelDef()
+      evaluated.config,
+      evaluated.model
     );
   }
 
-  evaluateModelDef() {
+  evaluate() {
     console.log(this.model_def);
-    let result = ts.transpile(this.model_def+";model;");
+    let result = ts.transpile(this.model_def+";let a={model:model, config:training};a");
     return eval(result);
   }
 
