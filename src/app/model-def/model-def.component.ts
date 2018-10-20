@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 import * as ts from "typescript";
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { ModelTrainerService } from '../model-trainer.service';
+import { ModelTrainerService0, ModelTrainerService } from '../model-trainer.service';
 
 export interface Training {
 
@@ -18,12 +18,11 @@ export interface Training {
 
 }
 
-export class TrainingImpl implements Training{
-  /*x: tf.Tensor;
-  y: tf.Tensor;*/
-  inputs:any;
-  config: tf.ModelFitConfig;
-  model: tf.Model;
+class Training0 implements Training{
+
+  private inputs:any;
+  private config: tf.ModelFitConfig;
+  private model: tf.Model;
 
   constructor(inputs, config, model){
     this.inputs = inputs;
@@ -31,13 +30,21 @@ export class TrainingImpl implements Training{
     this.model = model;
   }
 
-  getInputs(): any;
-  getConfig(): tf.ModelFitConfig;
-  getModel(): tf.Model;
+  getInputs(): any { return this.inputs; }
+  getConfig(): tf.ModelFitConfig { return this.config; }
+  getModel(): tf.Model { return this.model; }
   
-  setInputs(inputs: any):void;
-  setConfig(config: tf.ModelFitConfig):void;
-  setModel(model: tf.Model):void;
+  setInputs(inputs: any):void { this.inputs = inputs; }
+  setConfig(config: tf.ModelFitConfig):void { this.config = config; }
+  setModel(model: tf.Model):void { this.model = model; }
+}
+
+
+export interface ModelDefComponent {
+  evaluateFields():Training; 
+  getTrainings$():Observable<Training>;
+  getModelDef():string;
+  setModelDef(s:string):void;
 }
 
 @Component({
@@ -45,25 +52,28 @@ export class TrainingImpl implements Training{
   templateUrl: './model-def.component.html',
   styleUrls: ['./model-def.component.css']
 })
+export class ModelDefComponent implements OnInit, ModelDefComponent {
 
-export class ModelDefComponent implements OnInit {
-
-  training: Training;
-  model_def: string;
-  training_def: string;
-  model_trainer: ModelTrainerService;
+  private training: Training;
+  private model_def: string;
+  private training_def: string;
+  private model_trainer: ModelTrainerService;
   @ViewChild('button') button: ElementRef;
-  reload$: Observable<Training>;
+  private trainings$: Observable<Training>;
 
   constructor( model_trainer: ModelTrainerService ) {
     this.model_trainer = model_trainer;
   }
+  
+  getTrainings$():Observable<Training>{ return this.trainings$; }
+  getModelDef():string { return this.model_def; }
+  setModelDef(s:string):void { this.model_def = s; }
 
   ngOnInit() {
-    this.reload$ = fromEvent(this.button.nativeElement, 'click')
+    this.trainings$ = fromEvent(this.button.nativeElement, 'click')
       .pipe(map((event) => this.evaluateFields()));
-    this.model_trainer.train(this.reload$);
-    //this.reload$.subscribe((model) => console.log(model));
+
+    this.model_trainer.setTrainings$(this.trainings$);
 
     this.model_def="// Define a model for linear regression.\n\
 const model = tf.sequential();\n\
@@ -108,9 +118,11 @@ const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: tr
     
     //this.model_trainer.train(this.model, null, null);
     let evaluated = this.evaluate();
-    console.log(evaluated);
-    return new Training(
+    //console.log(evaluated);
+    return new Training0(
+      // get inputs from input box here
       {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
+      //
       evaluated.config,
       evaluated.model
     );
@@ -121,13 +133,6 @@ const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: tr
     let result = ts.transpile(this.model_def+";let a={model:model, config:training};a");
     return eval(result);
   }
-
-  evaluateTrainingDef() {
-    console.log(this.training_def);
-    let result = ts.transpile(this.training_def+";training");
-    return eval(result);
-  }
-
 
 }
 

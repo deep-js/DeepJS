@@ -9,7 +9,7 @@ import { DrawableDirective } from './drawable.directive';
 import { ModelDefComponent } from './model-def/model-def.component';
 import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
 import { EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component';
-import { ModelTrainerService } from './model-trainer.service';
+import { ModelTrainerService0, ModelTrainerService } from './model-trainer.service';
 import { TestModelVisualisationComponent } from './test-model-visualisation/test-model-visualisation.component';
 
 
@@ -33,7 +33,7 @@ declare global {
     BrowserModule,
     FormsModule
   ],
-  providers: [ModelTrainerService],
+  providers: [ {provide: ModelTrainerService, useClass: ModelTrainerService0} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

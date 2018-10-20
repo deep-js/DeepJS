@@ -15,12 +15,20 @@ export enum TrainEvent {
   BatchEnd
 }
 
+export interface TrainData{
 
-export class TrainData {
-  epoch:number;
-  batch:number;
-  event:TrainEvent;
-  loss:number;
+  getEpoch():number;
+  getBatch():number;
+  getEvent():TrainEvent;
+  getLoss():number;
+  
+}
+
+class TrainData0 {
+  private epoch:number;
+  private batch:number;
+  private event:TrainEvent;
+  private loss:number;
 
   constructor(ev:TrainEvent, ep:number, b:number, l:number){
     this.event = ev;
@@ -29,92 +37,88 @@ export class TrainData {
     this.loss = l;
   }
 
+  getEpoch():number{ return this.epoch};
+  getBatch():number{ return this.batch };
+  getEvent():TrainEvent{ return this.event };
+  getLoss():number{ return this.loss };
+
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export abstract class ModelTrainerService {
+  abstract setTrainings$(t:Observable<Training>);
+  abstract train(t:Training, observer:Observer<TrainData>);
+  abstract getTrainer$():Observable<TrainData>;
+  abstract getCurrentTrainings$():Observable<Training>;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModelTrainerService {
+export class ModelTrainerService0 implements ModelTrainerService {
 
-  currentTrainings$: Observable<Training>;
-  currentTraining: Training;
-  trainer$: Observable<TrainData>;
-  callbacks: tf.CustomCallbackConfig;
+  private currentTrainings$: Observable<Training>;
+  private currentTraining: Training;
+  private trainer$: Observable<TrainData>;
+  private callbacks: tf.CustomCallbackConfig;
 
   constructor() {
     //const inputs = tf.tensor([1, 2, 3, 4], [4, 1])
-    console.log("modeltrainerservice constructor")
+    //console.log("modeltrainerservice constructor")
   }
 
-  train( reload$:Observable<Training>){
+  private setTraining(training:Training){ this.currentTraining = training};
+  
+  public getTrainer$():Observable<TrainData> { return this.trainer$; }
+  public getCurrentTrainings$():Observable<Training> { return this.currentTrainings$; }
+
+
+  public setTrainings$( trainings$:Observable<Training>){
     console.log("modeltrainerservice setevent")
-    this.currentTrainings$ = reload$;
-    this.trainer$ = reload$.pipe( switchMap((training) =>
+    this.currentTrainings$ = trainings$;
+    this.trainer$ = trainings$.pipe( switchMap((training) =>
       Observable.create(observer => {
-        this.currentTraining = training;
-        //console.log(model);
-
-        let x = this.currentTraining.inputs.x;
-        let y = this.currentTraining.inputs.y;
-        let m = this.currentTraining.model as tf.Sequential;
-        console.log(training);
-        m.fit(x, y, {epochs: 1000, callbacks: {
-          onTrainBegin: () => {
-            observer.next(new TrainData(TrainEvent.TrainBegin, 0, 0, 0));
-          },
-          onTrainEnd: (epoch, logs) => {
-            observer.next(new TrainData(TrainEvent.TrainEnd, epoch, 0, 0));
-          },
-          onEpochBegin: async (epoch, logs) => {
-            observer.next(new TrainData(TrainEvent.EpochBegin, epoch, logs.batch, logs.loss));
-          },
-          onEpochEnd: async (epoch, logs) => {
-            observer.next(new TrainData(TrainEvent.EpochEnd, epoch, logs.batch, logs.loss));
-          },
-          onBatchBegin: async (epoch, logs) => {
-            observer.next(new TrainData(TrainEvent.BatchBegin, epoch, logs.batch, logs.loss));
-          },
-          onBatchEnd: async (epoch, logs) => {
-            observer.next(new TrainData(TrainEvent.BatchEnd, epoch, logs.batch, logs.loss));
-          }
-
-        } as tf.CustomCallbackConfig});
-
+        this.setTraining(training);
+        this.train(training, observer);
       }).pipe(share())
     ));
   }
-  /*
-  train( model:tf.Sequential, training:tf.ModelFitConfig, inputs:any ){
-    this.currentTraining = model;
-    // notify observers subscribed to model-def
 
-    //    training.callbacks = this.callbacks;
 
-    this.trainer$ = Observable.create(observer => {
-      const inputs = tf.tensor([[0,0], [0,1]]);
-      const outputs = tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]);
+  train(training:Training, observer:Observer<TrainData>){
+    let x = training.getInputs().x;
+    let y = training.getInputs().y;
+    let m = training.getModel() as tf.Sequential;
+    let c = training.getConfig();
+    c.callbacks = {
+      onTrainBegin: () => {
+        // TODO
+        // factory for making TrainData
+        observer.next(new TrainData0(TrainEvent.TrainBegin, 0, 0, 0));
+      },
+      onTrainEnd: (epoch, logs) => {
+        observer.next(new TrainData0(TrainEvent.TrainEnd, epoch, 0, 0));
+      },
+      onEpochBegin: async (epoch, logs) => {
+        observer.next(new TrainData0(TrainEvent.EpochBegin, epoch, logs.batch, logs.loss));
+      },
+      onEpochEnd: async (epoch, logs) => {
+        observer.next(new TrainData0(TrainEvent.EpochEnd, epoch, logs.batch, logs.loss));
+      },
+      onBatchBegin: async (epoch, logs) => {
+        observer.next(new TrainData0(TrainEvent.BatchBegin, epoch, logs.batch, logs.loss));
+      },
+      onBatchEnd: async (epoch, logs) => {
+        observer.next(new TrainData0(TrainEvent.BatchEnd, epoch, logs.batch, logs.loss));
+      }
 
-      this.currentTraining.fit(inputs, outputs, {epochs: 1000, callbacks: {
-        onTrainBegin: () => {
+    } as tf.CustomCallbackConfig;
+    m.fit(x, y, c);
 
-        },
-        onTrainEnd: (epoch, logs) => {
-        },
-        onEpochBegin: async (epoch, logs) => {
-        },
-        onEpochEnd: async (epoch, logs) => {
-          observer.next(new TrainData(epoch));
-        },
-        onBatchBegin: async (epoch, logs) => {
-        },
-        onBatchEnd: async (epoch, logs) => {
-        }
-
-      } as tf.CustomCallbackConfig});
-
-    }).pipe(share());
-
-  }*/
+  }
 
 }
 
