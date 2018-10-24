@@ -11,6 +11,8 @@ import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visu
 import { EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component';
 import { ModelTrainerService0, ModelTrainerService } from './model-trainer.service';
 import { TestModelVisualisationComponent } from './test-model-visualisation/test-model-visualisation.component';
+import { VisualisationsComponent } from './visualisations/visualisations.component';
+import { VisualisationContainerDirective } from './visualisation-container.directive';
 
 
 declare global {
@@ -27,7 +29,9 @@ declare global {
     ModelDefComponent,
     NeuronVisualisationComponent,
     EpochVisualisationComponent,
-    TestModelVisualisationComponent
+    TestModelVisualisationComponent,
+    VisualisationsComponent,
+    VisualisationContainerDirective
   ],
   imports: [
     BrowserModule,
