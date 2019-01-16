@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import {Observable, Observer} from 'rxjs'
 import {share, switchMap} from 'rxjs/operators'
-import { Training } from './model-def/model-def.component';
+import { Training } from './training';
 
 
 

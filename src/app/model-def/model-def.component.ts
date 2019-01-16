@@ -4,40 +4,7 @@ import * as ts from "typescript";
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ModelTrainerService0, ModelTrainerService } from '../model-trainer.service';
-
-export interface Training {
-
-  getInputs(): any;
-  getConfig(): tf.ModelFitConfig;
-  getModel(): tf.Model;
-  
-  setInputs(inputs: any):void;
-  setConfig(config: tf.ModelFitConfig):void;
-  setModel(model: tf.Model):void;
-  
-
-}
-
-class Training0 implements Training{
-
-  private inputs:any;
-  private config: tf.ModelFitConfig;
-  private model: tf.Model;
-
-  constructor(inputs, config, model){
-    this.inputs = inputs;
-    this.config = config;
-    this.model = model;
-  }
-
-  getInputs(): any { return this.inputs; }
-  getConfig(): tf.ModelFitConfig { return this.config; }
-  getModel(): tf.Model { return this.model; }
-  
-  setInputs(inputs: any):void { this.inputs = inputs; }
-  setConfig(config: tf.ModelFitConfig):void { this.config = config; }
-  setModel(model: tf.Model):void { this.model = model; }
-}
+import { Training, TrainingFactory} from '../training';
 
 
 export interface ModelDefComponent {
@@ -52,6 +19,7 @@ export interface ModelDefComponent {
   templateUrl: './model-def.component.html',
   styleUrls: ['./model-def.component.css']
 })
+
 export class ModelDefComponent implements OnInit, ModelDefComponent {
 
   private training: Training;
@@ -119,7 +87,7 @@ const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: tr
     //this.model_trainer.train(this.model, null, null);
     let evaluated = this.evaluate();
     //console.log(evaluated);
-    return new Training0(
+    return TrainingFactory.createTraining(
       // get inputs from input box here
       {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
       //
