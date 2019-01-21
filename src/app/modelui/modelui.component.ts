@@ -5,27 +5,31 @@ import { fromEvent, Observable, Observer } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ModelTrainerService0, ModelTrainerService } from '../model-trainer.service';
 import { Training, TrainingFactory} from '../training';
+import { Model, ModelFactory} from '../training';
 
 
-export interface ModelDefComponent {
-  evaluateFields():Training; 
-  getTrainings$():Observable<Training>;
+export interface ModelUI {
+  getModels():Model;
   getModelDef():string;
   setModelDef(s:string):void;
 }
 
 @Component({
-  selector: 'app-model-def',
-  templateUrl: './model-def.component.html',
-  styleUrls: ['./model-def.component.css']
+  selector: 'app-modelui',
+  templateUrl: './modelui.component.html',
+  styleUrls: ['./modelui.component.css']
 })
 
-export class ModelDefComponent implements OnInit, ModelDefComponent {
+export class ModelUIFactory {
+	public static createModelUI():ModelUI{
+		return new TypeScriptModelUI();
+	}
+}
 
-  private training: Training;
+export class TypeScriptModelUI implements OnInit, ModelUI {
+
   private model_def: string;
   private training_def: string;
-  private model_trainer: ModelTrainerService;
   @ViewChild('button') button: ElementRef;
   private trainings$: Observable<Training>;
 
@@ -33,14 +37,10 @@ export class ModelDefComponent implements OnInit, ModelDefComponent {
     this.model_trainer = model_trainer;
   }
   
-  getTrainings$():Observable<Training>{ return this.trainings$; }
   getModelDef():string { return this.model_def; }
   setModelDef(s:string):void { this.model_def = s; }
 
   ngOnInit() {
-    this.trainings$ = fromEvent(this.button.nativeElement, 'click')
-      .pipe(map((event) => this.evaluateFields()));
-
     this.model_trainer.setTrainings$(this.trainings$);
 
     this.model_def="// Define a model for linear regression.\n\
@@ -73,34 +73,6 @@ const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: tr
     this.training_def = "const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true }"
   }
 
-  /* Evaluating typescript code in the browser is a pain
-   * mainly because modules (here tensorflow) must be available
-   * at runtime
-   * For that purpose tensorflow's source is added to "scripts"
-   * in angular.json so that it is available when the code is
-   * evaluated
-   * #uglyhack
-   */
-  evaluateFields():Training {
-    
-    
-    //this.model_trainer.train(this.model, null, null);
-    let evaluated = this.evaluate();
-    //console.log(evaluated);
-    return TrainingFactory.createTraining(
-      // get inputs from input box here
-      {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
-      //
-      evaluated.config,
-      evaluated.model
-    );
-  }
-
-  evaluate() {
-    console.log(this.model_def);
-    let result = ts.transpile(this.model_def+";let a={model:model, config:training};a");
-    return eval(result);
-  }
 
 }
 

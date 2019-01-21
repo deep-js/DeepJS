@@ -19,11 +19,11 @@ export interface Training {
 
 export class TrainingFactory {
 	public static createTraining(inputs,config,model){
-		return new Training0(inputs,config,model);
+		return new TrainingImpl(inputs,config,model);
 	}
 }
 
-class Training0 implements Training{
+class TrainingImpl implements Training{
 
   private inputs:any;
   private config: tf.ModelFitConfig;

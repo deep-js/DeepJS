@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModelDefComponent } from './model-def.component';
+import { ModelUI } from './modelui.component';
 
-describe('ModelDefComponent', () => {
-  let component: ModelDefComponent;
-  let fixture: ComponentFixture<ModelDefComponent>;
+describe('ModelUI', () => {
+  let component: ModelUI;
+  let fixture: ComponentFixture<ModelUI>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModelDefComponent ]
+      declarations: [ ModelUI ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModelDefComponent);
+    fixture = TestBed.createComponent(ModelUI);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

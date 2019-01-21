@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 import { DrawableDirective } from './drawable.directive';
-import { ModelDefComponent } from './model-def/model-def.component';
+import { ModelUI } from './modelui/modelui.component';
 import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
 import { EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component';
 import { ModelTrainerService0, ModelTrainerService } from './model-trainer.service';
@@ -24,7 +24,7 @@ declare global {
   declarations: [
     AppComponent,
     DrawableDirective,
-    ModelDefComponent,
+    ModelUI,
     NeuronVisualisationComponent,
     EpochVisualisationComponent,
     TestModelVisualisationComponent
