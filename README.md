@@ -33,10 +33,11 @@
 Several quick start options are available:
 
 - [Download the latest release.](https://github.com/deep-js/DEEPJS/archive/deepjsfun.zip)
+- [try demos.](http://www.auxietre.com/Test/JS/index.html)
+- [tensorflow. on ghithub](https://github.com/tensorflow/tensorflow)
+- [tensorflowJs](https://js.tensorflow.org/)
 - Clone the repo: `git clone https://github.com/deep-js/DeepJS.git`
-- [try demos.]("http://www.auxietre.com/Test/JS/index.html")
-- [tensorflow. on ghithub]("https://github.com/tensorflow/tensorflow")
-- [tensorflowJs]("https://js.tensorflow.org/")
+
 
 
 
