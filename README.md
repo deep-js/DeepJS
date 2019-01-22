@@ -1,7 +1,7 @@
   
   <p align="center">
   <a href="http://www.auxietre.com/Test/DEEP/deepjsfun.html">
-    <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/img/logo.png" alt="deepjs logo" width="72" height="72">
+    <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/img/logo.png" alt="deepjs logo" width="140" height="140">
   </a>
 </p>
 
@@ -34,9 +34,14 @@ Several quick start options are available:
 
 - [Download the latest release.](https://github.com/deep-js/DEEPJS/archive/deepjsfun.zip)
 - Clone the repo: `git clone https://github.com/deep-js/DeepJS.git`
+- [try demos.]("http://http://www.auxietre.com/Test/JS/index.html">)
+- [tensorflow. on ghithub]("https://github.com/tensorflow/tensorflow")
+- [tensorflowJs]("https://js.tensorflow.org/")
 
 
-Read the [Getting started page](https://github.com/deep-js/DEEPJS/docs/4.2/getting-started/introduction/) for information on the framework contents, templates and examples, and more.
+
+
+Read the [Getting started page](https://github.com/deep-js/DEEPJS/docs/introduction.html/) for information on the framework contents, templates and examples, and more.
 
 
 ## Status
