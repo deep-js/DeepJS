@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
-import {Observable, Observer} from 'rxjs'
-import {share, switchMap} from 'rxjs/operators'
+import {ConnectableObservable, Observable, Observer} from 'rxjs'
+import {publish, publishReplay, shareReplay, map, share, switchMap} from 'rxjs/operators'
 import { Training } from '@api/core/training';
 
 
@@ -79,6 +79,7 @@ export class TrainerServiceImpl implements TrainerService {
     this.currentTrainings$ = trainings$;
     this.trainer$ = trainings$.pipe( switchMap((training) =>
       Observable.create(observer => {
+        console.log("ok1");
         this.setTraining(training);
         this.train(training, observer);
       }).pipe(share())
@@ -90,11 +91,13 @@ export class TrainerServiceImpl implements TrainerService {
     let x = training.getInputs().x;
     let y = training.getInputs().y;
     let m = training.getModel() as tf.Sequential;
-    let c = training.getConfig();
+    let c = training.getConfig() as tf.ModelFitConfig;
+    console.log("ok2");
     c.callbacks = {
       onTrainBegin: () => {
         // TODO
         // factory for making TrainData
+        console.log("ok4");
         observer.next(new TrainData0(TrainEvent.TrainBegin, 0, 0, 0));
       },
       onTrainEnd: (epoch, logs) => {
@@ -105,7 +108,6 @@ export class TrainerServiceImpl implements TrainerService {
       },
       onEpochEnd: async (epoch, logs) => {
         observer.next(new TrainData0(TrainEvent.EpochEnd, epoch, logs.batch, logs.loss));
-        console.log('ok');
       },
       onBatchBegin: async (epoch, logs) => {
         observer.next(new TrainData0(TrainEvent.BatchBegin, epoch, logs.batch, logs.loss));
@@ -115,6 +117,7 @@ export class TrainerServiceImpl implements TrainerService {
       }
 
     } as tf.CustomCallbackConfig;
+    console.log(m);
     m.fit(x, y, c);
 
   }

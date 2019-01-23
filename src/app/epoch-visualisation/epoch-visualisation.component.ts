@@ -27,9 +27,11 @@ export class EpochVisualisationComponent implements OnInit {
   ngOnInit() {
     fromEvent(this.plus.nativeElement, "click").subscribe(ev => ++this.period);
     fromEvent(this.minus.nativeElement, "click").subscribe(ev => --this.period);
+
     this.trainer$ = this.modelTrainer.getTrainer$().pipe(
       filter(train => train.getEvent() == TrainEvent.EpochEnd && train.getEpoch() % this.period === 0)
     );
+    console.log(this.trainer$);
     this.trainer$.subscribe(
       data => this.epoch = data.getEpoch()
     );
