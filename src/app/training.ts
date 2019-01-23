@@ -6,10 +6,13 @@ import { map } from 'rxjs/operators'
 import * as api from '@api/core';
 
 
+/* Data Structure for the Training
+ * Encapsulates what is needed to perform a training
+ */
 export class TrainingImpl implements api.Training{
 
   private inputs:any;
-  private config: tf.ModelFitConfig;
+  private config: tf.ModelFitConfig;  // training parameters
   private model: tf.Model;
 
   constructor(inputs, config, model){

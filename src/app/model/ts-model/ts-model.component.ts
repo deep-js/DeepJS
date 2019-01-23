@@ -8,19 +8,23 @@ import * as api from '@api/core';
   styleUrls: ['./ts-model.component.css']
 })
 export class TSModelComponentImpl implements OnInit, api.TSModelComponent {
+
+  // String from the textarea, corresponding to the definition of the model in TypeScript
   private modelDef:string;
+
   private presenter:api.TSModelPresenter;
-  //@Input() demo:api.DemoPresenter;
-  // TODO : cannot inject interface, has to be able to replace TSModelPresenterImpl with a different implementation by only changing app.module
-  //constructor( presenter: api.TSModelPresenter) { this.presenter = presenter;this.modelDef = this.presenter.getModelDef();}
     
   constructor(){
     this.presenter = new TSModelPresenterImpl();
   }
 
   ngOnInit(){
+    // whenever the presenter changes its definition of the model
+    // the string of the textarea changes
+    // equivalent to double way data binding but between the component and the presenter
     this.presenter.getModelDef$().subscribe(s => this.modelDef = s);
   }
+
   getPresenter():api.ModelPresenter{ return this.presenter; }
 
 

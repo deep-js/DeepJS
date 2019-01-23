@@ -5,6 +5,10 @@ import {ModelComponent, ModelPresenter} from '@api/core/model';
 import {DemoPresenterImpl} from './demo.presenter';
 import {TrainerServiceImpl} from '../trainer.service';
 
+/* Graphic Component for the demo
+ * Encapsulates input, model and parameter importation
+ * components as well as visualisations
+ */
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
@@ -13,19 +17,22 @@ import {TrainerServiceImpl} from '../trainer.service';
 export class DemoComponentImpl implements OnInit, DemoComponent {
 
   // TODO : dynamically choose modelcomponent
-
   @ViewChild('model') model:ModelComponent;
+
+  // DOM element triggering the training
   @ViewChild('trainButton') trainButton: ElementRef;
+
+  // Presenter for this component
   private demo:DemoPresenter;
 
+  // Inject the trainer service to give to the presenter
   constructor(private trainerService:TrainerServiceImpl){
     
   }
 
   ngOnInit() {
-    console.log(this.model);
+    // Presenter takes all child component's presenters as arguments as well as the trainer service
     this.demo = new DemoPresenterImpl(this.model.getPresenter(),fromEvent(this.trainButton.nativeElement, 'click'), this.trainerService);
-
   }
 
 }

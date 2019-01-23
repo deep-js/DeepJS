@@ -8,6 +8,9 @@ import {TSModelPresenterImpl} from '../model/ts-model/ts-model.presenter';
 import {TrainerServiceImpl} from '../trainer.service';
 import {TrainingImpl} from '../training';
 
+/* Presenter for the DemoComponent
+ * performs the logic for it
+ */
 export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
 
   private modelPresenter:api.ModelPresenter;
@@ -15,6 +18,8 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
 
   constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl) {
     this.modelPresenter = modelPresenter;
+    
+    // Construct the Observable on Trainings from the button events
     this.trainings$ = trainButton$.pipe(map((event) => 
       {console.log("ok");
         return new TrainingImpl(
@@ -23,6 +28,8 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
         modelPresenter.import()
       );}
     ));
+
+    // give it to trainer service
     trainerService.setTrainings$(this.trainings$);
     
   }
