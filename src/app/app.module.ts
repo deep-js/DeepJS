@@ -1,17 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {TSModelPresenter} from '@api/core';
 
 
 import { AppComponent } from './app.component';
 
-import { DrawableDirective } from './drawable.directive';
-import { ModelUI } from './modelui/modelui.component';
-import { NeuronVisualisationComponent } from './neuron-visualisation/neuron-visualisation.component';
-import { EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component';
-import { ModelTrainerService0, ModelTrainerService } from './model-trainer.service';
-import { TestModelVisualisationComponent } from './test-model-visualisation/test-model-visualisation.component';
-
+import { TSModelComponentImpl } from './model/ts-model/ts-model.component';
+import { TSModelPresenterImpl } from './model/ts-model/ts-model.presenter';
+import { DemoComponentImpl } from './demo/demo.component';
+import { TrainerService, TrainerServiceImpl } from './trainer.service';
+import {TestModelVisualisationComponent } from './test-model-visualisation/test-model-visualisation.component'
+import {EpochVisualisationComponent } from './epoch-visualisation/epoch-visualisation.component'
 
 declare global {
   interface Window {
@@ -23,17 +23,17 @@ declare global {
 @NgModule({
   declarations: [
     AppComponent,
-    DrawableDirective,
-    ModelUI,
-    NeuronVisualisationComponent,
-    EpochVisualisationComponent,
-    TestModelVisualisationComponent
+    TSModelComponentImpl,
+    DemoComponentImpl,
+    TestModelVisualisationComponent,
+    EpochVisualisationComponent 
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
-  providers: [ {provide: ModelTrainerService, useClass: ModelTrainerService0} ],
+  providers: [TrainerServiceImpl],
+  //  providers: [ {provide:[ModelTrainer], useClass:[ModelTrainerImpl]} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,27 +3,10 @@ import * as tf from '@tensorflow/tfjs';
 import * as ts from "typescript";
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { map } from 'rxjs/operators'
+import * as api from '@api/core';
 
-export interface Training {
 
-  getInputs(): any;
-  getConfig(): tf.ModelFitConfig;
-  getModel(): tf.Model;
-  
-  setInputs(inputs: any):void;
-  setConfig(config: tf.ModelFitConfig):void;
-  setModel(model: tf.Model):void;
-  
-
-}
-
-export class TrainingFactory {
-	public static createTraining(inputs,config,model){
-		return new TrainingImpl(inputs,config,model);
-	}
-}
-
-class TrainingImpl implements Training{
+export class TrainingImpl implements api.Training{
 
   private inputs:any;
   private config: tf.ModelFitConfig;

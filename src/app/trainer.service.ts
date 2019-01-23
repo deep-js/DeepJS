@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import {Observable, Observer} from 'rxjs'
-import {share, switchMap} from 'rxjs/operators'
-import { Training } from './training';
+import {publish, switchMap} from 'rxjs/operators'
+import { Training } from '@api/core/training';
 
 
 
@@ -48,7 +48,7 @@ class TrainData0 {
 @Injectable({
   providedIn: 'root'
 })
-export abstract class ModelTrainerService {
+export abstract class TrainerService {
   abstract setTrainings$(t:Observable<Training>);
   abstract train(t:Training, observer:Observer<TrainData>);
   abstract getTrainer$():Observable<TrainData>;
@@ -58,7 +58,7 @@ export abstract class ModelTrainerService {
 @Injectable({
   providedIn: 'root'
 })
-export class ModelTrainerService0 implements ModelTrainerService {
+export class TrainerServiceImpl implements TrainerService {
 
   private currentTrainings$: Observable<Training>;
   private currentTraining: Training;
@@ -66,8 +66,6 @@ export class ModelTrainerService0 implements ModelTrainerService {
   private callbacks: tf.CustomCallbackConfig;
 
   constructor() {
-    //const inputs = tf.tensor([1, 2, 3, 4], [4, 1])
-    //console.log("modeltrainerservice constructor")
   }
 
   private setTraining(training:Training){ this.currentTraining = training};
@@ -83,7 +81,7 @@ export class ModelTrainerService0 implements ModelTrainerService {
       Observable.create(observer => {
         this.setTraining(training);
         this.train(training, observer);
-      }).pipe(share())
+      }).pipe(publish())
     ));
   }
 

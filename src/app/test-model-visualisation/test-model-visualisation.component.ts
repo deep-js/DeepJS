@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators'
-import { ModelTrainerService0, ModelTrainerService } from '../model-trainer.service';
+import { TrainerServiceImpl, TrainerService } from '../trainer.service';
 
 @Component({
   selector: 'app-test-model-visualisation',
@@ -10,19 +10,20 @@ import { ModelTrainerService0, ModelTrainerService } from '../model-trainer.serv
 })
 export class TestModelVisualisationComponent implements OnInit {
 
-  modelTrainer: ModelTrainerService;
+  modelTrainer: TrainerService;
   out: string;
 
-  constructor(modelTrainer: ModelTrainerService) {
+  constructor(modelTrainer: TrainerServiceImpl) {
     this.modelTrainer = modelTrainer;
     this.out = "";
   }
 
   ngOnInit() {
-    this.modelTrainer.getCurrentTrainings$().subscribe( (training) => {
+    this.modelTrainer.getCurrentTrainings$().subscribe( (training:Training) => {
       // do whatever with model
+      console.log(training);
       this.out = "";
-      training.getModel().summary(80,[30,60,90], x => this.out+=x+"\n");
+      (<tf.Sequential> training.getModel()).summary(80,[30,60,90], x => this.out+=x+"\n");
       console.log(training.getModel());
       console.log(this.out);
     }

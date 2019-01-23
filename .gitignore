@@ -11,6 +11,7 @@
 */*.swp
 
 # bs
+/pres
 /bs
 
 # System Files
