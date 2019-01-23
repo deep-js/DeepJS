@@ -16,11 +16,12 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
   constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl) {
     this.modelPresenter = modelPresenter;
     this.trainings$ = trainButton$.pipe(map((event) => 
-      new TrainingImpl(
+      {console.log("ok");
+        return new TrainingImpl(
         { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true },
         {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
         modelPresenter.import()
-      )
+      );}
     ));
     trainerService.setTrainings$(this.trainings$);
     
