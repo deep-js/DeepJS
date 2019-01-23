@@ -88,6 +88,7 @@ export class TrainerServiceImpl implements TrainerService {
 
 
   train(training:Training, observer:Observer<TrainData>){
+    console.log(training);
     let x = training.getInputs().x;
     let y = training.getInputs().y;
     let m = training.getModel() as tf.Sequential;
@@ -117,7 +118,8 @@ export class TrainerServiceImpl implements TrainerService {
       }
 
     } as tf.CustomCallbackConfig;
-    console.log(m);
+    console.log(x);
+    console.log(y);
     m.fit(x, y, c);
 
   }
