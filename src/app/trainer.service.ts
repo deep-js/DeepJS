@@ -117,7 +117,6 @@ export class TrainerServiceImpl implements TrainerService {
    * each time a new event is emitted (end of an epoch etc)
    */
   train(training:Training, observer:Observer<TrainData>){
-    console.log(training);
     let x = training.getInputs().x;
     let y = training.getInputs().y;
     let m = training.getModel() as tf.Sequential;

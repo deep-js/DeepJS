@@ -21,7 +21,6 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
     
     // Construct the Observable on Trainings from the button events
     this.trainings$ = trainButton$.pipe(map((event) => 
-      {console.log("ok");
         return new TrainingImpl(
         {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
         { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true },
