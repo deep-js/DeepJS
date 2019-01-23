@@ -33,7 +33,7 @@ export class EpochVisualisationComponent implements OnInit {
 
     // each time a button is pressed, update training
     fromEvent(this.plus.nativeElement, "click").subscribe(ev => ++this.period);
-    fromEvent(this.minus.nativeElement, "click").subscribe(ev => --this.period);
+    fromEvent(this.minus.nativeElement, "click").subscribe(ev => this.period=Math.max(this.period-1,0));
 
     // For each TrainData emitted by TrainerService, keep only those corresponding to the
     // end of an epoch and having an epoch number multiple of the period
