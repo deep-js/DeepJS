@@ -19,11 +19,11 @@ export class TestModelVisualisationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.modelTrainer.getCurrentTrainings$().subscribe( (training:Training) => {
+    this.modelTrainer.getCurrentTrainings$().subscribe( (training) => {
       // do whatever with model
       console.log(training);
       this.out = "";
-      (<tf.Sequential> training.getModel()).summary(80,[30,60,90], x => this.out+=x+"\n");
+      training.getModel().summary(80,[30,60,90], x => this.out+=x+"\n");
       console.log(training.getModel());
       console.log(this.out);
     }

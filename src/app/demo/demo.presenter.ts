@@ -13,7 +13,7 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
   private modelPresenter:api.ModelPresenter;
   private trainings$:Observable<api.Training>;
 
-  constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<Event>, trainerService:TrainerServiceImpl) {
+  constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl) {
     this.modelPresenter = modelPresenter;
     this.trainings$ = trainButton$.pipe(map((event) => 
       new TrainingImpl(

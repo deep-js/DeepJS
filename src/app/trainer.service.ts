@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import {Observable, Observer} from 'rxjs'
-import {publish, switchMap} from 'rxjs/operators'
+import {share, switchMap} from 'rxjs/operators'
 import { Training } from '@api/core/training';
 
 
@@ -81,7 +81,7 @@ export class TrainerServiceImpl implements TrainerService {
       Observable.create(observer => {
         this.setTraining(training);
         this.train(training, observer);
-      }).pipe(publish())
+      }).pipe(share())
     ));
   }
 
@@ -105,6 +105,7 @@ export class TrainerServiceImpl implements TrainerService {
       },
       onEpochEnd: async (epoch, logs) => {
         observer.next(new TrainData0(TrainEvent.EpochEnd, epoch, logs.batch, logs.loss));
+        console.log('ok');
       },
       onBatchBegin: async (epoch, logs) => {
         observer.next(new TrainData0(TrainEvent.BatchBegin, epoch, logs.batch, logs.loss));
