@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService } from '../../shared/services/trainer/trainer.service';
 
+
+/* Quick implementation of a textual model visualisation
+ * using tf.Model.summarize
+ */
 @Component({
   selector: 'app-test-model-visualisation',
   templateUrl: './test-model-visualisation.component.html',
@@ -11,7 +15,7 @@ import { TrainerServiceImpl, TrainerService } from '../../shared/services/traine
 export class TestModelVisualisationComponent implements OnInit {
 
   modelTrainer: TrainerService;
-  out: string;
+  out: string;  // textual summary of the model
 
   constructor(modelTrainer: TrainerServiceImpl) {
     this.modelTrainer = modelTrainer;
@@ -19,13 +23,11 @@ export class TestModelVisualisationComponent implements OnInit {
   }
 
   ngOnInit() {
+    // for each model trained by TrainerService, display its summary
     this.modelTrainer.getCurrentTrainings$().subscribe( (training) => {
       // do whatever with model
-      console.log(training);
-      this.out = "";
-      training.getModel().summary(80,[30,60,90], x => this.out+=x+"\n");
-      console.log(training.getModel());
-      console.log(this.out);
+      this.out = "";  // reset model summary
+      training.getModel().summary(80,[30,60,90], x => this.out+=x+"\n");  // 2nd argument : for each line of the generated summary, add it to the string being displayed
     }
     )
 

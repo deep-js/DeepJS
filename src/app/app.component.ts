@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { DrawableDirective } from './shared/directives/drawable.directive';
 
 import * as tf from '@tensorflow/tfjs';
 

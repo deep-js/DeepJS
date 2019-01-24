@@ -7,6 +7,9 @@ import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
 
+/* Presenter for TSModelComponent
+ * Performs the actual import from Typescript code to Object tf.Model
+ */
 export class TSModelPresenterImpl implements api.TSModelPresenter{
 
   private modelDef: string;
@@ -14,14 +17,10 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
   private training_def: string;
   private model:tf.Model;
 
-  /*constructor( model_trainer: ModelTrainerService ) {
-    this.model_trainer = model_trainer;
-  }*/
-  
 
   constructor() {
-    //this.model_trainer.setTrainings$(this.trainings$);
 
+    // Default value for the model definition
     this.modelDef="// Define a model for linear regression.\n\
 const model = tf.sequential();\n\
 \n\
@@ -46,17 +45,27 @@ const LEARNING_RATE = 0.1;\n\
 const MOMENTUM = 0.9;\n\
 const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
 // Prepare the model for training: Specify the loss and the optimizer. \n\
-model.compile({loss: 'meanSquaredError', optimizer: optimizer});\n\
-const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true };"
+model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
 
-    this.training_def = "const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true }"
 
+    // Make a Subject (kind of Observable) on the TypeScript string
     this.modelDef$ = new BehaviorSubject<string>(this.modelDef);
-    // skip ourself sending the first string
+    
+    // Subscribe to it so we get updates from the Component
+    // (the Component does a next on it at each key press)
+    // Skip ourself sending the first string
     this.modelDef$.pipe( skip(1) ).subscribe(s => this.modelDef=s)
   }
 
-  /* Evaluating typescript code in the browser is a pain
+  // Imports tf.Model object from TypeScript string
+  import():tf.Model {
+    let evaluated = this.evaluate(this.modelDef);
+    return evaluated;   
+  }
+
+  /* Evaluates the TypeScript string to retrieve the tf.Model object
+   *
+   * Evaluating typescript code in the browser is a pain
    * mainly because modules (here tensorflow) must be available
    * at runtime
    * For that purpose tensorflow's source is added to "scripts"
@@ -64,17 +73,13 @@ const training = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: tr
    * evaluated
    * #uglyhack
    */
-  
-  import():tf.Model {
-    let evaluated = this.evaluate(this.modelDef);
-    return evaluated.model;   
-  }
-
   evaluate(s:string) {
-    let result = ts.transpile(s+";let a={model:model, config:training};a");
+    // Add model at the end so that it is returned by eval
+    let result = ts.transpile(s+";model;");
     return eval(result);
   }
 
+  // Provide the Observable on the Typescript string
   getModelDef$():Subject<string> { return this.modelDef$; }
     
   // TODO : obsolete ?
