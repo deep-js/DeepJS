@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators'
-import { TrainerServiceImpl, TrainerService } from '../trainer.service';
+import { TrainerServiceImpl, TrainerService } from '../../shared/services/trainer/trainer.service';
 
 @Component({
   selector: 'app-test-model-visualisation',

@@ -8,7 +8,7 @@ import * as api from '@api/core';
 
 export class TrainingImpl implements api.Training{
 
-  private inputs:any;
+  private inputs: any;
   private config: tf.ModelFitConfig;
   private model: tf.Model;
 

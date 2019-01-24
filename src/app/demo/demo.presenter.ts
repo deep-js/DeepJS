@@ -4,9 +4,9 @@ import { map } from 'rxjs/operators'
 import * as tf from '@tensorflow/tfjs';
 
 import * as api from '@api/core';
-import {TSModelPresenterImpl} from '../model/ts-model/ts-model.presenter';
-import {TrainerServiceImpl} from '../trainer.service';
-import {TrainingImpl} from '../training';
+import {TSModelPresenterImpl} from './model/ts-model/ts-model.presenter';
+import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
+import {TrainingImpl} from '../shared/models/training';
 
 export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
 

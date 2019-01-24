@@ -3,7 +3,7 @@ import { fromEvent } from 'rxjs';
 import {DemoComponent, DemoPresenter} from '@api/core/demo';
 import {ModelComponent, ModelPresenter} from '@api/core/model';
 import {DemoPresenterImpl} from './demo.presenter';
-import {TrainerServiceImpl} from '../trainer.service';
+import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
 
 @Component({
   selector: 'app-demo',
