@@ -7,7 +7,7 @@ import {TSModelPresenter} from '@api/core';
 import { AppComponent } from './app.component';
 
 import { TSModelComponentImpl } from './demo/model/ts-model/ts-model.component';
-import { TSModelPresenterImpl } from './demo/model/ts-model/ts-model.presenter';
+import { JSONModelComponentImpl } from './demo/model/json-model/json-model.component';
 import { DemoComponentImpl } from './demo/demo.component';
 import { TrainerService, TrainerServiceImpl } from './shared/services/trainer/trainer.service';
 import {TestModelVisualisationComponent } from './demo/test-model-visualisation/test-model-visualisation.component'
@@ -24,6 +24,7 @@ declare global {
   declarations: [
     AppComponent,
     TSModelComponentImpl,
+    JSONModelComponentImpl,
     DemoComponentImpl,
     TestModelVisualisationComponent,
     EpochVisualisationComponent 

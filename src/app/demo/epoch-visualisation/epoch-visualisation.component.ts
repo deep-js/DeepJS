@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Input, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../shared/services/trainer/trainer.service';
@@ -15,6 +15,7 @@ export class EpochVisualisationComponent implements OnInit {
   private modelTrainer: TrainerService;
   private epoch: number;
 
+  @Input() timer:number;
   @ViewChild('plus') plus: ElementRef;  // buttons controling the period
   @ViewChild('minus') minus: ElementRef;
 
@@ -35,16 +36,22 @@ export class EpochVisualisationComponent implements OnInit {
     fromEvent(this.plus.nativeElement, "click").subscribe(ev => ++this.period);
     fromEvent(this.minus.nativeElement, "click").subscribe(ev => this.period=Math.max(this.period-1,0));
 
+
     // For each TrainData emitted by TrainerService, keep only those corresponding to the
     // end of an epoch and having an epoch number multiple of the period
     this.trainer$ = this.modelTrainer.getTrainer$().pipe(
       filter(train => train.getEvent() == TrainEvent.EpochEnd && train.getEpoch() % this.period === 0)
     );
-
     // For each resulting TrainData, display the epoch number
+
+    this.trainer$.subscribe(
+      data => this.epoch = data.getEpoch()
+
+/*    setInterval(() => {
     this.trainer$.subscribe(
       data => this.epoch = data.getEpoch()
     );
+    }, this.timer);*/
   }
 
 }

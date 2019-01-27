@@ -149,6 +149,7 @@ export class TrainerServiceImpl implements TrainerService {
 
     } as tf.CustomCallbackConfig;
 
+    console.log((JSON.parse(m) as tf.Sequential);
     // Perform training
     m.fit(x, y, c);
 
