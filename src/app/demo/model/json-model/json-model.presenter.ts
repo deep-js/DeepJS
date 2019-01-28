@@ -21,31 +21,7 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
   constructor() {
 
     // Default value for the model definition
-    this.modelDef="// Define a model for linear regression.\n\
-const model = tf.sequential();\n\
-\n\
-const KERNEL_INIT = 'varianceScaling';\n\
-\n\
-//model layout is similar ConvNetJs' this.model \n\
-// 2 inpujson : x,y \n\
-model.add(tf.layers.dense({unijson: 20, inputShape: [2], activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({unijson: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({unijson: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({unijson: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({unijson: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({unijson: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({unijson: 3, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-// 3 outpujson : rgb \n\
-\n\
-const BATCH_SIZE = 250;\n\
-// did not tinker much with that \n\
-const LEARNING_RATE = 0.1;\n\
-\n\
-// ConvNetJS has a momentum variable, so the optimizer was chosen accordingly \n\
-const MOMENTUM = 0.9;\n\
-const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
-// Prepare the model for training: Specify the loss and the optimizer. \n\
-model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
+    this.modelDef="{\"class_name\":\"Sequential\",\"config\":[{\"class_name\":\"Dense\",\"config\":{\"units\":20,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense15\",\"trainable\":true,\"batch_input_shape\":[null,2],\"dtype\":\"float32\"}},{\"class_name\":\"Dense\",\"config\":{\"units\":20,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense16\",\"trainable\":true}},{\"class_name\":\"Dense\",\"config\":{\"units\":20,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense17\",\"trainable\":true}},{\"class_name\":\"Dense\",\"config\":{\"units\":20,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense18\",\"trainable\":true}},{\"class_name\":\"Dense\",\"config\":{\"units\":20,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense19\",\"trainable\":true}},{\"class_name\":\"Dense\",\"config\":{\"units\":20,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense20\",\"trainable\":true}},{\"class_name\":\"Dense\",\"config\":{\"units\":3,\"activation\":\"relu\",\"use_bias\":true,\"kernel_initializer\":{\"class_name\":\"VarianceScaling\",\"config\":{\"scale\":1,\"mode\":null,\"distribution\":null,\"seed\":null}},\"bias_initializer\":{\"class_name\":\"Zeros\",\"config\":{}},\"kernel_regularizer\":null,\"bias_regularizer\":null,\"activity_regularizer\":null,\"kernel_constraint\":null,\"bias_constraint\":null,\"name\":\"dense_Dense21\",\"trainable\":true}}],\"keras_version\":\"tfjs-layers 0.8.2\",\"backend\":\"tensor_flow.js\"}"
 
 
     // Make a Subject (kind of Observable) on the TypeScript string
@@ -59,7 +35,10 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
 
   // Imporjson tf.Model object from TypeScript string
   import():tf.Model {
-  	return JSON.parse(this.modelDef) as tf.Sequential;
+    const json = JSON.parse(this.modelDef) as tf.Sequential;
+    const model:tf.Model=  Object.assign(new tf.Model({inputs:[], outputs:[], name:""}), json);
+    model.compile
+      
   }
 
   // Provide the Observable on the Typescript string

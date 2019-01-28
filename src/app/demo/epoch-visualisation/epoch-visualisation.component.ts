@@ -45,7 +45,7 @@ export class EpochVisualisationComponent implements OnInit {
     // For each resulting TrainData, display the epoch number
 
     this.trainer$.subscribe(
-      data => this.epoch = data.getEpoch()
+      data => this.epoch = data.getEpoch());
 
 /*    setInterval(() => {
     this.trainer$.subscribe(
