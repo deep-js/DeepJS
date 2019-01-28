@@ -45,7 +45,9 @@ const LEARNING_RATE = 0.1;\n\
 const MOMENTUM = 0.9;\n\
 const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
 // Prepare the model for training: Specify the loss and the optimizer. \n\
-model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
+const compile_options = {loss: 'meanSquaredError', optimizer: optimizer};\n\
+console.log(JSON.stringify(compile_options));\n\
+model.compile(compile_options);"
 
 
     // Make a Subject (kind of Observable) on the TypeScript string
