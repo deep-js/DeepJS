@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {JsonInputComponent} from '@api/core/demo/input/jsonInput';
+import {JsonInputComponent} from '@api/core/demo/input/json-input';
 
 @Component({
   selector: 'app-json-input',

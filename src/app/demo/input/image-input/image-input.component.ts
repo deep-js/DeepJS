@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ImageInputComponent} from '@api/core/demo/input/imageInput';
+import {ImageInputComponent} from '@api/core/demo/input/image-input';
 @Component({
   selector: 'app-image-input',
   templateUrl: './image-input.component.html',
