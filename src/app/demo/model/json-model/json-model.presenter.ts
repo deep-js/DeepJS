@@ -35,7 +35,7 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
   import():Observable<tf.Model>{
     return from(tf.loadModel(
       tf.io.browserFiles(
-        this.sortTypes(this.modelFile)
+        [this.sortTypes(this.modelFile)[0]]
       )
     ).then( model => { 
       model.compile({loss: 'meanSquaredError', optimizer: tf.train.momentum(0.1,0.9)});
