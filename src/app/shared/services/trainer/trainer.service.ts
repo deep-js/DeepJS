@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
-import {ConnectableObservable, Observable, Observer} from 'rxjs'
+import {BehaviorSubject, Subject, ConnectableObservable, Observable, Observer} from 'rxjs'
 import {publish, publishReplay, shareReplay, map, share, switchMap} from 'rxjs/operators'
 import { Training } from '@api/core/training';
 
@@ -102,12 +102,15 @@ export class TrainerServiceImpl implements TrainerService {
      * share is used to share the data between multiple Observer
      * otherwise a train would be called each time a subscription is done
      */
-    this.trainer$ = trainings$.pipe( switchMap((training) =>
+    this.trainer$ = new Subject<TrainData>();
+    
+    const obs$ = trainings$.pipe( switchMap((training) =>
       Observable.create(observer => {
         this.setTraining(training);
         this.train(training, observer);
-      }).pipe(share())
+      })//.pipe(share())
     ));
+    obs$.subscribe(this.trainer$ as Subject<TrainData>);
   }
 
 
@@ -150,7 +153,7 @@ export class TrainerServiceImpl implements TrainerService {
     } as tf.CustomCallbackConfig;
 
     console.log(m);
-    console.log(JSON.stringify(m));
+    console.log(JSON.stringify({m}));
     // Perform training
     m.fit(x, y, c);
 

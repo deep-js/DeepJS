@@ -46,7 +46,7 @@ const MOMENTUM = 0.9;\n\
 const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
 // Prepare the model for training: Specify the loss and the optimizer. \n\
 const compile_options = {loss: 'meanSquaredError', optimizer: optimizer};\n\
-console.log(JSON.stringify(compile_options));\n\
+console.log(JSON.stringify({compile_options}));\n\
 model.compile(compile_options);"
 
 
@@ -60,9 +60,9 @@ model.compile(compile_options);"
   }
 
   // Imports tf.Model object from TypeScript string
-  import():tf.Model {
+  import():Observable<tf.Model>{
     let evaluated = this.evaluate(this.modelDef);
-    return evaluated;   
+    return new BehaviorSubject<tf.Model>(evaluated);   
   }
 
   /* Evaluates the TypeScript string to retrieve the tf.Model object

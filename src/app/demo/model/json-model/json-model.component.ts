@@ -10,7 +10,7 @@ import * as api from '@api/core';
 export class JSONModelComponentImpl implements OnInit, api.JSONModelComponent {
 
   // String from the textarea, corresponding to the definition of the model in TypeScript
-  private modelDef:string;
+  private modelFile:FileList;
 
   private presenter:api.JSONModelPresenter;
     
@@ -22,7 +22,7 @@ export class JSONModelComponentImpl implements OnInit, api.JSONModelComponent {
     // whenever the presenter changes ijson definition of the model
     // the string of the textarea changes
     // equivalent to double way data binding but between the component and the presenter
-    this.presenter.getModelDef$().subscribe(s => this.modelDef = s);
+    this.presenter.getModelFile$().subscribe(s => this.modelFile = s);
   }
 
   getPresenter():api.ModelPresenter{ return this.presenter; }

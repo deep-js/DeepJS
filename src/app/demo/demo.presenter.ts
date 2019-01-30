@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { map, switchMap } from 'rxjs/operators'
 import * as tf from '@tensorflow/tfjs';
 
 import * as api from '@api/core';
@@ -18,19 +18,21 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
 
   constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl) {
     this.modelPresenter = modelPresenter;
-    
+
     // Construct the Observable on Trainings from the button events
-    this.trainings$ = trainButton$.pipe(map((event) => 
+    this.trainings$ = trainButton$.pipe(switchMap((event) => 
+      modelPresenter.import()), map(model =>
         new TrainingImpl(
-        {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
-        { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true },
-        modelPresenter.import()
+          {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
+          { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true },
+          model
+        )
       )
-    ));
+    );
 
     // give it to trainer service
     trainerService.setTrainings$(this.trainings$);
-    
+
   }
 
   ngOnInit() {
