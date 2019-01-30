@@ -22,20 +22,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
 
     // Default value for the model definition
     this.modelDef="// Define a model for linear regression.\n\
-const model = tf.sequential();\n\
-\n\
-const KERNEL_INIT = 'varianceScaling';\n\
-\n\
-//model layout is similar ConvNetJs' this.model \n\
-// 2 inputs : x,y \n\
-model.add(tf.layers.dense({units: 20, inputShape: [2], activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-// 3 outputs : rgb \n\
+const model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});\n\
 \n\
 const BATCH_SIZE = 250;\n\
 // did not tinker much with that \n\

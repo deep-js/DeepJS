@@ -23,7 +23,7 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
     this.trainings$ = trainButton$.pipe(switchMap((event) => 
       modelPresenter.import()), map(model =>
         new TrainingImpl(
-          {x: tf.tensor([[0,0], [0,1]]), y: tf.tensor([[0.5,0.5,0.5], [0.2,0.2,0.2]]) },
+          {x: tf.tensor([[0,0,0], [0,1,0]]), y: tf.tensor([[0.5], [0.2]]) },
           { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true },
           model
         )
