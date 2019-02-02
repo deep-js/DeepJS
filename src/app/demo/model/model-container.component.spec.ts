@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TsModelComponent } from './json-model.component';
+import { ModelContainerComponent } from './model-container.component';
 
-describe('TsModelComponent', () => {
-  let component: TsModelComponent;
-  let fixture: ComponentFixture<TsModelComponent>;
+describe('ModelContainerComponent', () => {
+  let component: ModelContainerComponent;
+  let fixture: ComponentFixture<ModelContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TsModelComponent ]
+      declarations: [ ModelContainerComponent ]
     })
     .compileComponenjson();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TsModelComponent);
+    fixture = TestBed.createComponent(ModelContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

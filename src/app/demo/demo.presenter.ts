@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators'
 import * as tf from '@tensorflow/tfjs';
 
@@ -13,10 +13,10 @@ import {TrainingImpl} from '../shared/models/training';
  */
 export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
 
-  private modelPresenter:api.ModelPresenter;
+  private modelPresenter:api.ModelContainerPresenter;
   private trainings$:Observable<api.Training>;
 
-  constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl) {
+  constructor( modelPresenter:api.ModelContainerPresenter, trainButton$:Subject<any>, trainerService:TrainerServiceImpl) {
     this.modelPresenter = modelPresenter;
 
     // Construct the Observable on Trainings from the button events

@@ -70,12 +70,22 @@ export abstract class TrainerService {
 })
 export class TrainerServiceImpl implements TrainerService {
 
-  private currentTrainings$: Observable<Training>;
+  private currentTrainings$: Subject<Training>;
   private currentTraining: Training;
-  private trainer$: Observable<TrainData>;
+  private trainer$: Subject<TrainData>;
   private callbacks: tf.CustomCallbackConfig;
 
+
   constructor() {
+    this.currentTrainings$ = new Subject<Training>();
+    this.trainer$ = new Subject<Training>()
+          .pipe( switchMap((training) =>
+            Observable.create(observer => {
+              this.setTraining(training);
+              this.train(training, observer);
+            })
+          )) as Subject<TrainData>;
+
   }
 
   // 
@@ -94,7 +104,7 @@ export class TrainerServiceImpl implements TrainerService {
    * TrainData while the model is training
    */
   public setTrainings$( trainings$:Observable<Training>){
-    this.currentTrainings$ = trainings$;
+    //this.currentTrainings$ = trainings$;
     
     /* switchMap allows to create a new Observer of TrainData
      * for each Training coming from the training$ Observer
@@ -102,6 +112,12 @@ export class TrainerServiceImpl implements TrainerService {
      * share is used to share the data between multiple Observer
      * otherwise a train would be called each time a subscription is done
      */
+    console.log(trainings$);
+    const a$:Subject<Training> = trainings$ as Subject<Training>;
+
+    trainings$.subscribe(this.trainer$ as Subject<any>);
+    trainings$.subscribe(this.currentTrainings$ as Subject<Training>);
+    /*
     this.trainer$ = new Subject<TrainData>();
     
     const obs$ = trainings$.pipe( switchMap((training) =>
@@ -110,7 +126,7 @@ export class TrainerServiceImpl implements TrainerService {
         this.train(training, observer);
       })//.pipe(share())
     ));
-    obs$.subscribe(this.trainer$ as Subject<TrainData>);
+    obs$.subscribe(this.trainer$ as Subject<TrainData>);*/
   }
 
 
