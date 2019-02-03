@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit} from '@angular/core';
 import { map } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService } from '../../shared/services/trainer/trainer.service';
 
@@ -12,7 +12,7 @@ import { TrainerServiceImpl, TrainerService } from '../../shared/services/traine
   styleUrls: ['./test-model-visualisation.component.css']
   
 })
-export class TestModelVisualisationComponent implements OnInit {
+export class TestModelVisualisationComponent implements AfterViewInit {
 
   modelTrainer: TrainerService;
   out: string;  // textual summary of the model
@@ -22,7 +22,7 @@ export class TestModelVisualisationComponent implements OnInit {
     this.out = "";
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     // for each model trained by TrainerService, display its summary
     this.modelTrainer.getCurrentTrainings$().subscribe( (training) => {
       // do whatever with model

@@ -1,4 +1,4 @@
-import { Input, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Input, Component, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../shared/services/trainer/trainer.service';
@@ -10,7 +10,7 @@ import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../..
 })
 
 // Ghetto implementation of epoch visualisation
-export class EpochVisualisationComponent implements OnInit {
+export class EpochVisualisationComponent implements AfterContentInit {
 
   private modelTrainer: TrainerService;
   private epoch: number;
@@ -30,7 +30,7 @@ export class EpochVisualisationComponent implements OnInit {
     this.epoch = 0;
   }
 
-  ngOnInit() {
+  ngAfterContentInit() {
 
     // each time a button is pressed, update training
     fromEvent(this.plus.nativeElement, "click").subscribe(ev => ++this.period);

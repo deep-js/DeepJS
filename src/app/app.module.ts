@@ -6,6 +6,8 @@ import {TSModelPresenter} from '@api/core';
 
 import { AppComponent } from './app.component';
 
+// TODO : can't we link the interfaces there ? by putting the @Component in them ?
+import { ModelContainerComponentImpl } from './demo/model/model-container.component';
 import { TSModelComponentImpl } from './demo/model/ts-model/ts-model.component';
 import { JSONModelComponentImpl } from './demo/model/json-model/json-model.component';
 import { DemoComponentImpl } from './demo/demo.component';
@@ -25,6 +27,7 @@ declare global {
 
 @NgModule({
   declarations: [
+    ModelContainerComponentImpl,
     AppComponent,
     TSModelComponentImpl,
     JSONModelComponentImpl,
