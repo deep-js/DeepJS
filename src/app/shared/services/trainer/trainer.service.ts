@@ -78,13 +78,7 @@ export class TrainerServiceImpl implements TrainerService {
 
   constructor() {
     this.currentTrainings$ = new Subject<Training>();
-    this.trainer$ = new Subject<Training>()
-          .pipe( switchMap((training) =>
-            Observable.create(observer => {
-              this.setTraining(training);
-              this.train(training, observer);
-            })
-          )) as Subject<TrainData>;
+    this.trainer$ = new Subject<TrainData>();
 
   }
 
@@ -115,7 +109,12 @@ export class TrainerServiceImpl implements TrainerService {
     console.log(trainings$);
     const a$:Subject<Training> = trainings$ as Subject<Training>;
 
-    trainings$.subscribe(this.trainer$ as Subject<any>);
+    trainings$.pipe( switchMap((training) =>
+            Observable.create(observer => {
+              this.setTraining(training);
+              this.train(training, observer);
+            })
+          )).subscribe(this.trainer$ as Subject<any>);
     trainings$.subscribe(this.currentTrainings$ as Subject<Training>);
     /*
     this.trainer$ = new Subject<TrainData>();
