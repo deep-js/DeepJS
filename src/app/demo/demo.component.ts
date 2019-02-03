@@ -37,12 +37,7 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
     const a$ = new Subject<any>();
     fromEvent(this.trainButton.nativeElement, 'click').subscribe(a$);
     // Presenter takes all child component's presenters as arguments as well as the trainer service
-<<<<<<< HEAD
     this.demo = new DemoPresenterImpl(this.modelContainer.getPresenter(), a$, this.trainerService, this.input.getPresenter());
-=======
-    this.demo = new DemoPresenterImpl(this.modelContainer.getPresenter(), a$, this.trainerService);
-    
->>>>>>> Added the button that hide and show the list of training parameters
   }
 
 }
