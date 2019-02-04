@@ -1,6 +1,7 @@
 import {InputComponent} from '../input.component';
-import { InputDataService } from 'src/app/shared/services/input-data/input-data.service';
+import { JsonInputPresenter } from './json-input.presenter';
 
 export interface JsonInputComponent extends InputComponent{
-	createInputData():InputDataService;
+	createInputData();
+	getPresenter():JsonInputPresenter;
 }

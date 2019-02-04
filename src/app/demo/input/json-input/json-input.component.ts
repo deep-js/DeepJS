@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {JsonInputComponent} from '@api/core/demo/input/json-input';
-
-import { isArray, isNumber } from 'util';
-import * as tf from '@tensorflow/tfjs';
+import { JsonInputPresenter } from '@api/core/demo/input/json-input/json-input.presenter'
 import { JsonInputPresenterImpl } from './json-input.presenter';
-import { InputDataService } from 'src/app/shared/services/input-data/input-data.service';
-import { InputDataServiceImpl } from 'src/app/shared/services/input-data/input-data.service';
 
 @Component({
   selector: 'app-json-input',
@@ -16,16 +12,23 @@ export class JsonInputComponentImpl implements OnInit, JsonInputComponent {
 
   private str: string;
   private labelImportOK: string
+  private presenter:JsonInputPresenter;
 
-  createInputData(): InputDataService {
-    var json = JSON.parse(this.str);
-    this.labelImportOK = "Dataset imported !";
-    return new InputDataServiceImpl(tf.tensor(json["x"]), tf.tensor(json["y"]));
+  constructor() { 
+    this.presenter = new JsonInputPresenterImpl();
   }
 
-  constructor() { }
-
   ngOnInit() {
+  }
+
+  createInputData() {
+    var json = JSON.parse(this.str);
+    this.labelImportOK = "Dataset imported !";
+    this.presenter.createInputData(json);
+  }
+
+  getPresenter():JsonInputPresenter {
+    return this.presenter;
   }
 
 }
