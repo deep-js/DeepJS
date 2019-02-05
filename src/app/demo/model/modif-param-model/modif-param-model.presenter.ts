@@ -12,10 +12,24 @@ export class ModifParamModelPresenterImpl implements api.ModifParamModelPresente
     private modelDef: string;
     private modelDef$: Subject<string>;
 
+    // Problem on the Train button : does not work
+
     constructor() {
 
       // Default value for the model definition
-      this.modelDef="";
+      this.modelDef="batchSize = \n\
+epochs = \n\
+verbose = \n\
+callbacks = \n\
+validationSplit = \n\
+validationData = \n\
+shuffle = \n\
+classWeight = \n\
+sampleWeight = \n\
+initialEpoch = \n\
+stepsPerEpoch = \n\
+validationSteps = \n\
+yieldEvery = "
   
   
       // Make a Subject (kind of Observable) on the TypeScript string
