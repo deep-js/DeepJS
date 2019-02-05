@@ -17,6 +17,7 @@ import {EpochVisualisationComponent } from './demo/epoch-visualisation/epoch-vis
 import { InputComponentImpl } from './demo/input/input.component';
 import { ImageInputComponentImpl } from './demo/input/image-input/image-input.component';
 import { JsonInputComponentImpl } from './demo/input/json-input/json-input.component'
+import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/modif-param-model.component';
 
 declare global {
   interface Window {
@@ -36,7 +37,8 @@ declare global {
     EpochVisualisationComponent,
     InputComponentImpl,
     ImageInputComponentImpl,
-    JsonInputComponentImpl 
+    JsonInputComponentImpl,
+    ModifParamModelComponentImpl 
   ],
   imports: [
     BrowserModule,
