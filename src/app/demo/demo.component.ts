@@ -1,6 +1,6 @@
-import { ViewChild, Component, OnInit, ElementRef} from '@angular/core';
-import { fromEvent } from 'rxjs';
-import {DemoComponent, DemoPresenter} from '@api/core/demo';
+import { AfterViewInit, ViewChild, Component, OnInit, ElementRef} from '@angular/core';
+import { Subject, fromEvent } from 'rxjs';
+import {DemoComponent, DemoPresenter, InputComponent, JsonInputComponent} from '@api/core/demo';
 import {ModelComponent, ModelPresenter} from '@api/core/model';
 import {DemoPresenterImpl} from './demo.presenter';
 import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
@@ -17,7 +17,7 @@ import { InputData } from '@api/core/inputData';
 })
 export class DemoComponentImpl implements OnInit, DemoComponent {
 
-  @ViewChild('input') inputData:InputData;
+  @ViewChild('input') input:JsonInputComponent;
 
   // TODO : dynamically choose modelcomponent
   @ViewChild('model') model:ModelComponent;
@@ -35,7 +35,7 @@ export class DemoComponentImpl implements OnInit, DemoComponent {
 
   ngOnInit() {
     // Presenter takes all child component's presenters as arguments as well as the trainer service
-    this.demo = new DemoPresenterImpl(this.model.getPresenter(),fromEvent(this.trainButton.nativeElement, 'click'), this.trainerService, this.inputData);
+    this.demo = new DemoPresenterImpl(this.model.getPresenter(),fromEvent(this.trainButton.nativeElement, 'click'), this.trainerService, this.input.getPresenter());
   }
 
 }
