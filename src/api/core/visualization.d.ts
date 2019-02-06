@@ -5,3 +5,4 @@ export * from './visualization/visualization.component';
 export * from './visualization/visualization.presenter';
 export * from './visualization/visualization-container.component';
 export * from './visualization/visualization-container.presenter';
+export * from './visualization/visualization-item';

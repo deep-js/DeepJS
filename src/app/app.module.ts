@@ -17,7 +17,8 @@ import {EpochVisualizationComponent } from './demo/visualization/visualization-t
 import { InputComponentImpl } from './demo/input/input.component';
 import { ImageInputComponentImpl } from './demo/input/image-input/image-input.component';
 import { JsonInputComponentImpl } from './demo/input/json-input/json-input.component';
-import { VisualizationContainerComponentImpl } from './demo/visualization/visualization-container.component'
+import { VisualizationContainerComponentImpl } from './demo/visualization/visualization-container.component';
+import { VisualizationItemComponent } from './demo/visualization/visualization-item/visualization-item.component'
 
 declare global {
   interface Window {
@@ -38,7 +39,8 @@ declare global {
     InputComponentImpl,
     ImageInputComponentImpl,
     JsonInputComponentImpl,
-    VisualizationContainerComponentImpl
+    VisualizationContainerComponentImpl,
+    VisualizationItemComponent
   ],
   imports: [
     BrowserModule,
