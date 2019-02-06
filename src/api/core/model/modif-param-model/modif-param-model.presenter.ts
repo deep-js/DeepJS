@@ -1,8 +1,7 @@
-import { ModelPresenter } from '../model.presenter';
-import { Subject } from 'rxjs';
+import { ModelFitConfig } from '@tensorflow/tfjs';
 
-export interface ModifParamModelPresenter extends ModelPresenter {
-  getModelDef$():Subject<string>;
-  setModelDef(modelDef:string);
+export interface ModifParamModelPresenter {
+  getModelFitConfig():ModelFitConfig;
+  setModelFitConfig():void;
 
 }
