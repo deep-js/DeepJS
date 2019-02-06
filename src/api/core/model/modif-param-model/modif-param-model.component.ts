@@ -1,8 +1,8 @@
 import { ModelComponent } from '../model.component';
+import { ModelFitConfig } from '@tensorflow/tfjs';
 
 
-export interface ModifParamModelComponent extends ModelComponent {
-
+export interface ModifParamModelComponent {
 
 }
 

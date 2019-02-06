@@ -6,67 +6,72 @@ import { Subject, BehaviorSubject} from 'rxjs';
 import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
+import { ModelFitConfig } from '@tensorflow/tfjs';
 
 export class ModifParamModelPresenterImpl implements api.ModifParamModelPresenter{
 
-    private modelDef: string;
-    private modelDef$: Subject<string>;
+    private modelFitConfig: ModelFitConfig;
 
-    // Problem on the Train button : does not work
+    // CHANGER DE VERSION DE TENSORFLOW ET MODIFIER MODELFITCONFIG EN MODELFITARGS
+
+    private buttons : string[] = [
+      'batchSize',
+      'epochs',
+      'verbose',
+      'callbacks',
+      'validationSplit',
+      'validationData',
+      'shuffle',
+      'classWeight',
+      'sampleWeight',
+      'initialEpoch',
+      'stepsPerEpoch',
+      'validationSteps',
+      'yieldEvery'
+
+    ];
 
     constructor() {
-
-      // Default value for the model definition
-      this.modelDef="batchSize = \n\
-epochs = \n\
-verbose = \n\
-callbacks = \n\
-validationSplit = \n\
-validationData = \n\
-shuffle = \n\
-classWeight = \n\
-sampleWeight = \n\
-initialEpoch = \n\
-stepsPerEpoch = \n\
-validationSteps = \n\
-yieldEvery = "
-  
-  
-      // Make a Subject (kind of Observable) on the TypeScript string
-      this.modelDef$ = new BehaviorSubject<string>(this.modelDef);
       
-      // Subscribe to it so we get updates from the Component
-      // (the Component does a next on it at each key press)
-      // Skip ourself sending the first string
-      this.modelDef$.pipe( skip(1) ).subscribe(s => this.modelDef=s)
     }
-  
-    // Imports tf.Model object from TypeScript string
-    import():Observable<tf.Model>{
-      let evaluated = this.evaluate(this.modelDef);
-      return new BehaviorSubject<tf.Model>(evaluated);   
-    }
-  
-    /* Evaluates the TypeScript string to retrieve the tf.Model object
-      *
-      * Evaluating typescript code in the browser is a pain
-      * mainly because modules (here tensorflow) must be available
-      * at runtime
-      * For that purpose tensorflow's source is added to "scripts"
-      * in angular.json so that it is available when the code is
-      * evaluated
-      * #uglyhack
-      */
-    evaluate(s:string) {
-      // Add model at the end so that it is returned by eval
-      let result = ts.transpile(s+";model;");
-      return JSON.parse(result);
-    }
-  
-    // Provide the Observable on the Typescript string
-    getModelDef$():Subject<string> { return this.modelDef$; }
-      
-    // TODO : obsolete ?
-    setModelDef(s:string):void { this.modelDef = s; }
 
+    // Return the ModelFitConfig 
+    getModelFitConfig():ModelFitConfig{
+      this.setModelFitConfig(); // Just to test, bad thing to do
+      //return this.modelFitConfig = Object.assign({batchSize : 10, epochs : 10}, this.modelFitConfig);
+      return <ModelFitConfig> this.modelFitConfig;
+    }
+
+    // Set the ModelFitConfig with the parameters in the text box
+    setModelFitConfig():void {
+      this.modelFitConfig = {
+        // Parameters with their default value if they have one
+        batchSize: 32,
+        epochs: 1,
+        verbose: 1,
+        //callbacks: 0,
+        validationSplit: 0,
+        //validationData: 0,
+        shuffle: true,
+        //classWeight: 0,
+        //sampleWeight: 0,
+        initialEpoch: 0,
+        stepsPerEpoch: 0,
+        validationSteps: 0,
+        yieldEvery: 'auto'
+      }
+    }
+
+    getParams():string[]{
+      return this.buttons;
+    }
+
+    hideAndShowTrainParm() {
+      var x = document.getElementById("modif-param");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
 }

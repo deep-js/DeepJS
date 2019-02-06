@@ -1,9 +1,8 @@
-<h1>
-  Modification of training parameters
-</h1>
-<textarea [(ngModel)]="modelDef" col="120" row="22" style="width: 450px; height: 205px;" (keyup)="this.presenter.getModelDef$().next(modelDef)">
-</textarea>
-
-  
-  
-  
+<button (click)="this.presenter.hideAndShowTrainParm()">Modification of training parameters</button>
+<div id="modif-param">
+  <div *ngFor="let param of this.presenter.getParams()" >
+    {{param}}
+    <input *ngIf="true"/>
+  </div>
+</div>
+<!-- Faire une map Map<String, {variable : Type, type : string }> -->

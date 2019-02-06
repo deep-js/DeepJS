@@ -35,6 +35,7 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
     fromEvent(this.trainButton.nativeElement, 'click').subscribe(a$);
     // Presenter takes all child component's presenters as arguments as well as the trainer service
     this.demo = new DemoPresenterImpl(this.modelContainer.getPresenter(), a$, this.trainerService);
+    
   }
 
 }
