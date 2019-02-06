@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ImageInputComponent} from '@api/core/demo/input/image-input';
+import {ImageInputComponent, ImageInputPresenter} from '@api/core/demo/input/image-input';
+import { InputPresenter } from '@api/core';
 @Component({
   selector: 'app-image-input',
   templateUrl: './image-input.component.html',
@@ -12,4 +13,7 @@ export class ImageInputComponentImpl implements OnInit, ImageInputComponent{
   ngOnInit() {
   }
 
+  getPresenter():InputPresenter {
+    return null;
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InputComponent } from '@api/core/demo/input';
+import { InputComponent, InputPresenter } from '@api/core/demo/input';
 
 @Component({
   selector: 'app-input',
@@ -11,6 +11,10 @@ export class InputComponentImpl implements OnInit, InputComponent {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getPresenter():InputPresenter {
+    return null;
   }
 
 }
