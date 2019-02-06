@@ -17,7 +17,7 @@ import { InputData } from '@api/core/inputData';
 })
 export class DemoComponentImpl implements OnInit, DemoComponent {
 
-  @ViewChild('input') input:JsonInputComponent;
+  @ViewChild('input') input:InputComponent;
 
   // TODO : dynamically choose modelcomponent
   @ViewChild('model') model:ModelComponent;

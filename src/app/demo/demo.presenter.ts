@@ -9,7 +9,7 @@ import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
 import {TrainingImpl} from '../shared/models/training';
 import { InputDataImpl } from '../shared/models/inputData';
 import { InputData } from '@api/core/inputData';
-import { JsonInputPresenter } from '@api/core';
+import { JsonInputPresenter, InputPresenter } from '@api/core';
 
 /* Presenter for the DemoComponent
  * performs the logic for it
@@ -18,9 +18,9 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
 
   private modelPresenter:api.ModelPresenter;
   private trainings$:Observable<api.Training>;
-  private inputPresenter: JsonInputPresenter;
+  private inputPresenter: InputPresenter;
 
-  constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl, inputPresenter:JsonInputPresenter) {
+  constructor( modelPresenter:api.ModelPresenter, trainButton$:Observable<any>, trainerService:TrainerServiceImpl, inputPresenter:InputPresenter) {
     this.modelPresenter = modelPresenter;
     this.inputPresenter = inputPresenter;
 
