@@ -1,3 +1,5 @@
+export {ModelContainerComponent} from './model/model-container.component'
+export {ModelContainerPresenter} from './model/model-container.presenter'
 export {ModelComponent} from './model/model.component'
 export {ModelPresenter} from './model/model.presenter'
 export * from './model/ts-model'
