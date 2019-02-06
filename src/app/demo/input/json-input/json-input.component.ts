@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {JsonInputComponent} from '@api/core/demo/input/json-input';
+import * as api from '@api/core';
+import {JsonInputPresenterImpl} from './json-input.presenter';
 
 @Component({
   selector: 'app-json-input',
@@ -8,9 +10,25 @@ import {JsonInputComponent} from '@api/core/demo/input/json-input';
 })
 export class JsonInputComponentImpl implements OnInit, JsonInputComponent {
 
-  constructor() { }
+	private presenter:api.JsonInputPresenter;
+
+  data1 : string = "json1";
+  data2 : string = "json2";
+    
+  constructor(){
+    this.presenter = new JsonInputPresenterImpl();
+  }
 
   ngOnInit() {
   }
+
+  click(){
+    console.log("click json");
+    this.data1 = this.presenter.changeData1();
+    this.data2 = this.presenter.changeData2();
+  }
+
+
+  getPresenter():api.JsonInputPresenter{ return this.presenter; }
 
 }
