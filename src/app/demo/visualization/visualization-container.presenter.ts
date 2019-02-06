@@ -1,11 +1,9 @@
 import { VisualizationContainerPresenter } from '@api/core';
 
-export class VisualizationContainerPresenterImpl implements VisualizationContainerPresenter, OnInit {
+export class VisualizationContainerPresenterImpl implements VisualizationContainerPresenter{
 
   constructor() { }
 
-  ngOnInit() {
-  }
 
 }
 

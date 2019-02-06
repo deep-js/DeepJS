@@ -1,6 +1,6 @@
 import { Component, AfterViewInit} from '@angular/core';
 import { map } from 'rxjs/operators'
-import { TrainerServiceImpl, TrainerService } from '../../shared/services/trainer/trainer.service';
+import { TrainerServiceImpl, TrainerService } from '../../../../shared/services/trainer/trainer.service';
 
 
 /* Quick implementation of a textual model visualisation

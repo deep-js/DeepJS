@@ -1,5 +1,5 @@
 import { VisualizationComponent } from '../visualization.component';
 
-export interface VisualizationTrainingComponent extends VisualisationComponent {
+export interface VisualizationTrainingComponent extends VisualizationComponent {
 
 }

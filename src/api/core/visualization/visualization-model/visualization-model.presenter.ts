@@ -1,5 +1,5 @@
 import { VisualizationPresenter } from '../visualization.presenter';
 
-export interface VisualizationModelPresenter extends VisualisationPresenter {
+export interface VisualizationModelPresenter extends VisualizationPresenter {
 
 }
