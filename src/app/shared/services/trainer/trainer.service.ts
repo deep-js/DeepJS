@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import {BehaviorSubject, Subject, ConnectableObservable, Observable, Observer} from 'rxjs'
 import {publish, publishReplay, shareReplay, map, share, switchMap} from 'rxjs/operators'
-import { Training } from '@api/core/training';
+import * as api from '@api/core';
 
 
 
@@ -120,8 +120,10 @@ export class TrainerServiceImpl implements TrainerService {
    * each time a new event is emitted (end of an epoch etc)
    */
   train(training:Training, observer:Observer<TrainData>){
-    let x = training.getInputs().x;
-    let y = training.getInputs().y;
+    console.log(training.getInputs() as api.InputData);
+    console.log(training.getModel());
+    let x = training.getInputs().getXTensor();
+    let y = training.getInputs().getYTensor();
     let m = training.getModel() as tf.Sequential;
     let c = training.getConfig() as tf.ModelFitConfig;
 

@@ -12,7 +12,7 @@ import { DemoComponentImpl } from './demo/demo.component';
 import { TrainerService, TrainerServiceImpl } from './shared/services/trainer/trainer.service';
 import {TestModelVisualisationComponent } from './demo/test-model-visualisation/test-model-visualisation.component'
 import {EpochVisualisationComponent } from './demo/epoch-visualisation/epoch-visualisation.component';
-import { InputComponentImpl } from './demo/input/input.component';
+import { InputContainerComponentImpl } from './demo/input/input-container.component';
 import { ImageInputComponentImpl } from './demo/input/image-input/image-input.component';
 import { JsonInputComponentImpl } from './demo/input/json-input/json-input.component'
 
@@ -31,7 +31,7 @@ declare global {
     DemoComponentImpl,
     TestModelVisualisationComponent,
     EpochVisualisationComponent,
-    InputComponentImpl,
+    InputContainerComponentImpl,
     ImageInputComponentImpl,
     JsonInputComponentImpl 
   ],

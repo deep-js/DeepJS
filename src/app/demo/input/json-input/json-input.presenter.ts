@@ -5,19 +5,23 @@ import * as tf from '@tensorflow/tfjs';
 
 export class JsonInputPresenterImpl implements JsonInputPresenter {
 
-    private input:InputData;
+  private input:InputData;
+  private json:string;
 
-    createInputData(str: string): boolean {
-        var json = JSON.parse(str);
-        this.input = new InputDataImpl(tf.tensor(json["x"]), tf.tensor(json["y"]));
-        return true;
-    }
+  createInputData(str:string): boolean {
+    console.log(str);
+    var json = JSON.parse(str);
+    this.input = new InputDataImpl(tf.tensor(json["x"]), tf.tensor(json["y"]));
+    return true;
+  }
 
-    getXTensor():tf.Tensor {
-        return this.input.getXTensor();
-    }
+  setJSON(str:string){
+    this.json = str;
+  }
 
-    getYTensor():tf.Tensor {
-        return this.input.getYTensor();
-    }
+  getInputData():InputData {
+    this.createInputData(this.json);
+    return this.input;
+  }
+
 }

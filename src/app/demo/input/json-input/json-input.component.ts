@@ -16,14 +16,11 @@ export class JsonInputComponentImpl implements OnInit, JsonInputComponent {
 
   constructor() { 
     this.presenter = new JsonInputPresenterImpl();
+    this.str = "{\"x\": [[0,0,0], [0,1,0]], \"y\": [[0.5], [0.2]] }"
+    this.presenter.setJSON(this.str);
   }
 
   ngOnInit() {
-  }
-
-  createInputData() {
-    if (this.presenter.createInputData(this.str))
-      this.labelImportOK = "Dataset imported !";
   }
 
   getPresenter():JsonInputPresenter {

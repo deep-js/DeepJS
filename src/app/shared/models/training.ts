@@ -11,7 +11,7 @@ import * as api from '@api/core';
  */
 export class TrainingImpl implements api.Training{
 
-  private inputs:any;
+  private inputs:api.InputData;
   private config: tf.ModelFitConfig;  // training parameters
   private model: tf.Model;
 
@@ -21,11 +21,11 @@ export class TrainingImpl implements api.Training{
     this.model = model;
   }
 
-  getInputs(): any { return this.inputs; }
+  getInputs(): api.InputData { return this.inputs; }
   getConfig(): tf.ModelFitConfig { return this.config; }
   getModel(): tf.Model { return this.model; }
   
-  setInputs(inputs: any):void { this.inputs = inputs; }
+  setInputs(inputs: api.InputData):void { this.inputs = inputs; }
   setConfig(config: tf.ModelFitConfig):void { this.config = config; }
   setModel(model: tf.Model):void { this.model = model; }
 }
