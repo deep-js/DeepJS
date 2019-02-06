@@ -1,6 +1,8 @@
 import { Component, AfterViewInit} from '@angular/core';
 import { map } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService } from '../../../../shared/services/trainer/trainer.service';
+import {VisualizationModelPresenter, VisualizationModelComponent} from '@api/core';
+import { TestModelVisualizationPresenter } from './test-model-visualisation.presenter';
 
 
 /* Quick implementation of a textual model visualisation
@@ -12,25 +14,18 @@ import { TrainerServiceImpl, TrainerService } from '../../../../shared/services/
   styleUrls: ['./test-model-visualisation.component.css']
   
 })
-export class TestModelVisualisationComponent implements AfterViewInit {
+export class TestModelVisualizationComponent implements AfterViewInit, VisualizationModelComponent{
 
-  modelTrainer: TrainerService;
   out: string;  // textual summary of the model
+  presenter: VisualizationModelPresenter;
 
   constructor(modelTrainer: TrainerServiceImpl) {
-    this.modelTrainer = modelTrainer;
     this.out = "";
+    this.presenter = new TestModelVisualizationPresenter(modelTrainer);
   }
 
   ngAfterViewInit() {
-    // for each model trained by TrainerService, display its summary
-    this.modelTrainer.getCurrentTrainings$().subscribe( (training) => {
-      // do whatever with model
-      this.out = "";  // reset model summary
-      training.getModel().summary(80,[30,60,90], x => this.out+=x+"\n");  // 2nd argument : for each line of the generated summary, add it to the string being displayed
-    }
-    )
-
+    this.presenter.getData$().subscribe((data) => this.out = data);
   }
 
 }
