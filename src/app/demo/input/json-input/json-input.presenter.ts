@@ -7,7 +7,9 @@ export class JsonInputPresenterImpl implements JsonInputPresenter {
 
     private input:InputData;
 
-    createInputData(json: any) {
+    createInputData(str: string): boolean {
+        var json = JSON.parse(str);
         this.input = new InputDataImpl(tf.tensor(json["x"]), tf.tensor(json["y"]));
+        return true;
       }
 }

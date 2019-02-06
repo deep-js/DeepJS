@@ -22,9 +22,8 @@ export class JsonInputComponentImpl implements OnInit, JsonInputComponent {
   }
 
   createInputData() {
-    var json = JSON.parse(this.str);
-    this.labelImportOK = "Dataset imported !";
-    this.presenter.createInputData(json);
+    if (this.presenter.createInputData(this.str))
+      this.labelImportOK = "Dataset imported !";
   }
 
   getPresenter():JsonInputPresenter {
