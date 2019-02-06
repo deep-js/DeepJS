@@ -40,7 +40,7 @@ export class InputComponentImpl implements OnInit, api.InputComponent, DoCheck {
       let viewContainerRef = this.injectComponent.viewContainerRef;
       viewContainerRef.clear();
       let componentRef = viewContainerRef.createComponent(componentFactory);
-      this.child = componentRef.instance;
+      this.child = <api.InputComponent>componentRef.instance;
       this.presenter = new InputPresenterImpl(this.child.getPresenter());
     }
   }

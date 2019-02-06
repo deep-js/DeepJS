@@ -10,7 +10,7 @@ import {JsonInputPresenterImpl} from './json-input.presenter';
 })
 export class JsonInputComponentImpl implements OnInit, JsonInputComponent {
 
-	private presenter:api.JsonInputPresenter;
+	private presenter: JsonInputPresenterImpl;
 
   data1 : string = "json1";
   data2 : string = "json2";
@@ -26,6 +26,7 @@ export class JsonInputComponentImpl implements OnInit, JsonInputComponent {
     console.log("click json");
     this.data1 = this.presenter.changeData1();
     this.data2 = this.presenter.changeData2();
+    console.log(this.data1);
   }
 
 
