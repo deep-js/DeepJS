@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EpochVisualisationComponent } from './epoch-visualisation.component';
+import { EpochVisualizationComponent } from './epoch-visualisation.component';
 
-describe('EpochVisualisationComponent', () => {
-  let component: EpochVisualisationComponent;
-  let fixture: ComponentFixture<EpochVisualisationComponent>;
+describe('EpochVisualizationComponent', () => {
+  let component: EpochVisualizationComponent;
+  let fixture: ComponentFixture<EpochVisualizationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EpochVisualisationComponent ]
+      declarations: [ EpochVisualizationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EpochVisualisationComponent);
+    fixture = TestBed.createComponent(EpochVisualizationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TsModelComponent } from './json-model.component';
+import { JSONModelComponentImpl } from './json-model.component';
 
-describe('TsModelComponent', () => {
-  let component: TsModelComponent;
-  let fixture: ComponentFixture<TsModelComponent>;
+describe('JSONModelComponentImpl', () => {
+  let component: JSONModelComponentImpl;
+  let fixture: ComponentFixture<JSONModelComponentImpl>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TsModelComponent ]
+      declarations: [ JSONModelComponentImpl ]
     })
-    .compileComponenjson();
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TsModelComponent);
+    fixture = TestBed.createComponent(JSONModelComponentImpl);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

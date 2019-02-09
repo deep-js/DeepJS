@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TsModelComponent } from './ts-model.component';
+import { TSModelComponentImpl } from './ts-model.component';
 
-describe('TsModelComponent', () => {
-  let component: TsModelComponent;
-  let fixture: ComponentFixture<TsModelComponent>;
+describe('TSModelComponentImpl', () => {
+  let component: TSModelComponentImpl;
+  let fixture: ComponentFixture<TSModelComponentImpl>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TsModelComponent ]
+      declarations: [ TSModelComponentImpl ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TsModelComponent);
+    fixture = TestBed.createComponent(TSModelComponentImpl);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
