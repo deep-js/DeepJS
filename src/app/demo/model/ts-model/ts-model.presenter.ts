@@ -22,20 +22,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
 
     // Default value for the model definition
     this.modelDef="// Define a model for linear regression.\n\
-const model = tf.sequential();\n\
-\n\
-const KERNEL_INIT = 'varianceScaling';\n\
-\n\
-//model layout is similar ConvNetJs' this.model \n\
-// 2 inputs : x,y \n\
-model.add(tf.layers.dense({units: 20, inputShape: [2], activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 20, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-model.add(tf.layers.dense({units: 3, activation: 'relu', kernelInitializer: KERNEL_INIT}));\n\
-// 3 outputs : rgb \n\
+const model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});\n\
 \n\
 const BATCH_SIZE = 250;\n\
 // did not tinker much with that \n\
@@ -45,7 +32,9 @@ const LEARNING_RATE = 0.1;\n\
 const MOMENTUM = 0.9;\n\
 const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
 // Prepare the model for training: Specify the loss and the optimizer. \n\
-model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
+const compile_options = {loss: 'meanSquaredError', optimizer: optimizer};\n\
+console.log(JSON.stringify({compile_options}));\n\
+model.compile(compile_options);"
 
 
     // Make a Subject (kind of Observable) on the TypeScript string
@@ -58,9 +47,9 @@ model.compile({loss: 'meanSquaredError', optimizer: optimizer});"
   }
 
   // Imports tf.Model object from TypeScript string
-  import():tf.Model {
+  import():Observable<tf.Model>{
     let evaluated = this.evaluate(this.modelDef);
-    return evaluated;   
+    return new BehaviorSubject<tf.Model>(evaluated);   
   }
 
   /* Evaluates the TypeScript string to retrieve the tf.Model object
