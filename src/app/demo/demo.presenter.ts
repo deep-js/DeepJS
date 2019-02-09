@@ -16,12 +16,10 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
   private modelPresenter:api.ModelContainerPresenter;
   private trainings$:Observable<api.Training>;
 
-  constructor( modelPresenter:api.ModelContainerPresenter, trainButton$:Subject<any>, trainerService:TrainerServiceImpl) {
-    this.modelPresenter = modelPresenter;
-
     // Construct the Observable on Trainings from the button events
-    this.trainings$ = trainButton$.pipe(switchMap((event) => 
-      modelPresenter.import()), map(model =>
+    private createTrainingsObservable(Observable<any> button$, Observable<tf.Model> model$):Observable<Training>{
+    return trainButton$.pipe(switchMap((event) => 
+      model$), map(model =>
         new TrainingImpl(
           {x: tf.tensor([[0,0,0], [0,1,0]]), y: tf.tensor([[0.5], [0.2]]) },
           { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true },
@@ -29,7 +27,13 @@ export class DemoPresenterImpl implements OnInit, api.DemoPresenter {
         )
       )
     );
+    }
+	
 
+
+  constructor( modelPresenter:api.ModelContainerPresenter, trainButton$:Subject<any>, trainerService:TrainerServiceImpl) {
+    this.modelPresenter = modelPresenter;
+    createTrainingsObservable(trainButton$, this.modelPresenter.import());
     // give it to trainer service
     trainerService.setTrainings$(this.trainings$);
 
