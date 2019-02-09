@@ -1,11 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {VisualizationItemPresenter} from '@api/core';
 
-@Component({
-  selector: 'app-visualization-item',
-  templateUrl: './visualization-item.component.html',
-  styleUrls: ['./visualization-item.component.css']
-})
-export class VisualizationItemComponent implements OnInit {
+export class VisualizationItemPresenterImpl implements VisualizationItemPresenter {
 
   constructor() { }
 

@@ -18,7 +18,7 @@ import { InputContainerComponentImpl } from './demo/input/input-container.compon
 import { ImageInputComponentImpl } from './demo/input/image-input/image-input.component';
 import { JsonInputComponentImpl } from './demo/input/json-input/json-input.component';
 import { VisualizationContainerComponentImpl } from './demo/visualization/visualization-container.component';
-import { VisualizationItemComponent } from './demo/visualization/visualization-item/visualization-item.component'
+import { VisualizationItemComponentImpl } from './demo/visualization/visualization-item/visualization-item.component'
 
 declare global {
   interface Window {
@@ -40,7 +40,7 @@ declare global {
     ImageInputComponentImpl,
     JsonInputComponentImpl,
     VisualizationContainerComponentImpl,
-    VisualizationItemComponent
+    VisualizationItemComponentImpl
   ],
   imports: [
     BrowserModule,
