@@ -2,28 +2,17 @@ import { fakeAsync, flush } from '@angular/core/testing';
 
 import {BehaviorSubject, Subject, ConnectableObservable, Observable, Observer} from 'rxjs'
 import { take, first, last} from 'rxjs/operators';
-import { TrainEvent, TrainData0, TrainerServiceImpl } from './trainer.service';
-import {Training} from '@api/core';
-import {InputDataImpl} from '../../models/inputData';
-import {TrainingImpl} from '../../models/training';
+import { TSModelPresenterImpl } from './ts-model.prensenter';
 import * as tf from '@tensorflow/tfjs';
 
-describe('TrainerServiceImpl', () => {
-  let trainings$, training;
-  let s:TrainerServiceImpl;
-  let trainParam;
+describe('TSModelPresenterImpl', () => {
+  let m:TSModelPresenterImpl;
   let model;
-  let input;
-  let trainings$Observer;
 
   beforeEach(() => {
-    trainParam = { batchSize: 1, epochs: 1, validationSplit: 0};
-    model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});
-    model.compile({loss: 'meanSquaredError', optimizer: tf.train.momentum(0.1,0.9)});
-    input = new InputDataImpl(tf.tensor([[0,1,0]]), tf.tensor([[0.2]]));
-    training = new TrainingImpl(input, trainParam, model);
+    m = new TSModelPresenterImpl();
     trainings$ = new Subject<Training>();
-    s = new TrainerServiceImpl();
+    s = new TSModelPresenterImpl();
   });
 
   it('should have values returned by getCurrentTrainings$ identical to values passed to setTrainings$', () => {

@@ -1,31 +1,51 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Subject, Observable } from 'rxjs';
+import { flush, fakeAsync, tick } from '@angular/core/testing';
+import {TrainingImpl} from '../shared/models/training';
+import { of, Subject, Observable } from 'rxjs';
 import * as tf from '@tensorflow/tfjs';
 
 import { DemoPresenterImpl } from './demo.presenter';
 
 describe('DemoPresenterImpl', () => {
   let p: DemoPresenterImpl;
-  let model$:Subject<tf.Model> ;
-  let modelP ;
-  let inputP ;
+  let model$:Observable<tf.Model> ;
+  let trainParam;
+  let modelP, model;
+  let inputP, input;
   let service ;
   let button$:Subject<any>  ;
+  let trainings$Observer;
 
   beforeEach(() => {
-     button$ = new Subject<any>();
-     model$ = new Subject<tf.Model>();
-     modelP = { import:()=> model$ };
-     inputP = { getInputData:()=> {} };
-     service = { setTrainings$:() => {}};
+    button$ = new Subject<any>();
+    trainParam = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true };
+    model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});
+    model$ = of(model);
+    modelP = { import:()=> model$ };
+    input = {x: tf.tensor([[0,0,0], [0,1,0]]), y: tf.tensor([[0.5], [0.2]]) };
+    inputP = { getInputData:()=> input };
+    trainings$Observer = jasmine.createSpy('trainings$_observer');
+    service = { trainings$: null, setTrainings$:(trainings$) => {
+      this.trainings$ = trainings$;
+    }};
+    spyOn(service, 'setTrainings$');
+    const p = new DemoPresenterImpl(modelP, button$, service, inputP);
+    p.getTrainings$().subscribe(trainings$Observer);
+    p.getTrainings$().subscribe( t => console.log(t));
 
   });
 
   it('should call setTrainings$ on the service when constructed', () => {
-    spyOn(service, 'setTrainings$');
-    const p = new DemoPresenterImpl(modelP, button$, service, inputP);
     expect(service.setTrainings$).toHaveBeenCalledTimes(1);
   });
 
+  it('should not call setTrainings$ on the service with null when constructed', () => {
+    expect(service.setTrainings$).not.toHaveBeenCalledWith(null);
+  });
+
+  it('should call setTrainings$ with an Observable of Trainings having the properties returned by each objects given in the constructor', () => {
+    button$.next(0);  // equivalent to clicking on the button
+    expect(trainings$Observer).toHaveBeenCalledWith(new TrainingImpl(input, trainParam, model));
+  });
 
 });

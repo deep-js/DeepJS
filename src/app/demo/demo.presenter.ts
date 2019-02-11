@@ -34,12 +34,14 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
     );
   }
 
+  public getTrainings$():Observable<Training>{ return this.trainings$; }
+
 
 
   constructor( modelPresenter:ModelContainerPresenter, trainButton$:Subject<any>, trainerService:TrainerServiceImpl, inputPresenter:InputContainerPresenter) {
     this.modelPresenter = modelPresenter;
     this.inputPresenter = inputPresenter;
-    this.createTrainingsObservable(trainButton$, this.modelPresenter.import(), this.inputPresenter.getInputData());
+    this.trainings$ = this.createTrainingsObservable(trainButton$, this.modelPresenter.import(), this.inputPresenter.getInputData());
     // give it to trainer service
     trainerService.setTrainings$(this.trainings$);
 
