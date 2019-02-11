@@ -31,7 +31,6 @@ describe('DemoPresenterImpl', () => {
     spyOn(service, 'setTrainings$');
     const p = new DemoPresenterImpl(modelP, button$, service, inputP);
     p.getTrainings$().subscribe(trainings$Observer);
-    p.getTrainings$().subscribe( t => console.log(t));
 
   });
 

@@ -7,7 +7,6 @@ import * as tf from '@tensorflow/tfjs';
 
 describe('TSModelPresenterImpl', () => {
   let m:TSModelPresenterImpl;
-  let model;
 
   beforeEach(() => {
     m = new TSModelPresenterImpl();
@@ -25,6 +24,15 @@ describe('TSModelPresenterImpl', () => {
     m.getModelDef$().next("var a = 1")
     m.import();
     expect(tsSpy).toHaveBeenCalledWith("var a = 1;model;");
-
   });
+
+  it('should emit a model that is the result of evaluating the string given to it', () => {
+    let modelDef = "const model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]})";
+    let model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});
+    let importSpy = jasmine.createSpy('importSpy');
+    m.getModelDef$().next(modelDef)
+    m.import().subscribe(importSpy);
+    expect(importSpy).toHaveBeenCalledWith(model);
+  });
+
 });
