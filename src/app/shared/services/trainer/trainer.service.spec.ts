@@ -62,10 +62,10 @@ describe('TrainerServiceImpl', () => {
     s.setTrainings$(trainings$);
     //let traindataObserver = jasmine.createSpy('traindataObserver');
     s.getTrainer$().pipe(first()).subscribe((trainData) => {
-    expect(trainData).toBe(jasmine.objectContaining({ event:TrainEvent.TrainBegin, epoch: 0, batch: 0 }) as any);
+    expect(trainData).toEqual(jasmine.objectContaining({ event:TrainEvent.TrainBegin, epoch: 0, batch: 0 }) as any);
     });
     s.getTrainer$().pipe(last()).subscribe((trainData) => {
-    expect(trainData).toBe(jasmine.objectContaining({ event:TrainEvent.TrainEnd, epoch: 0, batch: 0 }) as any);
+    expect(trainData).toEqual(jasmine.objectContaining({ event:TrainEvent.TrainEnd, epoch: 0, batch: 0 }) as any);
     });
     trainings$.next(training);
     //expect(traindataObserver).toHaveBeenCalledWith(new TrainData0(TrainEvent.EpochBegin, epoch, jasmine.anything, jasmine.anything));
