@@ -18,7 +18,8 @@ import { InputContainerComponentImpl } from './demo/input/input-container.compon
 import { ImageInputComponentImpl } from './demo/input/image-input/image-input.component';
 import { JsonInputComponentImpl } from './demo/input/json-input/json-input.component';
 import { VisualizationContainerComponentImpl } from './demo/visualization/visualization-container.component';
-import { VisualizationItemComponentImpl } from './demo/visualization/visualization-item/visualization-item.component'
+import { VisualizationItemComponentImpl } from './demo/visualization/visualization-item/visualization-item.component';
+import { InjectComponentDirective } from './shared/directives/inject-component.directive'
 
 declare global {
   interface Window {
@@ -40,13 +41,15 @@ declare global {
     ImageInputComponentImpl,
     JsonInputComponentImpl,
     VisualizationContainerComponentImpl,
-    VisualizationItemComponentImpl
+    VisualizationItemComponentImpl,
+    InjectComponentDirective
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
   providers: [TrainerServiceImpl],
+  entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl],
   //  providers: [ {provide:[ModelTrainer], useClass:[ModelTrainerImpl]} ],
   bootstrap: [AppComponent]
 })
