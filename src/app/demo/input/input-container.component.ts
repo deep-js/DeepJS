@@ -35,6 +35,7 @@ export class InputContainerComponentImpl implements InputContainerComponent, OnI
   ngOnInit() {
     this.typeInput = "json";
     this.typeInputKeys = Array.from(this.mapSons.keys());
+    this.presenter = new InputContainerPresenterImpl();
     this.changeComponent();
   }
 
@@ -49,13 +50,13 @@ export class InputContainerComponentImpl implements InputContainerComponent, OnI
       let componentRef = viewContainerRef.createComponent(componentFactory);
 
       this.child = <InputComponent>componentRef.instance;
-      this.presenter = new InputContainerPresenterImpl(this.child.getPresenter());
+      this.presenter.setInputPresenter(this.child.getPresenter());
     }
   }
 
 
 
-  getPresenter():InputPresenter{return this.presenter;}
+  getPresenter():InputContainerPresenter{return this.presenter;}
 
   
 

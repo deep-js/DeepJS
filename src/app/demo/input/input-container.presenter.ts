@@ -5,7 +5,10 @@ export class InputContainerPresenterImpl implements InputContainerPresenter{
 
   inputPresenter:InputPresenter;
 
-  constructor(inputPresenter:InputPresenter){
+  constructor(){
+  }
+
+  setInputPresenter(inputPresenter:InputPresenter){
     this.inputPresenter = inputPresenter;
   }
 
