@@ -27,12 +27,11 @@ describe('TSModelPresenterImpl', () => {
   });
 
   it('should emit a model that is the result of evaluating the string given to it', () => {
-    let modelDef = "const model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]})";
-    let model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});
+    let modelDef = "const model = {a:'b', b:1, c:{a:'n', b:0}}";
     let importSpy = jasmine.createSpy('importSpy');
     m.getModelDef$().next(modelDef)
     m.import().subscribe(importSpy);
-    expect(importSpy).toHaveBeenCalledWith(model);
+    expect(importSpy).toHaveBeenCalledWith({a:"b", b:1, c:{a:"n", b:0}});
   });
 
 });

@@ -31,7 +31,7 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
     this.modelFile$.pipe( skip(1) ).subscribe(s => this.modelFile=s)
   }
 
-  // Imporjson tf.Model object from TypeScript string
+  // Imports tf.Model object from TypeScript string
   import():Observable<tf.Model>{
     return from(tf.loadModel(
       tf.io.browserFiles(
