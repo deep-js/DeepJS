@@ -61,11 +61,11 @@ describe('TrainerServiceImpl', () => {
   it('should emit TrainData in the correct order during training', () => {
     s.setTrainings$(trainings$);
     //let traindataObserver = jasmine.createSpy('traindataObserver');
-    s.getTrainer$().pipe(last()).subscribe((trainData) => {
-      expect(trainData).toBe(jasmine.objectContaining( event:TrainEvent.TrainBegin, epoch: 0, batch: 0 ));
-    });
     s.getTrainer$().pipe(first()).subscribe((trainData) => {
-      expect(trainData).toBe(jasmine.objectContaining( event:TrainEvent.TrainEnd, epoch: 0, batch: 0 ));
+    expect(trainData).toBe(jasmine.objectContaining({ event:TrainEvent.TrainBegin, epoch: 0, batch: 0 }) as any);
+    });
+    s.getTrainer$().pipe(last()).subscribe((trainData) => {
+    expect(trainData).toBe(jasmine.objectContaining({ event:TrainEvent.TrainEnd, epoch: 0, batch: 0 }) as any);
     });
     trainings$.next(training);
     //expect(traindataObserver).toHaveBeenCalledWith(new TrainData0(TrainEvent.EpochBegin, epoch, jasmine.anything, jasmine.anything));

@@ -26,7 +26,7 @@ export interface TrainData{
   
 }
 
-class TrainData0 {
+export class TrainData0 {
   private epoch:number;
   private batch:number;
   private event:TrainEvent;
