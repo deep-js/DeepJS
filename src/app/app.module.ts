@@ -41,6 +41,7 @@ declare global {
     InputContainerComponentImpl,
     ImageInputComponentImpl,
     JsonInputComponentImpl,
+
     VisualizationContainerComponentImpl,
     VisualizationItemComponentImpl,
     InjectComponentDirective,
