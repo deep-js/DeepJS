@@ -41,9 +41,12 @@ declare global {
     InputContainerComponentImpl,
     ImageInputComponentImpl,
     JsonInputComponentImpl,
+<<<<<<< HEAD
     VisualizationContainerComponentImpl,
     VisualizationItemComponentImpl,
     InjectComponentDirective,
+=======
+>>>>>>> 86779c161652a12f1bf423fe89a5e0ee220d3d7d
     ModifParamModelComponentImpl 
   ],
   imports: [
