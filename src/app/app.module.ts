@@ -20,6 +20,7 @@ import { JsonInputComponentImpl } from './demo/input/json-input/json-input.compo
 import { VisualizationContainerComponentImpl } from './demo/visualization/visualization-container.component';
 import { VisualizationItemComponentImpl } from './demo/visualization/visualization-item/visualization-item.component';
 import { InjectComponentDirective } from './shared/directives/inject-component.directive'
+import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/modif-param-model.component';
 
 declare global {
   interface Window {
@@ -40,9 +41,11 @@ declare global {
     InputContainerComponentImpl,
     ImageInputComponentImpl,
     JsonInputComponentImpl,
+
     VisualizationContainerComponentImpl,
     VisualizationItemComponentImpl,
-    InjectComponentDirective
+    InjectComponentDirective,
+    ModifParamModelComponentImpl 
   ],
   imports: [
     BrowserModule,
