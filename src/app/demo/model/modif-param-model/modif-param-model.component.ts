@@ -19,8 +19,6 @@ export class ModifParamModelComponentImpl implements OnInit, api.ModifParamModel
   constructor() { 
     this.presenter = new ModifParamModelPresenterImpl();
     this.modelDef = this.presenter.getModelDef();
-    this.presenter.setModelDef(this.modelDef);
-    console.log("Initialisation : " + this.modelDef);
   }
 
   ngOnInit() {
