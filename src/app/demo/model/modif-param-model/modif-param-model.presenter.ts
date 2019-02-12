@@ -66,7 +66,7 @@ export class ModifParamModelPresenterImpl implements api.ModifParamModelPresente
       return this.buttons;
     }
 
-    hideAndShowTrainParm() {
+    hideAndShowTrainParam() {
       var x = document.getElementById("modif-param");
       if (x.style.display === "none") {
         x.style.display = "block";
