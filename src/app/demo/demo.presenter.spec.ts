@@ -42,7 +42,7 @@ describe('DemoPresenterImpl', () => {
     expect(service.setTrainings$).not.toHaveBeenCalledWith(null);
   });
 
-  it('should call setTrainings$ with an Observable of Trainings having the properties returned by each objects given in the constructor', () => {
+  it('should call setTrainings$ with an Observable of Trainings having the properties returned by each presenter given in the constructor', () => {
     button$.next(0);  // equivalent to clicking on the button
     expect(trainings$Observer).toHaveBeenCalledWith(new TrainingImpl(input, trainParam, model));
   });
