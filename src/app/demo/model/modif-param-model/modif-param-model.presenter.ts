@@ -10,7 +10,8 @@ import { ModelFitConfig } from '@tensorflow/tfjs';
 
 export class ModifParamModelPresenterImpl implements api.ModifParamModelPresenter{
 
-    private modelFitConfig: ModelFitConfig;
+
+    private modelDef: string;
 
     // CHANGER DE VERSION DE TENSORFLOW ET MODIFIER MODELFITCONFIG EN MODELFITARGS
 
@@ -32,34 +33,26 @@ export class ModifParamModelPresenterImpl implements api.ModifParamModelPresente
     ];
 
     constructor() {
-      
+      this.modelDef="{\"batchSize\": , \"epochs\": , \"verbose\": , " + 
+      "\"callbacks\": \"validationSplit\": , \"validationData\": \"shuffle\": , \"classWeight\": " + 
+      "\"sampleWeight\": , \"initialEpoch\": \"stepsPerEpoch\": , \"validationSteps\": \"yieldEvery\": }";
+     
+    }
+
+    getModelDef():string{
+      return this.modelDef;
     }
 
     // Return the ModelFitConfig 
     getModelFitConfig():ModelFitConfig{
-      this.setModelFitConfig(); // Just to test, bad thing to do
-      //return this.modelFitConfig = Object.assign({batchSize : 10, epochs : 10}, this.modelFitConfig);
-      return <ModelFitConfig> this.modelFitConfig;
+      var json = JSON.parse(this.modelDef);
+      return json;
     }
 
     // Set the ModelFitConfig with the parameters in the text box
-    setModelFitConfig():void {
-      this.modelFitConfig = {
-        // Parameters with their default value if they have one
-        batchSize: 32,
-        epochs: 1,
-        verbose: 1,
-        //callbacks: 0,
-        validationSplit: 0,
-        //validationData: 0,
-        shuffle: true,
-        //classWeight: 0,
-        //sampleWeight: 0,
-        initialEpoch: 0,
-        stepsPerEpoch: 0,
-        validationSteps: 0,
-        yieldEvery: 'auto'
-      }
+    setModelDef(str : string) {
+      this.modelDef = str;
+      console.log("SetModelDef = " + this.modelDef)
     }
 
     getParams():string[]{

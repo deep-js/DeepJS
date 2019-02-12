@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModifParamModelPresenterImpl } from './modif-param-model.presenter';
 import * as api from '@api/core';
 import { ModelFitConfig } from '@tensorflow/tfjs';
+import { ModifParamModelPresenter } from '@api/core';
 
 @Component({
   selector: 'app-modif-param-model',
@@ -17,10 +18,17 @@ export class ModifParamModelComponentImpl implements OnInit, api.ModifParamModel
 
   constructor() { 
     this.presenter = new ModifParamModelPresenterImpl();
+    this.modelDef = this.presenter.getModelDef();
+    this.presenter.setModelDef(this.modelDef);
+    console.log("Initialisation : " + this.modelDef);
   }
 
   ngOnInit() {
 
+  }
+
+  getPresenter():ModifParamModelPresenter {
+    return this.presenter;
   }
 
 }
