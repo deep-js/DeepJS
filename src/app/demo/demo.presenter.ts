@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators'
+import { map, switchMap, share} from 'rxjs/operators'
 import * as tf from '@tensorflow/tfjs';
 
 
@@ -32,7 +32,7 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
           modifParamPresenter.getModelFitConfig(),
           model
         )
-      )
+      ), share()
     );
   }
 

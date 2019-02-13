@@ -19,7 +19,7 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
 
   private inferenceInput: string;
 
-  private model:tf.Model;
+  private training:Training;
 
   constructor( modelTrainer: TrainerServiceImpl ) {
     this.modelTrainer = modelTrainer;
@@ -32,7 +32,7 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
     );
 
     this.modelTrainer.getCurrentTrainings$().subscribe(
-      training => this.model = training.getModel()
+      training => this.training = training
     );
 
     // For each resulting TrainData, display the epoch number
@@ -46,13 +46,16 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
 
   private infer():void{
     // TODO : tf.tidy
-    var input:tf.Tensor = tf.tensor(JSON.parse(this.inferenceInput));
-    const output = this.model.predict(input);
-    console.log(this.model);
-    //const out:string = JSON.stringify(output.dataSync());
-    const out:string = output.toString();
-    console.log(out);
-    this.inferenceOutput$.next(out);
+    try{
+      var input:tf.Tensor = tf.tensor(JSON.parse(this.inferenceInput));
+      const output = this.training.getModel().predict(input);
+      //const out:string = JSON.stringify(output.dataSync());
+      const out:string = output.toString();
+      this.inferenceOutput$.next(out);
+    }
+    catch(e){
+      this.inferenceOutput$.next(e);
+    }
   }
 
   public getInferenceInput$():Observable<string> { return this.inferenceInput$; }

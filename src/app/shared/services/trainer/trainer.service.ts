@@ -135,7 +135,6 @@ export class TrainerServiceImpl implements TrainerService {
    * each time a new event is emitted (end of an epoch etc)
    */
   train(training:Training, observer:Observer<TrainData>){
-    console.log(training.getModel());
     let x = training.getInputs().getXTensor();
     let y = training.getInputs().getYTensor();
     let m = training.getModel() as tf.Sequential;
@@ -168,8 +167,6 @@ export class TrainerServiceImpl implements TrainerService {
 
     } as tf.CustomCallbackConfig;
 
-    console.log(m);
-    console.log(JSON.stringify({m}));
     // Perform training
     m.fit(x, y, c);
 

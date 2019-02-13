@@ -12,6 +12,7 @@ describe('DemoPresenterImpl', () => {
   let trainParam;
   let modelP, model;
   let inputP, input;
+  let paramP, param;
   let service ;
   let button$:Subject<any>  ;
   let trainings$Observer;
@@ -24,12 +25,14 @@ describe('DemoPresenterImpl', () => {
     modelP = { import:()=> model$ };
     input = {x: tf.tensor([[0,0,0], [0,1,0]]), y: tf.tensor([[0.5], [0.2]]) };
     inputP = { getInputData:()=> input };
+    param = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true };
+    paramP = { getModelFitConfig:()=> param };
     trainings$Observer = jasmine.createSpy('trainings$_observer');
     service = { trainings$: null, setTrainings$:(trainings$) => {
       this.trainings$ = trainings$;
     }};
     spyOn(service, 'setTrainings$');
-    const p = new DemoPresenterImpl(modelP, button$, service, inputP);
+    const p = new DemoPresenterImpl(modelP, button$, service, inputP, paramP);
     p.getTrainings$().subscribe(trainings$Observer);
 
   });
