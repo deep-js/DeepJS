@@ -1,5 +1,5 @@
 import { Input, Component, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
-import { fromEvent, Observable, Observer, BehaviorSubject } from 'rxjs'
+import { fromEvent, Observable, Subject, Observer, BehaviorSubject } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../shared/services/trainer/trainer.service';
 import { VisualizationInferenceJSONPresenter, Training } from '@api/core';
@@ -14,8 +14,8 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
   private trainings$: Observable<Training>;
   private trainer$: Observable<TrainData>;
 
-  private inferenceInput$: Observable<string>;
-  private inferenceOutput$: Observable<string>;
+  private inferenceInput$: Subject<string>;
+  private inferenceOutput$: Subject<string>;
 
   private inferenceInput: string;
 
@@ -47,9 +47,10 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
   private infer():void{
     // TODO : tf.tidy
     var input:tf.Tensor = tf.tensor(JSON.parse(this.inferenceInput));
-    const output:tf.Tensor = this.model.predict(input);
+    const output = this.model.predict(input);
     console.log(this.model);
-    const out:string = JSON.stringify(output.dataSync());
+    //const out:string = JSON.stringify(output.dataSync());
+    const out:string = output.toString();
     console.log(out);
     this.inferenceOutput$.next(out);
   }
