@@ -11,8 +11,9 @@ import { InputDataImpl } from '../shared/models/inputData';
 import { InputData } from '@api/core/inputData';
 import { DemoPresenter, ModelContainerPresenter, ModelPresenter, InputPresenter, Training, InputContainerPresenter, ModifParamModelPresenter } from '@api/core';
 
-/* Presenter for the DemoComponent
- * performs the logic for it
+/** Presenter for the DemoComponent
+ *  Gathers all data to form a Training object
+ *  Then gives it to TrainerService
  */
 export class DemoPresenterImpl implements OnInit, DemoPresenter {
 
@@ -39,7 +40,15 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
   public getTrainings$():Observable<Training>{ return this.trainings$; }
 
 
-
+  /**
+   * Makes the observable that constructs a training each time the user launches the training
+   * Gives it to trainerService so that it can perform the trainings when asked to
+   *
+   * @param modelPresenter {ModelContainerPresenter} presenter for the modelContainer
+   * @param trainButton$ {Subject<any>} Observable that causes the training to be launched
+   * @param trainerService {TrainerServiceImpl} 
+   * @param inputPresenter {InputContainerPresenter} presenter for the inputContainer
+   */
   constructor( modelPresenter:ModelContainerPresenter, trainButton$:Subject<any>, trainerService:TrainerServiceImpl, inputPresenter:InputContainerPresenter, modifParamPresenter:ModifParamModelPresenter) {
     this.modelPresenter = modelPresenter;
     this.inputPresenter = inputPresenter;
