@@ -1,7 +1,7 @@
-import { ModelFitConfig } from '@tensorflow/tfjs';
+import { ModelFitArgs } from '@tensorflow/tfjs';
 
 export interface ModifParamModelPresenter {
-  getModelFitConfig():ModelFitConfig;
+  getModelFitConfig():ModelFitArgs;
   setModelDef(string):void;
   getModelDef():string;
 

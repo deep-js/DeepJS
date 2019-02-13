@@ -6,7 +6,7 @@ import { Subject, BehaviorSubject} from 'rxjs';
 import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
-import { ModelFitConfig } from '@tensorflow/tfjs';
+import { ModelFitArgs } from '@tensorflow/tfjs';
 
 export class ModifParamModelPresenterImpl implements api.ModifParamModelPresenter{
 
@@ -27,7 +27,7 @@ export class ModifParamModelPresenterImpl implements api.ModifParamModelPresente
     }
 
     // Return the ModelFitConfig 
-    getModelFitConfig():ModelFitConfig{
+    getModelFitConfig():ModelFitArgs{
       var json = JSON.parse(this.modelDef);
       return json;
     }

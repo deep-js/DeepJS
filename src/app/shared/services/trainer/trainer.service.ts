@@ -73,7 +73,7 @@ export class TrainerServiceImpl implements TrainerService {
   private currentTrainings$: Subject<Training>;
   private currentTraining: Training;
   private trainer$: Subject<TrainData>;
-  private callbacks: tf.CustomCallbackConfig;
+  private callbacks: tf.CustomCallbackArgs;
 
 
   constructor() {
@@ -138,7 +138,7 @@ export class TrainerServiceImpl implements TrainerService {
     let x = training.getInputs().getXTensor();
     let y = training.getInputs().getYTensor();
     let m = training.getModel() as tf.Sequential;
-    let c = training.getConfig() as tf.ModelFitConfig;
+    let c = training.getConfig() as tf.ModelFitArgs;
 
     /* These callbacks are called at specific events in the training
      * by fit
@@ -165,7 +165,7 @@ export class TrainerServiceImpl implements TrainerService {
         observer.next(new TrainData0(TrainEvent.BatchEnd, epoch, logs.batch, logs.loss));
       }
 
-    } as tf.CustomCallbackConfig;
+    } as tf.CustomCallbackArgs;
 
     // Perform training
     m.fit(x, y, c);

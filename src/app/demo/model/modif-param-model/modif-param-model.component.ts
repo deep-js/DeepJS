@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModifParamModelPresenterImpl } from './modif-param-model.presenter';
 import * as api from '@api/core';
-import { ModelFitConfig } from '@tensorflow/tfjs';
+import { ModelFitArgs } from '@tensorflow/tfjs';
 import { ModifParamModelPresenter } from '@api/core';
 
 @Component({

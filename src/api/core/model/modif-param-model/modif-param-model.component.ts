@@ -1,5 +1,5 @@
 import { ModelComponent } from '../model.component';
-import { ModelFitConfig } from '@tensorflow/tfjs';
+import { ModelFitArgs } from '@tensorflow/tfjs';
 
 
 export interface ModifParamModelComponent {
