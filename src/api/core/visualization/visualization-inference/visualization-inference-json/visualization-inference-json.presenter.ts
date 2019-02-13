@@ -1,5 +1,9 @@
-import { VisualizationInferencePresenter } from '../visualization.presenter';
+import { VisualizationInferencePresenter } from '../visualization-inference.presenter';
+import { Observable } from 'rxjs';
 
-export interface VisualizationInferenceJsonPresenter extends VisualizationInferencePresenter {
+export interface VisualizationInferenceJSONPresenter extends VisualizationInferencePresenter {
+
+  getInferenceInput$():Observable<string>;
+  getInferenceOutput$():Observable<string>;
 
 }

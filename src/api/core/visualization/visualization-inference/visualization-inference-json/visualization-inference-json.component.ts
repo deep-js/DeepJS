@@ -1,5 +1,5 @@
-import { VisualizationInferenceComponent } from '../visualization.component';
+import { VisualizationInferenceComponent } from '../visualization-inference.component';
 
-export interface VisualizationInferenceJsonComponent extends VisualizationInferenceComponent {
+export interface VisualizationInferenceJSONComponent extends VisualizationInferenceComponent {
 
 }
