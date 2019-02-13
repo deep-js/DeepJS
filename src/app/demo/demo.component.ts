@@ -6,9 +6,8 @@ import {DemoPresenterImpl} from './demo.presenter';
 import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
 import { InputData } from '@api/core/inputData';
 
-/* Graphic Component for the demo
- * Encapsulates input, model and parameter importation
- * components as well as visualisations
+/** Graphic Component for the demo
+ * Encapsulates input, model and parameter importation components as well as visualisations
  */
 @Component({
   selector: 'app-demo',
@@ -19,7 +18,6 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
 
   @ViewChild('input') input:InputContainerComponent;
 
-  // TODO : dynamically choose modelcomponent
   @ViewChild('modelContainer') modelContainer:ModelContainerComponent;
 
   // DOM element triggering the training
