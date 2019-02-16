@@ -7,8 +7,12 @@ import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
 
-/* Presenter for JSONModelComponent
- * Performs the actual import from Typescript code to Object tf.Model
+/**
+ * Implementation for JSONModelPresenter
+ * Uses tfjs to load model from files exported with tensorflow
+ * Tensoflow exports 2 files for a model, a .json file for the model itself
+ * and a .weight.bin file for the weights
+ * Retrieves files selected by JSONModelComponent via a Subject
  */
 export class JSONModelPresenterImpl implements api.JSONModelPresenter{
 
@@ -19,39 +23,35 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
 
   constructor() {
 
-    // Default value for the model definition
-
-
-    // Make a Subject (kind of Observable) on the TypeScript string
+    // Make a Subject (kind of Observable) on the file name
     this.modelFile$ = new BehaviorSubject<FileList>(this.modelFile);
 
     // Subscribe to it so we get updates from the Component
-    // (the Component does a next on it at each key press)
-    // Skip ourself sending the first string
-    this.modelFile$.pipe( skip(1) ).subscribe(s => this.modelFile=s)
+    this.modelFile$.subscribe(s => this.modelFile=s)
   }
 
-  // Imports tf.Model object from TypeScript string
+  // Imports tf.Model object from files
   import():Observable<tf.Model>{
     return from(tf.loadModel(
       tf.io.browserFiles(
         [this.sortTypes(this.modelFile)[0]]
       )
     ).then( model => { 
+      // TODO : ask for compile options, way to integrate it into json ?
       model.compile({loss: 'meanSquaredError', optimizer: tf.train.momentum(0.1,0.9)});
       return model;
     }));
   }
 
-  // puts json first
-  sortTypes(l:FileList):File[]{
+  // tfjs expects the .json file first, then the .weight.bin
+  // Files given to this presenter as a FileList are not sorted
+  // this function sorts in the order they are exptected
+  private sortTypes(l:FileList):File[]{
     const a:File[] = [ l[0], l[1] ];
     return a.sort((a,b) => (a.name.endsWith("bin") ? 1 : -1));
   }
 
-  // Provide the Observable on the Typescript string
+  // Provide an Observable on the file name
   getModelFile$():Subject<FileList> { return this.modelFile$; }
-
-  // TODO : obsolete ?
 
 }
