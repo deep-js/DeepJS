@@ -7,13 +7,15 @@ import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
 
-/** Implementation ModelContainerPresenter
- * makes the presenter of the model importation component available to DemoPresenter
+/** 
+ * Implementation ModelContainerPresenter
+ * makes the presenter of the current model importation component available to DemoPresenter
  */
 export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
 
 
-  modelPresenter:api.ModelPresenter;
+  // presenter for the current model importation component
+  private modelPresenter:api.ModelPresenter;
 
   constructor(modelPresenter:api.ModelPresenter) {
     this.modelPresenter=modelPresenter;

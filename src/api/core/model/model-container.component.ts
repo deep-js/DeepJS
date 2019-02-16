@@ -6,6 +6,10 @@ import { ModelContainerPresenter } from './model-container.presenter'
  * also contains UI for exporting a Model 
  */
 export interface ModelContainerComponent {
+  /**
+   * Get the modelcontainer component's presenter
+   * @return {ModelContainerPresenter} this component presenter
+   */
   getPresenter():ModelContainerPresenter;
 }
 

@@ -7,11 +7,17 @@ import * as api from '@api/core';
   templateUrl: './ts-model.component.html',
   styleUrls: ['./ts-model.component.css']
 })
+/**
+ * Implementation for TSModelComponent
+ * Uses a simple textarea for input and an Subject shared with the presenter
+ * for sharing input data with it
+ */
 export class TSModelComponentImpl implements OnInit, api.TSModelComponent {
 
   // String from the textarea, corresponding to the definition of the model in TypeScript
   private modelDef:string;
 
+  // this component's presenter
   private presenter:api.TSModelPresenter;
     
   constructor(){
@@ -25,7 +31,7 @@ export class TSModelComponentImpl implements OnInit, api.TSModelComponent {
     this.presenter.getModelDef$().subscribe(s => this.modelDef = s);
   }
 
-  getPresenter():api.ModelPresenter{ return this.presenter; }
+  public getPresenter():api.ModelPresenter{ return this.presenter; }
 
 
 }

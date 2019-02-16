@@ -7,8 +7,10 @@ import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
 
-/* Presenter for TSModelComponent
- * Performs the actual import from Typescript code to Object tf.Model
+/**
+ * Implementation for TSModelComponent
+ * Uses an inline definition of the default model
+ * Communicates with its component via a Subject it creates
  */
 export class TSModelPresenterImpl implements api.TSModelPresenter{
 
@@ -62,14 +64,13 @@ model.compile(compile_options);"
    * evaluated
    * #uglyhack
    */
-  evaluate(s:string) {
+  private evaluate(s:string) {
     // Add model at the end so that it is returned by eval
     let result = ts.transpile(s+";model;");
     return eval(result);
   }
 
-  // Provide the Observable on the Typescript string
-  getModelDef$():Subject<string> { return this.modelDef$; }
+ public getModelDef$():Subject<string> { return this.modelDef$; }
     
   // TODO : obsolete ?
   setModelDef(s:string):void { this.modelDef = s; }
