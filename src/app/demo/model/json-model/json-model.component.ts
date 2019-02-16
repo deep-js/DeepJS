@@ -7,6 +7,11 @@ import * as api from '@api/core';
   templateUrl: './json-model.component.html',
   styleUrls: ['./json-model.component.css']
 })
+/**
+ * Implementatiob of JSONModelComponent
+ * Features a 'Browse' button to get the path of exported model files 
+ * from the user
+ */
 export class JSONModelComponentImpl implements OnInit, api.JSONModelComponent {
 
   // String from the textarea, corresponding to the definition of the model in TypeScript
@@ -19,8 +24,7 @@ export class JSONModelComponentImpl implements OnInit, api.JSONModelComponent {
   }
 
   ngOnInit(){
-    // whenever the presenter changes ijson definition of the model
-    // the string of the textarea changes
+    // whenever the presenter changes the path of the json files
     // equivalent to double way data binding but between the component and the presenter
     this.presenter.getModelFile$().subscribe(s => this.modelFile = s);
   }
