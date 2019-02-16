@@ -7,6 +7,11 @@ import {VisualizationItemPresenterImpl} from './visualization-item.presenter';
   templateUrl: './visualization-item.component.html',
   styleUrls: ['./visualization-item.component.css']
 })
+
+/**
+ * Implementation for VisualizationItemComponent
+ *
+ */
 export class VisualizationItemComponentImpl implements VisualizationItemComponent,OnInit {
 
 	presenter:VisualizationItemPresenter;
