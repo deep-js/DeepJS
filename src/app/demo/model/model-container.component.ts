@@ -9,13 +9,15 @@ import * as api from '@api/core';
 })
 /** 
  * Implementation for ModelContainerComponent
- * 
  */
 export class ModelContainerComponentImpl implements AfterViewInit, api.ModelContainerComponent {
 
   // String from the textarea, corresponding to the definition of the model-container in TypeScript
   private presenter:api.ModelContainerPresenter;
 
+  /**
+   * The html element for the current ModelComponent
+   */
   @ViewChild('model') model:api.ModelComponent;
     
   constructor(){
