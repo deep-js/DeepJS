@@ -7,8 +7,8 @@ import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
 
-/* Presenter for ModelContainerComponent
- * Performs the actual import from Typescript code to Object tf.ModelContainer
+/** Implementation ModelContainerPresenter
+ * makes the presenter of the model importation component available to DemoPresenter
  */
 export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
 
@@ -19,7 +19,6 @@ export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
     this.modelPresenter=modelPresenter;
   }
 
-  // Imporjson tf.ModelContainer object from TypeScript string
   import():Observable<tf.Model>{
     return this.modelPresenter.import();
   }

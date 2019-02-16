@@ -7,6 +7,10 @@ import * as api from '@api/core';
   templateUrl: './model-container.component.html',
   styleUrls: ['./model-container.component.css']
 })
+/** 
+ * Implementation for ModelContainerComponent
+ * 
+ */
 export class ModelContainerComponentImpl implements AfterViewInit, api.ModelContainerComponent {
 
   // String from the textarea, corresponding to the definition of the model-container in TypeScript

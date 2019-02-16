@@ -11,9 +11,12 @@ import { InputDataImpl } from '../shared/models/inputData';
 import { InputData } from '@api/core/inputData';
 import { DemoPresenter, ModelContainerPresenter, ModelPresenter, InputPresenter, Training, InputContainerPresenter, ModifParamModelPresenter } from '@api/core';
 
-/** Presenter for the DemoComponent
- *  Gathers all data to form a Training object
+/** Implementation for DemoPresenter
+ *  Gathers all data from input, model and training parameters importation components 
+ *  in order to make a Training object
  *  Then gives it to TrainerService
+ *  In this implementation, all data comes up from the child components and is passed to
+ *  the service that transmits them to the visualizations
  */
 export class DemoPresenterImpl implements OnInit, DemoPresenter {
 
@@ -22,10 +25,13 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
   private inputPresenter: InputPresenter;
   private modifParamPresenter:ModifParamModelPresenter;
 
-  // Construct the Observable on Trainings from the button events
+  // Constructs the Observable on Trainings from the button events
   private createTrainingsObservable( button$:Observable<any>, modelPresenter:ModelContainerPresenter, inputPresenter:InputPresenter, modifParamPresenter:ModifParamModelPresenter):Observable<Training>{
 
-    // Construct the Observable on Trainings from the button events
+    /*  for each button$ events, switch this observable with the one giving the model
+     *  when it's imported, then map each model to a training
+     *  use share to have a single training for all observers
+     */
     return this.trainings$ = button$.pipe(switchMap((event) => 
       modelPresenter.import()), map(model =>
         new TrainingImpl(
@@ -56,7 +62,6 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
     this.trainings$ = this.createTrainingsObservable(trainButton$, this.modelPresenter, this.inputPresenter, this.modifParamPresenter);
     // give it to trainer service
     trainerService.setTrainings$(this.trainings$);
-
   }
 
   ngOnInit() {

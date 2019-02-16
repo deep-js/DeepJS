@@ -6,8 +6,9 @@ import {DemoPresenterImpl} from './demo.presenter';
 import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
 import { InputData } from '@api/core/inputData';
 
-/** Graphic Component for the demo
- * Encapsulates input, model and parameter importation components as well as visualisations
+/** Implementation of DemoComponent
+ *  Constructs its presenter and gives it an Observable that watches 
+ *  the user input responsible for starting the training
  */
 @Component({
   selector: 'app-demo',
