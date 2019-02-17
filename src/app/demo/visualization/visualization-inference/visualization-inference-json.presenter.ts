@@ -5,7 +5,12 @@ import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../..
 import { VisualizationInferenceJSONPresenter, Training } from '@api/core';
 import * as tf from '@tensorflow/tfjs';
 
-// Ghetto implementation of epoch visualisation
+/**
+ * Presenter for VisualizationInferenceJSONComponent
+ * Uses tfjs predict() for the inference
+ * Automatically updates prediction every epoch by following
+ * the training data observer from trainer.service
+ */
 export class VisualizationInferenceJSONPresenterImpl implements VisualizationInferenceJSONPresenter{
 
   private modelTrainer: TrainerService;
@@ -35,7 +40,7 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
       training => this.training = training
     );
 
-    // For each resulting TrainData, display the epoch number
+    // For each resulting TrainData, make a prediction
     this.trainer$.subscribe(
       data => this.infer()
     )
@@ -49,8 +54,7 @@ export class VisualizationInferenceJSONPresenterImpl implements VisualizationInf
     try{
       var input:tf.Tensor = tf.tensor(JSON.parse(this.inferenceInput));
       const output = this.training.getModel().predict(input);
-      //const out:string = JSON.stringify(output.dataSync());
-      const out:string = output.toString();
+      const out:string = output.toString(); // wait for and stringify result by calling tfjs' toString() 
       this.inferenceOutput$.next(out);
     }
     catch(e){

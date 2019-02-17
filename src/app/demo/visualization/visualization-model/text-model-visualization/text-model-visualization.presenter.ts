@@ -5,7 +5,11 @@ import { VisualizationModelPresenter } from '@api/core';
 import { Observable } from 'rxjs'
 
 
-export class TestModelVisualizationPresenter implements VisualizationModelPresenter {
+/**
+ * Presenter for TextVisualizationModelComponent
+ * transmits data to Component via Observable
+ */
+export class TextVisualizationModelPresenter implements VisualizationModelPresenter {
 
   modelTrainer: TrainerService;
   out: string;  // textual summary of the model
@@ -23,6 +27,9 @@ export class TestModelVisualizationPresenter implements VisualizationModelPresen
     )
   }
 
+  /**
+   * get Observable on textual visualization of the model
+   */
   public getData$(){
     return this.data$;
   }

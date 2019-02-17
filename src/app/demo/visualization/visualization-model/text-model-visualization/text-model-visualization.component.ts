@@ -2,26 +2,27 @@ import { Component, AfterViewInit} from '@angular/core';
 import { map } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService } from '../../../../shared/services/trainer/trainer.service';
 import {VisualizationModelPresenter, VisualizationModelComponent} from '@api/core';
-import { TestModelVisualizationPresenter } from './test-model-visualisation.presenter';
+import { TextVisualizationModelPresenter } from './text-model-visualization.presenter';
 
 
-/* Quick implementation of a textual model visualisation
+/**
+ * Quick implementation of a textual model visualization
  * using tf.Model.summarize
  */
 @Component({
-  selector: 'app-test-model-visualisation',
-  templateUrl: './test-model-visualisation.component.html',
-  styleUrls: ['./test-model-visualisation.component.css']
+  selector: 'app-text-model-visualization',
+  templateUrl: './text-model-visualization.component.html',
+  styleUrls: ['./text-model-visualization.component.css']
   
 })
-export class TestModelVisualizationComponent implements AfterViewInit, VisualizationModelComponent{
+export class TextVisualizationModelComponent implements AfterViewInit, VisualizationModelComponent{
 
   out: string;  // textual summary of the model
   presenter: VisualizationModelPresenter;
 
   constructor(modelTrainer: TrainerServiceImpl) {
     this.out = "";
-    this.presenter = new TestModelVisualizationPresenter(modelTrainer);
+    this.presenter = new TextVisualizationModelPresenter(modelTrainer);
   }
 
   ngAfterViewInit() {

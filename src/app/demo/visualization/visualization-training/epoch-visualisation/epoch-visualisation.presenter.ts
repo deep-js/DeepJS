@@ -4,7 +4,10 @@ import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../../shared/services/trainer/trainer.service';
 import { VisualizationTrainingPresenter } from '@api/core';
 
-// Ghetto implementation of epoch visualisation
+/**
+ * Presenter for EpochVisualizationComponent
+ * 
+ */
 export class EpochVisualizationPresenter implements VisualizationTrainingPresenter{
 
   private modelTrainer: TrainerService;

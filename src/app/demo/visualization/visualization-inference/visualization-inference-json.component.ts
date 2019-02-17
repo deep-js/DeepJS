@@ -11,7 +11,10 @@ import { VisualizationInferenceJSONPresenterImpl } from './visualization-inferen
   styleUrls: ['./visualization-inference-json.component.css']
 })
 
-// Ghetto implementation of epoch visualisation
+/**
+ * Implementation for VisualizationInferenceJSONComponent
+ *
+ */
 export class VisualizationInferenceJSONComponentImpl implements AfterContentInit, VisualizationInferenceJSONComponent{
 
   private inferenceInput:string;
