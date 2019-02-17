@@ -11,7 +11,10 @@ import { EpochVisualizationPresenter } from './epoch-visualisation.presenter'
   styleUrls: ['./epoch-visualisation.component.css']
 })
 
-// Ghetto implementation of epoch visualisation
+/**
+ * Component displaying current epoch number
+ *
+ */
 export class EpochVisualizationComponent implements AfterContentInit, VisualizationTrainingComponent{
 
   private epoch: number;
