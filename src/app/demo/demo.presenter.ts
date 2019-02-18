@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { zip, Subject, Observable } from 'rxjs';
 import { map, switchMap, share} from 'rxjs/operators'
 import * as tf from '@tensorflow/tfjs';
 
@@ -33,14 +33,16 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
      *  use share to have a single training for all observers
      */
     return this.trainings$ = button$.pipe(switchMap((event) => 
-      modelPresenter.import()), map(model =>
-        new TrainingImpl(
-          inputPresenter.getInputData(),
+      zip(
+        modelPresenter.import(),
+        inputPresenter.getInputData()
+      )),
+        map(  ([model, input]) => ( new TrainingImpl(
+          input,
           modifParamPresenter.getModelFitConfig(),
-          model
-        )
-      ), share()
-    );
+          model)
+        )), share()
+    ) as Observable<Training>;
   }
 
   public getTrainings$():Observable<Training>{ return this.trainings$; }
