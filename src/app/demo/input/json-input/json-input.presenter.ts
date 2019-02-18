@@ -1,5 +1,6 @@
 import {JsonInputPresenter} from '@api/core/demo/input/json-input';
 import { InputData } from '@api/core/inputData';
+import { of, Observable } from 'rxjs';
 import { InputDataImpl } from '../../../shared/models/inputData';
 import * as tf from '@tensorflow/tfjs';
 
@@ -18,9 +19,9 @@ export class JsonInputPresenterImpl implements JsonInputPresenter {
     this.json = str;
   }
 
-  getInputData():InputData {
+  getInputData():Observable<InputData> {
     this.createInputData(this.json);
-    return this.input;
+    return of(this.input);
   }
 
 }

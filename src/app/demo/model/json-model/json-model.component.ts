@@ -8,7 +8,7 @@ import * as api from '@api/core';
   styleUrls: ['./json-model.component.css']
 })
 /**
- * Implementatiob of JSONModelComponent
+ * Implementation of JSONModelComponent
  * Features a 'Browse' button to get the path of exported model files 
  * from the user
  */

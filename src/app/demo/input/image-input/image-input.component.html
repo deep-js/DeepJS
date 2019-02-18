@@ -1,3 +1,1 @@
-<p>
-  image-input works!
-</p>
+<input type="file" id="filepicker" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files);" webkitdirectory multiple />
