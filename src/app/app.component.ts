@@ -8,6 +8,12 @@ import * as tf from '@tensorflow/tfjs';
 })
 export class AppComponent implements OnInit {
 
+  constructor(){
+    // tfjs@0.15.2 throws 10 warnings per batch during training, significantly slowing down browser debugging ui
+    // disabling them
+    tf.disableDeprecationWarnings();
+  }
+
   ngOnInit() {
   }
 
