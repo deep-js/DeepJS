@@ -1,6 +1,7 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { TSModelPresenterImpl } from './ts-model.presenter';
 import * as api from '@api/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-ts-model',
@@ -20,8 +21,8 @@ export class TSModelComponentImpl implements OnInit, api.TSModelComponent {
   // this component's presenter
   private presenter:api.TSModelPresenter;
     
-  constructor(){
-    this.presenter = new TSModelPresenterImpl();
+  constructor(private http: HttpClient) {
+    this.presenter = new TSModelPresenterImpl(http);
   }
 
   ngOnInit(){

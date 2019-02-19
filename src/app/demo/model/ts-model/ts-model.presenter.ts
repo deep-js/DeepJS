@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject, BehaviorSubject} from 'rxjs';
 import { skip} from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 import * as api from '@api/core';
 
@@ -20,7 +21,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
   private model:tf.Model;
 
 
-  constructor() {
+  constructor(private http: HttpClient) {
 
     // Default value for the model definition
     this.modelDef="// Define a model for linear regression.\n\
@@ -38,14 +39,18 @@ const compile_options = {loss: 'meanSquaredError', optimizer: optimizer};\n\
 console.log(JSON.stringify({compile_options}));\n\
 model.compile(compile_options);"
 
+this.http.get('assets/model-mnist', { responseType: 'text' }).subscribe(data => {
+  console.log(data);
+  // Make a Subject (kind of Observable) on the TypeScript string
+  // Subscribe to it so we get updates from the Component
+  // (the Component does a next on it at each key press)
+  // Skip ourself sending the first string
+  this.modelDef$.pipe( skip(1) ).subscribe(s => this.modelDef=s)
+  this.modelDef$.next(data as string);
+})
 
-    // Make a Subject (kind of Observable) on the TypeScript string
-    this.modelDef$ = new BehaviorSubject<string>(this.modelDef);
-    
-    // Subscribe to it so we get updates from the Component
-    // (the Component does a next on it at each key press)
-    // Skip ourself sending the first string
-    this.modelDef$.pipe( skip(1) ).subscribe(s => this.modelDef=s)
+  this.modelDef$ = new BehaviorSubject<string>("loading");
+
   }
 
   // Imports tf.Model object from TypeScript string
@@ -70,8 +75,8 @@ model.compile(compile_options);"
     return eval(result);
   }
 
- public getModelDef$():Subject<string> { return this.modelDef$; }
-    
+  public getModelDef$():Subject<string> { return this.modelDef$; }
+
   // TODO : obsolete ?
   setModelDef(s:string):void { this.modelDef = s; }
 
