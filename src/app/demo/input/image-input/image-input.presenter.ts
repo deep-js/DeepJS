@@ -1,7 +1,8 @@
 import {ImageInputPresenter,InputData} from '@api/core';
-import { Observable, from, Subject, BehaviorSubject} from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, from, Subject, BehaviorSubject} from 'rxjs';
+import { take,  map } from 'rxjs/operators';
 import * as tf from '@tensorflow/tfjs';
+import { InputDataImpl } from '../../../shared/models/inputData';
 import readImageData from 'read-image-data';
 
 export class ImageInputPresenterImpl implements ImageInputPresenter{
@@ -26,11 +27,11 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
   getImageFiles$():Subject<FileList> { return this.imageFiles$; }
 
   getTensors(file:File):Observable<tf.Tensor> {
-    from(readImageData(file)).pipe(
+    return from(readImageData(file)).pipe(
       map( (imageData) => tf.fromPixels(imageData as ImageData)),
-      map( (t) => tf.split(t,3,2)[0])
-    )
-    return null;
+      map( (t) => tf.split(t,3,2)[0]),
+      take(1)
+    );
 
   }
 
@@ -55,9 +56,10 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
 
   getInputData(): Observable<InputData> {
     console.log(this.imageFiles);
-    const data = this.getTensors(this.imageFiles[0]);
-    //  data.then((d) => console.log(d));
-
-    return null;
+    const files = Array.from(this.imageFiles);
+    const tensors$ = files.map( (file) => this.getTensors(file));
+    return combineLatest(tensors$).pipe(
+      map( (tensors) => (new InputDataImpl(tf.stack(tensors), tf.zeros([tensors.length,10]))))
+    );
   }
 }
