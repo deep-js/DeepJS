@@ -7,4 +7,5 @@ import { Subject, BehaviorSubject} from 'rxjs';
  */
 export interface ImageInputPresenter extends InputPresenter{
   getImageFiles$():Subject<FileList>; 
+  getStatus$():Subject<string>; 
 }

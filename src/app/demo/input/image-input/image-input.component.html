@@ -1,1 +1,2 @@
-<input type="file" id="filepicker" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files);" webkitdirectory multiple />
+<input type="file" id="filepicker" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files)" webkitdirectory multiple />
+<pre >{{ status }}</pre>
