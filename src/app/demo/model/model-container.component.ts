@@ -1,4 +1,4 @@
-import { ViewChild,Component, AfterViewInit, Input, ComponentFactoryResolver, OnInit} from '@angular/core';
+import { ViewChild,Component, ComponentFactoryResolver, OnInit} from '@angular/core';
 import { ModelContainerPresenterImpl } from './model-container.presenter';
 import * as api from '@api/core';
 import { InjectComponentDirective } from 'src/app/shared/directives/inject-component.directive';
