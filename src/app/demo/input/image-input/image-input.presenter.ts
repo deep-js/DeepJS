@@ -36,8 +36,12 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
   getTensors(file:File):Observable<tf.Tensor> {
     return from(readImageData(file)).pipe(
       map( (imageData) => tf.fromPixels(imageData as ImageData)),
-      tap( (t) => this.updateStatus(file.webkitRelativePath)),
-      map( (t) => {input:a, label:this.getLabel(file)})
+      map( (t) => { 
+        const a = tf.split(t,3,2)[0];
+        console.log(tf.memory());
+        return a;
+      }),  // function inputed by user
+      tap( (tensor) => this.updateStatus(file.webkitRelativePath)),
       take(1)
     );
 
@@ -79,13 +83,11 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
     
     return combineLatest(tensors$).pipe(
       tap( (tensors) => console.log(tf.memory())),
-      map( (tensors) => tf.tidy(() => {
-        var a = []
-        tensors.forEach( (t) => { a.push(t.dataSync())
-        console.log(tf.memory());
-        tf.dispose(tensors);
+      map( (tensors) => {
+        const a = tf.stack(tensors);
+        //    tf.dispose(tensors);
         return a;
-      })),
+      }),
       //map( (t) => tf.split(t,3,3)[0]),  // function inputed by user
       map( (tensors) => (new InputDataImpl(tensors, tf.zeros([tensors.shape[0],10])))),
       tap( (inputdata) => this.resetStatus()) 
