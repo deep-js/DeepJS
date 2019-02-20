@@ -1,5 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 import { Observable } from 'rxjs';
+import { ModelPresenter } from './model.presenter';
 
 /**
  * Presenter for ModelContainerComponent
@@ -13,5 +14,7 @@ export interface ModelContainerPresenter {
    * @return {Observable<tf.Model>} an observable emitting the imported model when it is done importing
    */
   import():Observable<tf.Model>;
+
+  setModelPresenter(modelPresenter : ModelPresenter);
 }
 

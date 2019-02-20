@@ -53,7 +53,7 @@ declare global {
     FormsModule
   ],
   providers: [TrainerServiceImpl],
-  entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl],
+  entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl, JSONModelComponentImpl, TSModelComponentImpl],
   //  providers: [ {provide:[ModelTrainer], useClass:[ModelTrainerImpl]} ],
   bootstrap: [AppComponent]
 })

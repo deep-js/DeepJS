@@ -12,13 +12,17 @@ import * as api from '@api/core';
  * makes the presenter of the current model importation component available to DemoPresenter
  */
 export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
+ 
 
 
   // presenter for the current model importation component
   private modelPresenter:api.ModelPresenter;
 
-  constructor(modelPresenter:api.ModelPresenter) {
-    this.modelPresenter=modelPresenter;
+  constructor() {
+  }
+
+  setModelPresenter(modelPresenter: api.ModelPresenter) {
+    this.modelPresenter = modelPresenter;
   }
 
   import():Observable<tf.Model>{
