@@ -1,7 +1,7 @@
 import { Input, Component, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
 import { fromEvent, Observable, Subject, Observer, BehaviorSubject } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
-import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../shared/services/trainer/trainer.service';
+import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../../shared/services/trainer/trainer.service';
 import { VisualizationInferenceJSONPresenter, Training } from '@api/core';
 import * as tf from '@tensorflow/tfjs';
 

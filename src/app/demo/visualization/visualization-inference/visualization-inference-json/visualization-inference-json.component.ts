@@ -1,7 +1,7 @@
 import { Input, Component, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
 import { fromEvent, Observable, Observer } from 'rxjs'
 import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
-import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../shared/services/trainer/trainer.service';
+import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../../shared/services/trainer/trainer.service';
 import { VisualizationInferenceJSONComponent, VisualizationInferenceJSONPresenter} from '@api/core';
 import { VisualizationInferenceJSONPresenterImpl } from './visualization-inference-json.presenter'
 
