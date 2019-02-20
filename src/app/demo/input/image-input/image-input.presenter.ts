@@ -30,12 +30,8 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
     this.nbChannels$ = new BehaviorSubject<number>(this.nbChannels);
     this.nbChannels$.pipe(skip(1)).subscribe(n => this.nbChannels=n);
 
-    // Subscribe to it so we get updates from the Component
     this.nbImported = 0, this.nbLabels = 0, this.labels = {};
   }
-
-  // Imports tf.Model object from files
-
 
   // Provide an Observable on the file name
   getImageFiles$():Subject<FileList> { return this.imageFiles$; }
@@ -54,7 +50,6 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
   }
 
   private getLabel(file:File):tf.Tensor {
-    //    label 
     const dirs = file.webkitRelativePath.split("/");
     const label = dirs[dirs.length-2];
     if(this.labels[label] == undefined){
@@ -84,6 +79,9 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
         // because only then is the nb of labels known
         .map((label) => tf.oneHot(label,this.nbLabels)))
     });
+    // to get json from an image
+    // this.getTensors(files[0]).subscribe((t) => console.log(JSON.stringify(t.arraySync()))));
+    // console.log(files[0].webkitRelativePath);console.log(this.getLabel(files[0]).toString());
     return combineLatest(tensors$).pipe(
       tap( (tensors) => console.log(tf.memory())),
       map( (tensors) => {
