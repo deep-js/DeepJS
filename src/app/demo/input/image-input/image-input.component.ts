@@ -16,6 +16,8 @@ export class ImageInputComponentImpl implements OnInit, ImageInputComponent{
 
   private status:string;
 
+  private nbChannels:number;
+
     
   constructor(){
     this.presenter = new ImageInputPresenterImpl();
@@ -27,6 +29,7 @@ export class ImageInputComponentImpl implements OnInit, ImageInputComponent{
     // whenever the presenter changes the path of the json files
     // equivalent to double way data binding but between the component and the presenter
     this.presenter.getImageFiles$().subscribe(s => this.imageFiles = s);
+    this.presenter.getNbChannels$().subscribe(n => this.nbChannels = n);
   }
 
 
