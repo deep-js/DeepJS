@@ -8,9 +8,11 @@ import * as tf from '@tensorflow/tfjs';
 // TODO : test that exceptions are correctly thrown/catched on invalid inputs
 describe('TSModelPresenterImpl', () => {
   let m:TSModelPresenterImpl;
+  let defaultModel:Subject<string>;
 
   beforeEach(() => {
-    m = new TSModelPresenterImpl();
+    defaultModel = new BehaviorSubject<string>("");
+    m = new TSModelPresenterImpl(defaultModel);
   });
 
   it('should call transpile when import is called', () => {

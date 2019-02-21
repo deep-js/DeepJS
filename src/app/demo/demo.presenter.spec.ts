@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { flush, fakeAsync, tick } from '@angular/core/testing';
 import {TrainingImpl} from '../shared/models/training';
-import { of, Subject, Observable } from 'rxjs';
+import { of, BehaviorSubject, Subject, Observable } from 'rxjs';
 import * as tf from '@tensorflow/tfjs';
 
 import { DemoPresenterImpl } from './demo.presenter';
@@ -11,7 +11,7 @@ describe('DemoPresenterImpl', () => {
   let model$:Observable<tf.Model> ;
   let trainParam;
   let modelP, model;
-  let inputP, input;
+  let inputP, input$, input;
   let paramP, param;
   let service ;
   let button$:Subject<any>  ;
@@ -24,7 +24,8 @@ describe('DemoPresenterImpl', () => {
     model$ = of(model);
     modelP = { import:()=> model$ };
     input = {x: tf.tensor([[0,0,0], [0,1,0]]), y: tf.tensor([[0.5], [0.2]]) };
-    inputP = { getInputData:()=> input };
+    input$ = new BehaviorSubject(input);
+    inputP = { getInputData: () => input$ };
     param = { batchSize: 250, epochs: 4000, validationSplit: 0, shuffle: true };
     paramP = { getModelFitConfig:()=> param };
     trainings$Observer = jasmine.createSpy('trainings$_observer');

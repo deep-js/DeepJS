@@ -21,35 +21,20 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
   private model:tf.Model;
 
 
-  constructor(private http: HttpClient) {
+  constructor(defaultModel:Observable<string>) {
 
     // Default value for the model definition
-    this.modelDef="// Define a model for linear regression.\n\
-const model = tf.sequential({layers: [tf.layers.dense({units: 1, inputShape: [3]})]});\n\
-\n\
-const BATCH_SIZE = 250;\n\
-// did not tinker much with that \n\
-const LEARNING_RATE = 0.1;\n\
-\n\
-// ConvNetJS has a momentum variable, so the optimizer was chosen accordingly \n\
-const MOMENTUM = 0.9;\n\
-const optimizer = tf.train.momentum(LEARNING_RATE,MOMENTUM);\n\
-// Prepare the model for training: Specify the loss and the optimizer. \n\
-const compile_options = {loss: 'meanSquaredError', optimizer: optimizer};\n\
-console.log(JSON.stringify({compile_options}));\n\
-model.compile(compile_options);"
 
-this.http.get('assets/model-mnist', { responseType: 'text' }).subscribe(data => {
-  console.log(data);
-  // Make a Subject (kind of Observable) on the TypeScript string
-  // Subscribe to it so we get updates from the Component
-  // (the Component does a next on it at each key press)
-  // Skip ourself sending the first string
-  this.modelDef$.pipe( skip(1) ).subscribe(s => this.modelDef=s)
-  this.modelDef$.next(data as string);
-})
+    this.modelDef$ = new BehaviorSubject<string>("loading");
+    defaultModel.subscribe(data => {
+      // Make a Subject (kind of Observable) on the TypeScript string
+      // Subscribe to it so we get updates from the Component
+      // (the Component does a next on it at each key press)
+      // Skip ourself sending the first string
+      this.modelDef$.pipe( skip(1) ).subscribe(s => this.modelDef=s)
+      this.modelDef$.next(data as string);
+    })
 
-  this.modelDef$ = new BehaviorSubject<string>("loading");
 
   }
 

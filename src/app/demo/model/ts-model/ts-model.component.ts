@@ -22,7 +22,7 @@ export class TSModelComponentImpl implements OnInit, api.TSModelComponent {
   private presenter:api.TSModelPresenter;
     
   constructor(private http: HttpClient) {
-    this.presenter = new TSModelPresenterImpl(http);
+    this.presenter = new TSModelPresenterImpl(this.http.get('assets/model-mnist', { responseType: 'text' }));
   }
 
   ngOnInit(){
