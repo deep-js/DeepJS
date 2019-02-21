@@ -79,6 +79,7 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
         // because only then is the nb of labels known
         .map((label) => tf.oneHot(label,this.nbLabels)))
     });
+    console.log(this.labels);
     // to get json from an image
     // this.getTensors(files[0]).subscribe((t) => console.log(JSON.stringify(t.arraySync()))));
     // console.log(files[0].webkitRelativePath);console.log(this.getLabel(files[0]).toString());

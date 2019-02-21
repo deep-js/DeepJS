@@ -24,6 +24,7 @@ import { InjectComponentDirective } from './shared/directives/inject-component.d
 import { ImageDrawableDirective } from './shared/directives/image-drawable.directive'
 import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/modif-param-model.component';
 import { VisualizationInferenceJSONComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-json/visualization-inference-json.component';
+import { VisualizationInferenceImageComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-image/visualization-inference-image.component';
 
 declare global {
   interface Window {
@@ -44,6 +45,7 @@ declare global {
     InputContainerComponentImpl,
     ImageInputComponentImpl,
     JsonInputComponentImpl,
+    VisualizationInferenceImageComponentImpl, 
     VisualizationInferenceJSONComponentImpl, 
     VisualizationContainerComponentImpl,
     VisualizationItemComponentImpl,

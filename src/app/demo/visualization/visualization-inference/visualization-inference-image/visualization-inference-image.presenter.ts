@@ -1,9 +1,10 @@
 import { Input, Component, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
-import { fromEvent, Observable, Subject, Observer, BehaviorSubject } from 'rxjs'
-import { switchMap, concatMap, merge,map,filter } from 'rxjs/operators'
+import { from, combineLatest, Observable, Subject, Observer, BehaviorSubject } from 'rxjs'
+import { take, switchMap, tap, map,filter } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService, TrainData, TrainEvent } from '../../../../shared/services/trainer/trainer.service';
 import { VisualizationInferenceImagePresenter, Training } from '@api/core';
 import * as tf from '@tensorflow/tfjs';
+import readImageData from 'read-image-data';
 
 /**
  * Presenter for VisualizationInferenceImageComponent
@@ -19,17 +20,43 @@ export class VisualizationInferenceImagePresenterImpl implements VisualizationIn
   private trainings$: Observable<Training>;
   private trainer$: Observable<TrainData>;
 
-  private inferenceInput$: Subject<string>;
-  private inferenceOutput$: Subject<string>;
+  private imageFiles$: Subject<FileList>;
 
-  private inferenceInput: string;
+  private inferenceOutput$: Observable<string[]>;
 
   private training:Training;
 
+  private nbChannels:number = 1;
+  private nbChannels$:Subject<number>;
+
+  private imageDatas$:Observable<ImageData[]>;
+
+  private imageTensors:tf.Tensor;
+
   constructor( modelTrainer: TrainerServiceImpl ) {
+
     this.modelTrainer = modelTrainer;
-    this.inferenceInput$ = new BehaviorSubject("[[[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[113],[142],[1],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[208],[254],[11],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[49],[240],[182],[4],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[52],[241],[147],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[208],[147],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[208],[147],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[208],[147],[0],[0],[0],[0],[0],[0],[0],[0],[88],[142],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[208],[147],[0],[0],[0],[0],[0],[0],[0],[7],[208],[207],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[46],[237],[147],[0],[0],[0],[0],[0],[0],[0],[12],[254],[207],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[22],[222],[147],[0],[0],[0],[0],[0],[0],[0],[12],[255],[207],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[22],[222],[147],[0],[0],[0],[0],[0],[0],[0],[12],[254],[171],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[72],[254],[147],[0],[0],[0],[0],[0],[0],[0],[113],[254],[89],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[72],[254],[147],[0],[0],[0],[0],[0],[0],[0],[79],[254],[89],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[72],[254],[147],[0],[0],[0],[0],[0],[0],[0],[79],[254],[89],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[72],[254],[210],[35],[30],[30],[30],[30],[19],[28],[250],[255],[157],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[59],[224],[254],[254],[254],[254],[254],[254],[222],[247],[254],[254],[207],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[25],[71],[71],[82],[189],[189],[98],[71],[71],[220],[254],[176],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[131],[254],[89],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[131],[254],[89],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[76],[254],[89],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]]]");
-    this.inferenceOutput$ = new BehaviorSubject("[]");
+
+    // inputs
+    this.nbChannels$ = new BehaviorSubject(this.nbChannels);
+    this.nbChannels$.subscribe( input => this.nbChannels = input);
+
+    this.imageFiles$ = new Subject();
+    //this.imageFiles$.subscribe(a => console.log(a));
+    this.imageDatas$ = this.imageFiles$.pipe( 
+      /*filter( files =>  files != null),*/
+      switchMap( (files) => combineLatest(Array.from(files).map( (file) => this.getImageData(file)))),
+      /*switchMap( imageData => zip(imageData )),*/
+      tap( (imageDatas) => {
+        this.imageTensors = tf.stack(imageDatas.map( (imageData) => tf.fromPixels(imageData as ImageData, this.nbChannels)))
+      }),
+      tap( (i) => console.log(this.imageTensors))
+    );
+    console.log(this.imageDatas$);
+    //    this.imageDatas$.subscribe(a => console.log(a));
+
+    // outputs
+
     // For each TrainData emitted by TrainerService, keep only those corresponding to the
     // end of an epoch and having an epoch number multiple of the period
     this.trainer$ = this.modelTrainer.getTrainer$().pipe(
@@ -41,32 +68,31 @@ export class VisualizationInferenceImagePresenterImpl implements VisualizationIn
     );
 
     // For each resulting TrainData, make a prediction
-    this.trainer$.subscribe(
-      data => this.infer()
-    )
-
-    this.inferenceInput$.subscribe( input => this.inferenceInput = input);
-
+    this.inferenceOutput$ = this.trainer$.pipe(
+      filter( event => (this.imageTensors != null && this.imageTensors != undefined)),
+      map( event => 
+        /*    tf.tidy( () =>*/ {
+          const a:tf.Tensor = this.training.getModel().predict(this.imageTensors) as tf.Tensor;
+          console.log(a.toString);
+          return tf.unstack(a)
+            .map( imagePred => JSON.stringify(imagePred.toString()))
+        }//)
+      )
+    );
   }
 
-  private infer():void{
-    // TODO : tf.tidy
-    try{
-      var input:tf.Tensor = tf.tensor(JSON.parse(this.inferenceInput));
-      const output = this.training.getModel().predict(input);
-      const out:string = output.toString(); // wait for and stringify result by calling tfjs' toString() 
-      this.inferenceOutput$.next(out);
-    }
-    catch(e){
-      this.inferenceOutput$.next(e);
-    }
+  private getImageData(file:File):Observable<ImageData> {
+    return from(readImageData(file) as Promise<ImageData>).pipe(take(1));
   }
 
-  public getInferenceInput$():Observable<string> { return this.inferenceInput$; }
-  public getInferenceOutput$():Observable<string> { return this.inferenceOutput$; }
-  
-  public getData$():Observable<string>{
-    return this.getInferenceOutput$();
-  }
+  public getInferenceOutput$():Observable<string[]> { return this.inferenceOutput$; }
+
+  public getImageFiles$():Observable<FileList> { return this.imageFiles$; }
+
+  public getImageDatas$():Observable<ImageData[]> { return this.imageDatas$; }
+
+  public getData$():Observable<string[]>{ return this.getInferenceOutput$(); }
+
+  public getNbChannels$():Subject<number>{ return this.nbChannels$; }
 }
 

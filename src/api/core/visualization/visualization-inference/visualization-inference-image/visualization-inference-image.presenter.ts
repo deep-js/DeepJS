@@ -10,21 +10,10 @@ import { Subject } from 'rxjs';
  */
 export interface VisualizationInferenceImagePresenter extends VisualizationInferencePresenter {
 
-  /**
-   * get the Observable to whom JSON inference input from the user is sent
-   * this presenter listens to it and uses data coming from it to make the inference
-   * @return {Observable<string>} an Observable on the JSON input
-   */
-  getFiles$():Observable<FileList>;
 
-  /**
-   * get the Observable the result of the prediction
-   * this presenter emits results of the inference to it every X period
-   * @return {Observable<string>} an Observable on result of predict()
-   */
   getInferenceOutput$():Observable<string[]>;
-
-  getNbChannels$():Subject<number>; 
-  getImageFiles$():Subject<FileList>; 
+  getNbChannels$():Observable<number>; 
+  getImageFiles$():Observable<FileList>; 
+  getImageDatas$():Observable<ImageData[]>; 
 
 }

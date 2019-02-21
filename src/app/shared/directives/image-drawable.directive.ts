@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef} from '@angular/core';
+import { ElementRef, Input, Directive, ViewContainerRef} from '@angular/core';
 
 @Directive({
   selector: '[image-drawable]'

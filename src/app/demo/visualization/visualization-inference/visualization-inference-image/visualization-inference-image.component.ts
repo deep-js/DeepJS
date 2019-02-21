@@ -17,9 +17,8 @@ import { VisualizationInferenceImagePresenterImpl } from './visualization-infere
  */
 export class VisualizationInferenceImageComponentImpl implements AfterContentInit, VisualizationInferenceImageComponent{
 
-  private inferenceInput:string;
   private imageDatas:ImageData[];
-  private output:string[];
+  private inferenceOutput:string[];
   private nbChannels:number;
   private presenter:VisualizationInferenceImagePresenter;
 
@@ -28,13 +27,15 @@ export class VisualizationInferenceImageComponentImpl implements AfterContentIni
 
   constructor( modelTrainer: TrainerServiceImpl ) {
     this.presenter = new VisualizationInferenceImagePresenterImpl(modelTrainer);
-    this.presenter.getImageDatas$().subscribe(d => this.imageDatas = d);
+    this.presenter.getImageDatas$().subscribe(d => {console.log(d);  this.imageDatas = d });
     this.presenter.getInferenceOutput$().subscribe(output => this.inferenceOutput = output);
+    this.presenter.getNbChannels$().subscribe(nb => this.nbChannels = nb);
   }
 
   ngAfterContentInit() {
 
 
   }
+  log(s){ console.log(s)}
 
 }
