@@ -88,10 +88,22 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
       map( (tensors) => {
         const a = tf.stack(tensors);
         tf.dispose(tensors);
-        return new InputDataImpl(a, labels);
+        const b =  new InputDataImpl(a, labels);
+        b.setLabels(this.reverseDict(this.labels));
+        return b;
       }),
       //map( (t) => tf.split(t,3,3)[0]),  // function inputed by user
       tap( (inputdata) => this.resetStatus()) 
     );
+  }
+
+  private reverseDict(d:{ [key:string]:number; }):string[]{
+    const r = [];
+    for(var propName in d)
+    {
+      var num = d[propName];
+      r[num]=propName;
+    }
+    return r;
   }
 }

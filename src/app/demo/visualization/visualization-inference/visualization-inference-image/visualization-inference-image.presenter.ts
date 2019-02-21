@@ -75,12 +75,24 @@ export class VisualizationInferenceImagePresenterImpl implements VisualizationIn
           const a:tf.Tensor = this.training.getModel().predict(this.imageTensors) as tf.Tensor;
           console.log(a.toString);
           return tf.unstack(a)
-            .map( imagePred => JSON.stringify(imagePred.toString()))
+            .map( imagePred => {
+              const predArray:number[] = imagePred.arraySync() as number[];
+              return predArray.map( (n,i) => this.getLabel(i)+": "+n).join(',');
+            });
         }//)
       )
     );
   }
 
+  //TODO : do something about labels not being set
+  private getLabel(i:number):string{
+    if(this.training.getInputs().getLabels() != undefined){
+      return this.training.getInputs().getLabels()[i];
+    }
+    else{
+      return "?";
+    }
+  }
   private getImageData(file:File):Observable<ImageData> {
     return from(readImageData(file) as Promise<ImageData>).pipe(take(1));
   }
