@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-  
+
   <p align="center">
   <a href="http://www.auxietre.com/Test/DEEP/deepjsfun.html">
     <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/img/logo.png" alt="deepjs logo" width="140" height="140">
@@ -286,8 +285,7 @@ __éléments__
 ~~barrés~~.
 
 ![Google logo](https://www.google.fr/images/srpr/logo11w.png "google logo")
-=======
-# Deepjs
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
@@ -314,4 +312,4 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
->>>>>>> master
+
