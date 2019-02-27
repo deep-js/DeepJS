@@ -5,7 +5,7 @@ inference image
 <label>Number Of Channels <input type="number" name="nbChannels" min="1" max="4" [ngModel]="nbChannels" (change)="presenter.getNbChannels$().next($event.target.value)" > </label>
 <div *ngFor="let imageData of imageDatas; let i = index">
   <canvas image-drawable [imageData]="imageData"></canvas> 
-  <p *ngIf="inferenceOutput?.length > 0">
+  <p style="font-size:small" *ngIf="inferenceOutput?.length > 0">
   {{ inferenceOutput[i] }}
   </p>
 </div>

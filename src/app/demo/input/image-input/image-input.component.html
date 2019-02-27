@@ -1,3 +1,3 @@
 <input type="file" id="filepicker" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files)" webkitdirectory multiple />
 <label>Number Of Channels <input type="number" name="nbChannels" min="1" max="4" [ngModel]="nbChannels" (change)="presenter.getNbChannels$().next($event.target.value)" > </label>
-<pre >{{ status }}</pre>
+<p >{{ status }}</p>
