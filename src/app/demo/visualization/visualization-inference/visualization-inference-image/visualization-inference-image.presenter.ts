@@ -49,10 +49,8 @@ export class VisualizationInferenceImagePresenterImpl implements VisualizationIn
       /*switchMap( imageData => zip(imageData )),*/
       tap( (imageDatas) => {
         this.imageTensors = tf.stack(imageDatas.map( (imageData) => tf.fromPixels(imageData as ImageData, this.nbChannels)))
-      }),
-      tap( (i) => console.log(this.imageTensors))
+      })
     );
-    console.log(this.imageDatas$);
     //    this.imageDatas$.subscribe(a => console.log(a));
 
     // outputs
@@ -73,11 +71,14 @@ export class VisualizationInferenceImagePresenterImpl implements VisualizationIn
       map( event => 
         /*    tf.tidy( () =>*/ {
           const a:tf.Tensor = this.training.getModel().predict(this.imageTensors) as tf.Tensor;
-          console.log(a.toString);
           return tf.unstack(a)
             .map( imagePred => {
               const predArray:number[] = imagePred.arraySync() as number[];
-              return predArray.map( (n,i) => this.getLabel(i)+": "+n).join(',');
+              console.log(predArray);
+              const predAndLabels = predArray.map((a,i) => [this.getLabel(i),a]);
+              predAndLabels.sort( (a,b) => <number>a[1]-<number>b[1]).reverse();
+              console.log(predAndLabels);
+              return predAndLabels.map( (n) => n[0]+": "+(<number>n[1]).toFixed(2)).join(',');
             });
         }//)
       )

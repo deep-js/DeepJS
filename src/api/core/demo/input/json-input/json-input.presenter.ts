@@ -4,5 +4,6 @@ import * as tf from '@tensorflow/tfjs';
 
 export interface JsonInputPresenter extends InputPresenter{
   createInputData(str: string): boolean;
-  setJSON(str:string)
+  setJSON(str:string);
+  getDataset():string;
 }

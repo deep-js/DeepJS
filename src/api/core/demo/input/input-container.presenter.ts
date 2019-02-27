@@ -5,4 +5,6 @@ import {Observable} from 'rxjs';
 export interface InputContainerPresenter{
   getInputData():Observable<InputData>;
   setInputPresenter(inputPresenter:InputPresenter);
+  exportJson();
+  getDataset():string;
 }
