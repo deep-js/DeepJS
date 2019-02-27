@@ -4,13 +4,16 @@ import { Subject } from 'rxjs';
 
 /**
  * Presenter for VisualizationInferenceImageComponent 
- * makes the prediction, updates it when needed
- * gets the model and training events from the trainer service
- * gets the inference input from its Component
+ * Converts the given images to tensors, makes a prediction on them
+ * using the current model
+ * It then provides the results as a string
  */
 export interface VisualizationInferenceImagePresenter extends VisualizationInferencePresenter {
 
-
+  /**
+   * get an observable to which prediction results are emitted
+   * 
+   */
   getInferenceOutput$():Observable<string[]>;
   getNbChannels$():Observable<number>; 
   getImageFiles$():Observable<FileList>; 

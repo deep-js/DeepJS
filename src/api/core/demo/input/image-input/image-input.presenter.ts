@@ -25,7 +25,8 @@ export interface ImageInputPresenter extends InputPresenter{
   getImageFiles$():Subject<FileList>; 
 
   /**
-   *
+   * During the importation process, this Observable emits the importation status 
+   * as a string
    */
   getStatus$():Subject<string>; 
 }
