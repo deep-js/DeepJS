@@ -6,4 +6,5 @@ export interface JsonInputPresenter extends InputPresenter{
   createInputData(str: string): boolean;
   setJSON(str:string);
   getDataset():string;
+  getJSON():string;
 }

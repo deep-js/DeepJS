@@ -19,6 +19,10 @@ export class JsonInputPresenterImpl implements JsonInputPresenter {
     this.json = str;
   }
 
+  getJSON():string {
+    return this.json;
+  }
+
   getInputData():Observable<InputData> {
     this.createInputData(this.json);
     return of(this.input);
