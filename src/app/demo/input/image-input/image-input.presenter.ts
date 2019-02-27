@@ -97,6 +97,10 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
     );
   }
 
+  getDataset():string{
+    return null;
+  }
+
   private reverseDict(d:{ [key:string]:number; }):string[]{
     const r = [];
     for(var propName in d)
