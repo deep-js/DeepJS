@@ -5,7 +5,16 @@ import * as tf from '@tensorflow/tfjs';
 import { InputDataImpl } from '../../../shared/models/inputData';
 import readImageData from 'read-image-data';
 
-
+/**
+ * Implementation for ImageInputPresenter
+ * Uses the canvas method to get ImageData from Files via the
+ * read-image-data library.
+ * Uses tf.FromPixel to turn ImageData to Tensors
+ * Memory usage peaks to 2x the final tensor size because 
+ * tf.stack() makes a copy. 
+ * This could be improved by directly manipulating Typed Arrays
+ * Memory usage is otherwise kept to a minimum.
+ */
 export class ImageInputPresenterImpl implements ImageInputPresenter{
   private imageFiles: FileList;
   private imageFiles$: Subject<FileList>;
@@ -33,11 +42,19 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
     this.nbImported = 0, this.nbLabels = 0, this.labels = {};
   }
 
-  // Provide an Observable on the file name
+  /**
+   * @see {ImageInputPresenter}
+   */
   getImageFiles$():Subject<FileList> { return this.imageFiles$; }
 
+  /**
+   * @see {ImageInputPresenter}
+   */
   getNbChannels$():Subject<number> { return this.nbChannels$; }
 
+  /**
+   * @see {ImageInputPresenter}
+   */
   getStatus$():Subject<string> { return this.status$; }
 
   private getTensors(file:File):Observable<tf.Tensor> {
@@ -68,6 +85,9 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
     console.log(tf.memory());
   }
 
+  /**
+   * @see {ImageInputPresenter}
+   */
   getInputData(): Observable<InputData> {
     console.log(this.imageFiles);
     const files = Array.from(this.imageFiles);

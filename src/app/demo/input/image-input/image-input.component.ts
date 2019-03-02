@@ -8,6 +8,15 @@ import { tap } from 'rxjs/operators';
   templateUrl: './image-input.component.html',
   styleUrls: ['./image-input.component.css']
 })
+/**
+ * Implementation for ImageInputComponent
+ * Has a button for choosing a directory containing image files 
+ * organized in directories corresponding to labels
+ * Also has a field allowing the user to choose how many channels 
+ * should be kept on the original image
+ * All the file opening, image importing and general logic is done
+ * in this component's presenter : ImageInputPresenter
+ */
 export class ImageInputComponentImpl implements OnInit, ImageInputComponent{
 
   private imageFiles:FileList;
@@ -34,6 +43,11 @@ export class ImageInputComponentImpl implements OnInit, ImageInputComponent{
 
 
 
+  /**
+   * Get this component's presenter, 
+   * Can be used to retrieve presenter data from components
+   * parent to this componenet
+   */
   getPresenter():InputPresenter {
     return this.presenter;
   }
