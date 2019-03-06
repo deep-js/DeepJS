@@ -13,6 +13,10 @@ import { VisualizationInferenceImagePresenterImpl } from './visualization-infere
 
 /**
  * Implementation for VisualizationInferenceImageComponent
+ * Has a "Browse" button to choose images to make a prediction on
+ * and a small field for giving the number of channel that should be kept 
+ * on the original images
+ * displays the images with their prediction as a string below each
  *
  */
 export class VisualizationInferenceImageComponentImpl implements AfterContentInit, VisualizationInferenceImageComponent{
@@ -27,7 +31,7 @@ export class VisualizationInferenceImageComponentImpl implements AfterContentIni
 
   constructor( modelTrainer: TrainerServiceImpl ) {
     this.presenter = new VisualizationInferenceImagePresenterImpl(modelTrainer);
-    this.presenter.getImageDatas$().subscribe(d => {console.log(d);  this.imageDatas = d });
+    this.presenter.getImageDatas$().subscribe(d => this.imageDatas = d);
     this.presenter.getInferenceOutput$().subscribe(output => this.inferenceOutput = output);
     this.presenter.getNbChannels$().subscribe(nb => this.nbChannels = nb);
   }
@@ -36,6 +40,5 @@ export class VisualizationInferenceImageComponentImpl implements AfterContentIni
 
 
   }
-  log(s){ console.log(s)}
 
 }
