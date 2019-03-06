@@ -42,7 +42,6 @@ export class InputContainerPresenterImpl implements InputContainerPresenter{
 
   exportJson(){
     var fileSaver = require('file-saver');
-    //var data = JSON.stringify(this.getDataset());
     var blob = new Blob([this.getDataset()], {type: "text/plain;charset=utf-8"});
     fileSaver.saveAs(blob, "export.json");
   }

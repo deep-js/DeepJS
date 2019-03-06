@@ -13,8 +13,6 @@ export class ModifParamModelPresenterImpl implements api.ModifParamModelPresente
 
     private modelDef: string;
 
-    //TODO CHANGER DE VERSION DE TENSORFLOW ET MODIFIER MODELFITCONFIG EN MODELFITARGS
-
     constructor() {
       this.modelDef="{\"batchSize\":250 , \"epochs\":4000 , \"verbose\":null , " + 
       "\"callbacks\":null, \"validationSplit\":null, \"validationData\":null, \"shuffle\":null , \"classWeight\":null, " + 
