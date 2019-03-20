@@ -47,6 +47,8 @@ Read the [Getting started page](https://github.com/deep-js/DEEPJS/docs/introduct
 
 ## Status
 
+https://img.shields.io/ansible/quality/:projectId.svg
+
 [![Slack](https://bootstrap-slack.herokuapp.com/badge.svg)](https://bootstrap-slack.herokuapp.com/)
 [![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap)
 [![npm version](https://img.shields.io/npm/v/bootstrap.svg)](https://www.npmjs.com/package/bootstrap)
