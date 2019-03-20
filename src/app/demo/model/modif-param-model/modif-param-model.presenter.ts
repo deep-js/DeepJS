@@ -7,6 +7,7 @@ import { skip} from 'rxjs/operators';
 
 import * as api from '@api/core';
 import { ModelFitArgs } from '@tensorflow/tfjs';
+import { TrainParamEmptyError } from 'src/app/shared/exceptions/TrainParamEmptyError';
 
 export class ModifParamModelPresenterImpl implements api.ModifParamModelPresenter{
 
@@ -26,7 +27,11 @@ export class ModifParamModelPresenterImpl implements api.ModifParamModelPresente
 
     // Return the ModelFitConfig 
     getModelFitConfig():ModelFitArgs{
+      try {
       var json = JSON.parse(this.modelDef);
+      } catch(e) {
+        throw new TrainParamEmptyError();
+      }
       return json;
     }
 

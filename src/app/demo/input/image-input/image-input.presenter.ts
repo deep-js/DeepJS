@@ -4,6 +4,7 @@ import { tap, take,  map, skip } from 'rxjs/operators';
 import * as tf from '@tensorflow/tfjs';
 import { InputDataImpl } from '../../../shared/models/inputData';
 import readImageData from 'read-image-data';
+import { DatasetImageMissingError } from 'src/app/shared/exceptions/DatasetImageMissingError';
 
 /**
  * Implementation for ImageInputPresenter
@@ -58,7 +59,10 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
   getStatus$():Subject<string> { return this.status$; }
 
   private getTensors(file:File):Observable<tf.Tensor> {
-    return from(readImageData(file)).pipe(
+    return from(readImageData(file).catch(function(error){
+      console.log(error);
+
+    })).pipe(
       map( (imageData) => tf.fromPixels(imageData as ImageData, this.nbChannels)),
       tap( (tensor) => this.updateStatus(file.webkitRelativePath)),
       take(1)
@@ -90,7 +94,11 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
    */
   getInputData(): Observable<InputData> {
     console.log(this.imageFiles);
+    if (this.imageFiles == null)
+      throw new DatasetImageMissingError();
+    
     const files = Array.from(this.imageFiles);
+
     console.log(tf.memory());
     const tensors$ = files.map( (file) => this.getTensors(file));
     const labels = tf.tidy( () => {

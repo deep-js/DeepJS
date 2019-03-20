@@ -7,6 +7,7 @@ import { skip} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 import * as api from '@api/core';
+import { ModelDefBoxEmptyError } from 'src/app/shared/exceptions/ModelDefBoxEmptyError';
 
 /**
  * Implementation for TSModelComponent
@@ -55,9 +56,22 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
    * #uglyhack
    */
   private evaluate(s:string) {
+    if (s == null)
+      throw new ModelDefBoxEmptyError();
+    
     // Add model at the end so that it is returned by eval
     let result = ts.transpile(s+";model;");
+    try {
+    var tmp = eval(result);
+    if (tmp == null && tmp != undefined) {
+      throw new ModelDefBoxEmptyError();
+    }
     return eval(result);
+    } catch(e) {
+      throw new ModelDefBoxEmptyError();
+    }
+    return null;
+    
   }
 
   public getModelDef$():Subject<string> { return this.modelDef$; }
