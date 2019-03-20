@@ -12,5 +12,7 @@ export interface ModelPresenter {
    * @return {Observable<tf.Model>} an observable emitting the model when it is done importing
    */
   import():Observable<tf.Model>;
+
+  export();
 }
 

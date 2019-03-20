@@ -11,13 +11,12 @@ import {InjectComponentDirective} from '../../shared/directives/inject-component
   styleUrls: ['./input-container.component.css']
 })
 export class InputContainerComponentImpl implements InputContainerComponent, OnInit{
-
-  presenter:InputContainerPresenter;
-
   private mapSons = new Map()
     .set("image", ImageInputComponentImpl)
     .set("json", JsonInputComponentImpl);
-
+  
+  public presenter:InputContainerPresenter;
+  
   private typeInputKeys : string[];
 
   private child : InputComponent;
@@ -27,37 +26,34 @@ export class InputContainerComponentImpl implements InputContainerComponent, OnI
   @ViewChild(InjectComponentDirective) injectComponent : InjectComponentDirective;
 
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver)
-  {
-     
-  }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.typeInput = "json";
     this.typeInputKeys = Array.from(this.mapSons.keys());
     this.presenter = new InputContainerPresenterImpl();
     this.changeComponent();
   }
 
-  changeComponent(){
+  public changeComponent(){
     if(this.mapSons.has(this.typeInput) ){
-
+      // componentFactory becomes the 'recipe' of the current 'type'InputComponentImpl
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.mapSons.get(this.typeInput));
 
+      // get the View Container Reference grom injectComponent and clear it
       let viewContainerRef = this.injectComponent.viewContainerRef;
       viewContainerRef.clear();
 
+      // use componentFactory recipe to create a new component
       let componentRef = viewContainerRef.createComponent(componentFactory);
 
+      // reference the new component to 'child' variable and set the current present to it
       this.child = <InputComponent>componentRef.instance;
       this.presenter.setInputPresenter(this.child.getPresenter());
     }
   }
-
-
-
-  getPresenter():InputContainerPresenter{return this.presenter;}
-
   
-
+  public getPresenter():InputContainerPresenter{
+    return this.presenter;
+  }
 }

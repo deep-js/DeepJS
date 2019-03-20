@@ -65,4 +65,9 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
   // TODO : obsolete ?
   setModelDef(s:string):void { this.modelDef = s; }
 
+  public export() {
+    var file = require('file-saver');
+    var e = new Blob([this.modelDef], {type: "text/plain; charset=utf-8"});
+    file.saveAs(e, "model-export.ts")
+  }
 }

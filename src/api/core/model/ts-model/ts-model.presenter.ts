@@ -21,4 +21,9 @@ export interface TSModelPresenter extends ModelPresenter {
    */
   setModelDef(modelDef:string);
 
+  /**
+   * TODO
+   */
+  exportModel();
+
 }

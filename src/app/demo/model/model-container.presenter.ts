@@ -29,5 +29,7 @@ export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
     return this.modelPresenter.import();
   }
 
-
+  exportModel() {
+    return this.modelPresenter.export();
+  }
 }

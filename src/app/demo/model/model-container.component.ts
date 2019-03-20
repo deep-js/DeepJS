@@ -15,7 +15,7 @@ import { TSModelComponentImpl } from './ts-model/ts-model.component';
  */
 export class ModelContainerComponentImpl implements OnInit, api.ModelContainerComponent {
   
-  // String from the textarea, corresponding to the definition of the model-container in TypeScript
+  // String from the text area, corresponding to the definition of the model-container in TypeScript
   private presenter:api.ModelContainerPresenter;
 
   // map the type of the modele wanted with his real component
@@ -34,10 +34,7 @@ export class ModelContainerComponentImpl implements OnInit, api.ModelContainerCo
   @ViewChild(InjectComponentDirective) injectComponent : InjectComponentDirective;
 
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver)
-  {
-     
-  }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
 
   ngOnInit(): void {
@@ -50,7 +47,7 @@ export class ModelContainerComponentImpl implements OnInit, api.ModelContainerCo
 
 
 
-  changeComponent(): any {
+  public changeComponent() {
     if(this.mapSons.has(this.typeModel) ){
       //create an abstract component from corresponding component in the map
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.mapSons.get(this.typeModel));

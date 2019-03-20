@@ -54,4 +54,9 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
   // Provide an Observable on the file name
   getModelFile$():Subject<FileList> { return this.modelFile$; }
 
+  public export() {
+    var file = require('file-saver');
+    var e = new Blob(["export model json test"], {type: "text/plain; charset=utf-8"});
+    file.saveAs(e, "model-export.json")
+  }
 }

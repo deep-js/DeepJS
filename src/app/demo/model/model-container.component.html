@@ -1,4 +1,4 @@
-<h1> model definition </h1>
+<h1> Model definition </h1>
 <h3>Select your model type</h3>
 <select  (change)="changeComponent()" [(ngModel)]="typeModel">
 	<option *ngFor="let model of typeModelKeys">{{model}}</option>
@@ -6,3 +6,6 @@
 <div >
   <ng-template inject-component></ng-template>
 </div>
+
+<!--Display "Export" button-->
+<button (click)="this.presenter.exportModel()">Export</button>
