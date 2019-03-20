@@ -34,7 +34,7 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
      */
     return this.trainings$ = button$.pipe(switchMap((event) => 
       zip(
-        modelPresenter.import(),
+        modelPresenter.importModel(),
         inputPresenter.getInputData()
       )),
         map(  ([model, input]) => ( new TrainingImpl(

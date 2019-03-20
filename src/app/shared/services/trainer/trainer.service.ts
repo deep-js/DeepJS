@@ -138,7 +138,7 @@ export class TrainerServiceImpl implements TrainerService {
     let x = training.getInputs().getXTensor();
     let y = training.getInputs().getYTensor();
     let m = training.getModel() as tf.Sequential;
-    let c = training.getConfig() as tf.ModelFitArgs;
+      let c = training.getConfig() as tf.ModelFitArgs;
 
     /* These callbacks are called at specific events in the training
      * by fit
