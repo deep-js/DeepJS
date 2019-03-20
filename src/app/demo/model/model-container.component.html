@@ -3,6 +3,7 @@
 <select  (change)="changeComponent()" [(ngModel)]="typeModel">
 	<option *ngFor="let model of typeModelKeys">{{model}}</option>
 </select>
+<button (click)="exportModel()">export model</button>
 <div >
   <ng-template inject-component></ng-template>
 </div>

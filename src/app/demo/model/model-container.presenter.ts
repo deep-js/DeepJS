@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { Subject, BehaviorSubject} from 'rxjs';
 import { skip} from 'rxjs/operators';
+import { TrainerService } from 'src/app/shared/services/trainer/trainer.service'
 
 import * as api from '@api/core';
 
@@ -18,16 +19,15 @@ export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
   // presenter for the current model importation component
   private modelPresenter:api.ModelPresenter;
 
-  constructor() {
+    constructor(trainerService: TrainerService) {
   }
 
   setModelPresenter(modelPresenter: api.ModelPresenter) {
     this.modelPresenter = modelPresenter;
   }
 
-  import():Observable<tf.Model>{
+  importModel():Observable<tf.Model>{
     return this.modelPresenter.import();
   }
-
 
 }

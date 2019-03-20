@@ -13,7 +13,7 @@ export interface ModelContainerPresenter {
    * Imports the model by calling the current model importation component
    * @return {Observable<tf.Model>} an observable emitting the imported model when it is done importing
    */
-  import():Observable<tf.Model>;
+  importModel():Observable<tf.Model>;
 
   setModelPresenter(modelPresenter : ModelPresenter);
 }

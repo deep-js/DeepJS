@@ -4,6 +4,9 @@ import * as api from '@api/core';
 import { InjectComponentDirective } from 'src/app/shared/directives/inject-component.directive';
 import { JSONModelComponentImpl } from './json-model/json-model.component';
 import { TSModelComponentImpl } from './ts-model/ts-model.component';
+import { TrainingImpl } from 'src/app/shared/models/training';
+import * as tf from '@tensorflow/tfjs';
+import { TrainerServiceImpl } from 'src/app/shared/services/trainer/trainer.service';
 
 @Component({
   selector: 'app-model-container',
@@ -16,8 +19,10 @@ import { TSModelComponentImpl } from './ts-model/ts-model.component';
 export class ModelContainerComponentImpl implements OnInit, api.ModelContainerComponent {
   
   // String from the textarea, corresponding to the definition of the model-container in TypeScript
-  private presenter:api.ModelContainerPresenter;
-
+    private presenter:api.ModelContainerPresenter;
+    private model:tf.Model;
+    private trainerService:TrainerServiceImpl;
+    
   // map the type of the modele wanted with his real component
   private mapSons = new Map()
     .set("json", JSONModelComponentImpl)
@@ -31,12 +36,13 @@ export class ModelContainerComponentImpl implements OnInit, api.ModelContainerCo
   // type of the current model definiton (json, ts, etc.)
   private typeModel : string = "";
 
-  @ViewChild(InjectComponentDirective) injectComponent : InjectComponentDirective;
+ @ViewChild(InjectComponentDirective) injectComponent : InjectComponentDirective;
 
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver)
-  {
-     
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, trainerService: TrainerServiceImpl)
+    {
+      this.trainerService = trainerService;
+      this.trainerService.getCurrentTrainings$().subscribe((training) => this.model = training.getModel());
   }
 
 
@@ -44,7 +50,7 @@ export class ModelContainerComponentImpl implements OnInit, api.ModelContainerCo
     //init typescript as default model type
     this.typeModel = "typescript";
     this.typeModelKeys = Array.from(this.mapSons.keys());
-    this.presenter = new ModelContainerPresenterImpl();
+    this.presenter = new ModelContainerPresenterImpl(this.trainerService);
     this.changeComponent();
   }
 
@@ -72,5 +78,11 @@ export class ModelContainerComponentImpl implements OnInit, api.ModelContainerCo
 
   getPresenter():api.ModelContainerPresenter{ return this.presenter; }
 
-
+    exportModel():void {
+	if (this.model === null || this.model == undefined) {
+	    this.presenter.importModel().subscribe((model) => this.model = model);
+	}
+	//console.log(window.indexedDB);
+	this.model.save('downloads://my-model-1');
+    }
 }
