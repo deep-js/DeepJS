@@ -24,6 +24,6 @@ export interface TSModelPresenter extends ModelPresenter {
   /**
    * TODO
    */
-  exportModel();
+  export();
 
 }
