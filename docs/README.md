@@ -1,7 +1,7 @@
-
+  
   <p align="center">
   <a href="http://www.auxietre.com/Test/DEEP/deepjsfun.html">
-    <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/img/logo.png" alt="deepjs logo" width="140" height="140">
+    <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/img/logo.png" alt="deepjs logo" width="72" height="72">
   </a>
 </p>
 
@@ -33,16 +33,10 @@
 Several quick start options are available:
 
 - [Download the latest release.](https://github.com/deep-js/DEEPJS/archive/deepjsfun.zip)
-- [try demos.](http://www.auxietre.com/Test/JS/index.html)
-- [tensorflow. on ghithub](https://github.com/tensorflow/tensorflow)
-- [tensorflowJs](https://js.tensorflow.org/)
 - Clone the repo: `git clone https://github.com/deep-js/DeepJS.git`
 
 
-
-
-
-Read the [Getting started page](https://github.com/deep-js/DEEPJS/docs/introduction.html/) for information on the framework contents, templates and examples, and more.
+Read the [Getting started page](https://github.com/deep-js/DEEPJS/docs/4.2/getting-started/introduction/) for information on the framework contents, templates and examples, and more.
 
 
 ## Status
@@ -285,31 +279,3 @@ __éléments__
 ~~barrés~~.
 
 ![Google logo](https://www.google.fr/images/srpr/logo11w.png "google logo")
-
-
-This project was generated with [Angular CLI](https://cli.angular.io/) version 6.2.3.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
