@@ -24,6 +24,7 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
   private trainings$:Observable<Training>;
   private inputPresenter: InputPresenter;
   private modifParamPresenter:ModifParamModelPresenter;
+  private error$:Subject<String>;
 
   // Constructs the Observable on Trainings from the button events
   private createTrainingsObservable( button$:Observable<any>, modelPresenter:ModelContainerPresenter, inputPresenter:InputPresenter, modifParamPresenter:ModifParamModelPresenter):Observable<Training>{
@@ -32,17 +33,29 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
      *  when it's imported, then map each model to a training
      *  use share to have a single training for all observers
      */
-    return this.trainings$ = button$.pipe(switchMap((event) => 
-      zip(
-        modelPresenter.importModel(),
-        inputPresenter.getInputData()
-      )),
-        map(  ([model, input]) => ( new TrainingImpl(
-          input,
-          modifParamPresenter.getModelFitConfig(),
-          model)
-        )), share()
+    return this.trainings$ = button$.pipe(switchMap((event) => { 
+      try {
+        var observableModel = modelPresenter.import(); 
+        var observableInput = inputPresenter.getInputData();
+      } catch(e) {
+        this.error$.next(e.message);
+        return new Observable<[tf.Model, InputData]>();
+      }
+      return zip(observableModel, observableInput);
+    }),
+        map(([model, input]) => {
+          try {
+          var modelFitCf = modifParamPresenter.getModelFitConfig();
+          } catch(e) {
+            this.error$.next(e.message);
+          }
+          return new TrainingImpl(input, modelFitCf, model);
+        }), share()
     ) as Observable<Training>;
+  }
+
+  public getError$():Observable<String> {
+    return this.error$;
   }
 
   public getTrainings$():Observable<Training>{ return this.trainings$; }
@@ -64,6 +77,7 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
     this.trainings$ = this.createTrainingsObservable(trainButton$, this.modelPresenter, this.inputPresenter, this.modifParamPresenter);
     // give it to trainer service
     trainerService.setTrainings$(this.trainings$);
+    this.error$ = new Subject<String>();
   }
 
   ngOnInit() {
