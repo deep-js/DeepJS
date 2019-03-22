@@ -25,6 +25,10 @@ import { ImageDrawableDirective } from './shared/directives/image-drawable.direc
 import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/modif-param-model.component';
 import { VisualizationInferenceJSONComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-json/visualization-inference-json.component';
 import { VisualizationInferenceImageComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-image/visualization-inference-image.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 declare global {
   interface Window {
@@ -56,7 +60,12 @@ declare global {
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule, 
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   providers: [TrainerServiceImpl],
   entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl, JSONModelComponentImpl, TSModelComponentImpl],

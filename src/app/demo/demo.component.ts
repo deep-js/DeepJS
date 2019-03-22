@@ -22,7 +22,7 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
   @ViewChild('modelContainer') modelContainer:ModelContainerComponent;
 
   // DOM element triggering the training
-  @ViewChild('trainButton') trainButton: ElementRef;
+  @ViewChild('trainButton', {read: ElementRef}) private trainButton: ElementRef;
 
   @ViewChild('modifParam') modifParam: ModifParamModelComponent;
   // Presenter for this component
