@@ -1,12 +1,20 @@
+<mat-card class="card-class">
+  <mat-card-header>
+    <mat-card-title>
 <h2>
-inference image
+  inference image
 </h2>
+</mat-card-title>
+</mat-card-header>
+<mat-card-content>
 <input type="file" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files)" multiple />
-<label>Number Of Channels <input type="number" name="nbChannels" min="1" max="4" [ngModel]="nbChannels" (change)="presenter.getNbChannels$().next($event.target.value)" > </label>
+<label>Number Of Channels <mat-form-field><input matInput type="number" name="nbChannels" min="1" max="4" [ngModel]="nbChannels"
+      (change)="presenter.getNbChannels$().next($event.target.value)"></mat-form-field> </label>
 <div *ngFor="let imageData of imageDatas; let i = index">
-  <canvas image-drawable [imageData]="imageData"></canvas> 
+  <canvas image-drawable [imageData]="imageData"></canvas>
   <p style="font-size:small" *ngIf="inferenceOutput?.length > 0">
-  {{ inferenceOutput[i] }}
+    {{ inferenceOutput[i] }}
   </p>
 </div>
-
+</mat-card-content>
+</mat-card>

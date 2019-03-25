@@ -1,5 +1,13 @@
-<h1>
+
+<mat-card class="card-class">
+    <mat-card-header>
+      <mat-card-title><h1>
   training parameters
-</h1>
-<textarea [(ngModel)]="modelDef" id="modelDef" cols="90" rows="10" (keyup)="presenter.setModelDef(modelDef)">
+</h1></mat-card-title></mat-card-header>
+<mat-card-content>
+<mat-form-field class="material-width">
+<textarea matInput [(ngModel)]="modelDef" id="modelDef" cols="90" rows="10" (keyup)="presenter.setModelDef(modelDef)">
 </textarea>
+</mat-form-field>
+</mat-card-content>
+</mat-card>

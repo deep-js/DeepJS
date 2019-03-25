@@ -1,3 +1,7 @@
+.material-width {
+  width: 50%;
+}
+
 span, p {
   font-family: Helvetica, Arial, Sans-Serif;
   font-size: large;

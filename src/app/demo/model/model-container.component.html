@@ -1,5 +1,8 @@
-<h1> model definition </h1>
-
+<mat-card class="card-class">
+    <mat-card-header>
+      <mat-card-title>
+<h1> model definition </h1></mat-card-title></mat-card-header>
+<mat-card-content>
 <mat-form-field>
 <mat-label>Select your model type</mat-label>
 <mat-select (selectionChange)="changeComponent()" [(ngModel)]="typeModel">
@@ -9,3 +12,5 @@
 <div>
   <ng-template inject-component></ng-template>
 </div>
+</mat-card-content>
+</mat-card>

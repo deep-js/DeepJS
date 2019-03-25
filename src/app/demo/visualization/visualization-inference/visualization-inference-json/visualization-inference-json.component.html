@@ -1,8 +1,19 @@
-<h2>
-inference JSON
-</h2>
-<textarea [(ngModel)]="inferenceInput" cols="90" rows="5"  (keyup)="this.presenter.getInferenceInput$().next(inferenceInput)">
+<mat-card class="card-class">
+    <mat-card-header>
+        <mat-card-title>
+            <h2>
+                inference JSON
+            </h2>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field class="material-width">
+            <textarea matInput [(ngModel)]="inferenceInput" cols="90" rows="5"
+                (keyup)="this.presenter.getInferenceInput$().next(inferenceInput)">
 </textarea>
-<p>
-{{ inferenceOutput}}
-</p>
+        </mat-form-field>
+        <p>
+            {{ inferenceOutput}}
+        </p>
+    </mat-card-content>
+</mat-card>

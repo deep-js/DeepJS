@@ -29,6 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 
 declare global {
   interface Window {
@@ -65,7 +67,9 @@ declare global {
     MatButtonModule, 
     MatCheckboxModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatInputModule,
+    MatCardModule,
   ],
   providers: [TrainerServiceImpl],
   entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl, JSONModelComponentImpl, TSModelComponentImpl],

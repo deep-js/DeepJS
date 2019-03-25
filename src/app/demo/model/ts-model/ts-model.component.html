@@ -1,4 +1,4 @@
-<textarea [(ngModel)]="modelDef" cols="90" rows="19"  (keyup)="this.presenter.getModelDef$().next(modelDef)">
+<mat-form-field class="material-width">
+<textarea matInput [(ngModel)]="modelDef" cols="90" rows="19"  (keyup)="this.presenter.getModelDef$().next(modelDef)">
 </textarea>
-
-
+</mat-form-field>

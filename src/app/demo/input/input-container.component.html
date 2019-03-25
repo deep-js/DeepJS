@@ -1,12 +1,19 @@
-<h1> input definition </h1>
-<mat-form-field>
+<mat-card class="card-class">
+  <mat-card-header>
+    <mat-card-title>
+      <h1> input definition </h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+  <mat-form-field>
     <mat-label>Select your model type</mat-label>
     <mat-select (selectionChange)="changeComponent()" [(ngModel)]="typeInput">
-        <mat-option *ngFor="let input of typeInputKeys" [value]="input">{{input}}</mat-option>
-      </mat-select>
-</mat-form-field>
-<div >
-  <ng-template inject-component></ng-template>
-</div>
-<button mat-raised-button color="primary" (click)=this.presenter.exportJson()>Export JSON</button>
-
+      <mat-option *ngFor="let input of typeInputKeys" [value]="input">{{input}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div>
+    <ng-template inject-component></ng-template>
+  </div>
+  <button mat-raised-button color="primary" (click)=this.presenter.exportJson()>Export JSON</button>
+</mat-card-content>
+</mat-card>
