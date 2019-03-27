@@ -4,24 +4,19 @@ branches:
     - master
 node_js:
     - "8"
-install:
-    - npm install
-    - npm install npm@latest -g
-    - npm ci
-script:
-    - npm run doc
-    - npm run build
-    - npm run test
+install
+  - npm install
+  - npm install -g @angular/cli
+  - npm install --save-dev @angular-devkit/build-angular
 
+script:
+  - ng test
+  - ng build --prod --aot
+  - npm run doc
 env:
   global:
     - GH_REF: github.com/deep-js/doc.git
-    - SECRET_VAR1=SECRET1
-  matrix:
-  - SECRET_VAR2=SECRET2
 
-matrix:
-  allow_failures:
-    - env: SECRET_VAR1=SECRET1 SECRET_VAR2=SECRET2
+
 
 
