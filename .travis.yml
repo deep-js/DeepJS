@@ -1,0 +1,20 @@
+language: node_js
+branches:
+  only:
+    - master
+node_js:
+    - "8"
+install:
+  - npm install
+
+script:
+  - ng test
+  - ng build --prod --aot
+  - npm run doc
+env:
+  global:
+    - GH_REF: github.com/deep-js/doc.git
+
+
+
+
