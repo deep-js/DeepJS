@@ -3,6 +3,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {TSModelPresenter} from '@api/core';
+import { NgxChartsModule } from "@swimlane/ngx-charts";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations/';
 
 
 import { AppComponent } from './app.component';
@@ -25,6 +27,7 @@ import { ImageDrawableDirective } from './shared/directives/image-drawable.direc
 import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/modif-param-model.component';
 import { VisualizationInferenceJSONComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-json/visualization-inference-json.component';
 import { VisualizationInferenceImageComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-image/visualization-inference-image.component';
+import { LossVisualizationComponent } from './demo/visualization/visualization-training/loss-visualisation/loss-visualisation.component'
 
 declare global {
   interface Window {
@@ -51,12 +54,15 @@ declare global {
     VisualizationItemComponentImpl,
     InjectComponentDirective,
     ImageDrawableDirective,
-    ModifParamModelComponentImpl 
+    ModifParamModelComponentImpl,
+    LossVisualizationComponent  
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+      NgxChartsModule,
+      BrowserAnimationsModule,
   ],
   providers: [TrainerServiceImpl],
   entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl, JSONModelComponentImpl, TSModelComponentImpl],
