@@ -4,10 +4,8 @@ branches:
     - master
 node_js:
     - "8"
-install
+install:
   - npm install
-  - npm install -g @angular/cli
-  - npm install --save-dev @angular-devkit/build-angular
 
 script:
   - ng test
