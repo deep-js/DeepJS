@@ -6,9 +6,13 @@ node_js:
     - "8"
 install:
     - npm install
+    - npm install npm@latest -g
+    - npm ci
 script:
     - npm run doc
-    - bash ./deploy.sh
+    - npm run build
+    - npm run test
+
 env:
   global:
     - GH_REF: github.com/deep-js/doc.git
@@ -19,3 +23,5 @@ env:
 matrix:
   allow_failures:
     - env: SECRET_VAR1=SECRET1 SECRET_VAR2=SECRET2
+
+
