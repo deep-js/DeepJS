@@ -1,1 +1,15 @@
 language: node_js
+branches:
+  only:
+    - master
+node_js:
+    - "8"
+install:
+    - npm install
+script:
+    - npm run doc
+    - bash ./deploy.sh
+env:
+  global:
+    - GH_REF: github.com/deep-js/doc.git
+    - secure: ????????
