@@ -35,7 +35,7 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
      */
     return this.trainings$ = button$.pipe(switchMap((event) => { 
       try {
-        var observableModel = modelPresenter.import(); 
+        var observableModel = modelPresenter.importModel(); 
         var observableInput = inputPresenter.getInputData();
       } catch(e) {
         this.error$.next(e.message);
