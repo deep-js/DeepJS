@@ -26,7 +26,7 @@ script:
   - ng test
   - ng build --prod --aot
   - npm run doc
-  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+
   
 env:
   global:
