@@ -23,7 +23,7 @@ install:
   - npm install @compodoc/compodoc
 
 script:
-  - ng build --prod --aot
+  - ng build --prod
   - npm run doc
 
   
