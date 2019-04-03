@@ -25,6 +25,7 @@ install:
 script:
   - ng build
   - npm run compodoc
+  - ng test
 
 
   
