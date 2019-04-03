@@ -24,7 +24,8 @@ install:
 
 script:
   - ng build
-  - npm run doc
+  - npm run compodoc
+
 
   
 env:
