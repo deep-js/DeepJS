@@ -1,10 +1,14 @@
-<div>
-    <h1>{{errorDiv}}</h1>
-</div>
 <app-input-container #input></app-input-container>
-<app-model-container #modelContainer ></app-model-container>
+
+<app-model-container #modelContainer></app-model-container>
+
 <app-modif-param-model #modifParam></app-modif-param-model>
-<button #trainButton mat-raised-button color="primary">Train</button>
+
+<mat-card class="card-class">
+    <mat-card-content>
+        <button #trainButton mat-raised-button color="primary">Train</button>
+    </mat-card-content>
+</mat-card>
+
 
 <app-visualization-container></app-visualization-container>
-

@@ -5,6 +5,7 @@ import {ModelContainerComponent, ModelComponent, ModelPresenter, ModifParamModel
 import {DemoPresenterImpl} from './demo.presenter';
 import {TrainerServiceImpl} from '../shared/services/trainer/trainer.service';
 import { InputData } from '@api/core/inputData';
+import {MatSnackBar} from '@angular/material';
 
 /** Implementation of DemoComponent
  *  Constructs its presenter and gives it an Observable that watches 
@@ -31,16 +32,19 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
   private errorDiv:String;
 
   // Inject the trainer service to give to the presenter
-  constructor(private trainerService:TrainerServiceImpl){
+  constructor(private trainerService:TrainerServiceImpl, private snackBar: MatSnackBar){
     
   }
+  
 
   ngAfterViewInit() {
     const a$ = new Subject<any>();
     fromEvent(this.trainButton.nativeElement, 'click').subscribe(a$);
     // Presenter takes all child component's presenters as arguments as well as the trainer service
     this.demo = new DemoPresenterImpl(this.modelContainer.getPresenter(), a$, this.trainerService, this.input.getPresenter(),  this.modifParam.getPresenter());
-    this.demo.getError$().subscribe((s) => this.errorDiv = s);
+    this.demo.getError$().subscribe((s) => {this.errorDiv = s; this.snackBar.open(s, "", {duration: 3000});});
   }
 
 }
+
+export class ErrorComponent {}

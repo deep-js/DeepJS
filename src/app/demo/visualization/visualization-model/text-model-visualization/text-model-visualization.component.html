@@ -1,3 +1,14 @@
-<pre>
-  {{ out }}
+<div *ngIf="out != ''">
+  <mat-card class="card-class">
+    <mat-card-header>
+      <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <pre>
+
+        {{ out }}
+
 </pre>
+    </mat-card-content>
+  </mat-card>
+</div>

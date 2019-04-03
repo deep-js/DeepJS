@@ -31,6 +31,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list'; 
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 
 declare global {
   interface Window {
@@ -70,6 +72,8 @@ declare global {
     MatSelectModule,
     MatInputModule,
     MatCardModule,
+    MatGridListModule,
+    MatSnackBarModule
   ],
   providers: [TrainerServiceImpl],
   entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl, JSONModelComponentImpl, TSModelComponentImpl],

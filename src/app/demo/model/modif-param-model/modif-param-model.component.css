@@ -2,5 +2,6 @@
     width: 100%;
 }
 .card-class {
-    max-width: 400px;
+    width: 80%;
+    margin: 10px;
 }
