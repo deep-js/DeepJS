@@ -14,9 +14,6 @@ addons:
     packages:
       - google-chrome-stable
 
-cache:
-  directories:
-    - ./node_modules
 
 install:
   - npm install npm@latest -g
