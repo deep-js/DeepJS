@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "compodoc": "npx compodoc -p src/tsconfig.app.json",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "private": true,
   "dependencies": {
