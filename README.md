@@ -59,7 +59,8 @@ Have a bug or a feature request? Please first read the [issue guidelines](https:
 
 ## Documentation
 
-https://github.com/deep-js/doc/tree/gh-pages
+Generate by compodoc: https://deep-js.github.io/doc/
+Source : https://github.com/deep-js/doc/tree/gh-pages
 
 
 ### Running locally
