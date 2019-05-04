@@ -20,10 +20,9 @@ cache:
 
 install:
   - npm install
-  - npm install @compodoc/compodoc
   - npm install coveralls
   - npm install tensorspace
- 
+  - npm install @compodoc/compodoc
 
 script:
   - ng build
