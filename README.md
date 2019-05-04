@@ -12,8 +12,6 @@
   </a>
 </p>
 
-<h3 align="center">DEEP JS</h3>
-
 <p align="center">
   Test your deep learning code in javascript code directly in the browser.
   <br>
