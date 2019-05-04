@@ -22,8 +22,8 @@ install:
 
 script:
   - ng build
-  - bash ./deploy.sh
   - npm run compodoc
+  - bash ./deploy.sh
 
 env:
   global:
