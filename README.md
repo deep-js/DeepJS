@@ -1,6 +1,6 @@
 
 # Deepjs
-(https://github.com/angular/angular-cli/blob/master/README.md).
+
 #badges coveralls
 [![Coverage Status](https://coveralls.io/repos/github/froxworld/DeepJS/badge.svg?branch=master)](https://coveralls.io/github/froxworld/DeepJS?branch=master)
 #badges travis build
