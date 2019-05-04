@@ -22,8 +22,6 @@ install:
 
 script:
   - ng build
-  - npm run lint --fix
-  - npm run test:coveralls
   - bash ./deploy.sh
   - npm run compodoc
 
