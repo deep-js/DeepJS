@@ -18,8 +18,7 @@ module.exports = function (config) {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
-    }
-    files: [ 'tfjs.js'],
+    },
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
