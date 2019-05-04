@@ -21,7 +21,6 @@ cache:
 install:
   - npm install npm@latest -g
   - npm install coveralls
-  - npm install tensorspace
   - npm install @compodoc/compodoc
 
 script:
