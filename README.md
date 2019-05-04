@@ -8,7 +8,7 @@
 
  <p align="center">
   <a href="http://www.auxietre.com/">
-    <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/img/logo.png" alt="deepjs logo" width="140" height="140">
+    <img src="https://github.com/deep-js/DeepJS/blob/branch_francois/logo.png" alt="deepjs logo" width="150" height="150">
   </a>
 </p>
 
