@@ -3,21 +3,21 @@ language: node_js
 branches:
   only:
     - master
-    
+
 node_js:
     - "8"
-    
+
 addons:
   apt:
     sources:
       - google-chrome
     packages:
       - google-chrome-stable
-      
+
 cache:
   directories:
     - ./node_modules
-    
+
 install:
   - npm install
   - npm install @compodoc/compodoc
@@ -27,18 +27,14 @@ install:
 
 script:
   - ng build
-  - npm run compodoc
   - npm run lint
   - npm run test:coveralls
   - bash ./deploy.sh
+  - npm run compodoc
 
-  
 env:
   global:
     - GH_REF: github.com/deep-js/doc.git
-
-  
-
 
 
 
