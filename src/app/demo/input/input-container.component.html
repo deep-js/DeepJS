@@ -1,9 +1,11 @@
 <div class="card">
 	<h2> input definition </h2>
 <h3>Select your input type</h3>
+<div class="input-group">
 <select  class="custom-select" (change)="changeComponent()" [(ngModel)]="typeInput">
 	<option *ngFor="let input of typeInputKeys">{{input}}</option>
 </select>
+</div>
 <div >
   <ng-template inject-component></ng-template>
 </div>

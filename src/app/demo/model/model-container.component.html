@@ -1,11 +1,16 @@
 <div class="card">
 	<h2> model definition </h2>
 	<h3>Select your model type</h3>
-	<select class="custom-select" (change)="changeComponent()" [(ngModel)]="typeModel">
+	<div class="input-group">
+	<select class="form control custom-select" (change)="changeComponent()" [(ngModel)]="typeModel">
 		<option *ngFor="let model of typeModelKeys">{{model}}</option>
 	</select>
-	<button type="button" class="btn btn-light" (click)="exportModel()">export model</button>
+	</div>
+	<div>
+		<button type="button" class="btn btn-light" (click)="exportModel()">export model</button>
+	</div>
 	<div >
 	  <ng-template inject-component></ng-template>
 	</div>
 </div>
+<br />
