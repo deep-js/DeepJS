@@ -23,6 +23,7 @@ install:
 script:
   - ng build
   - npm run compodoc
+  - npm run test:coveralls
   - bash ./deploy.sh
 
 env:
