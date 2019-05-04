@@ -46,10 +46,6 @@ Several quick start options are available:
 Read the [Getting started page](https://github.com/deep-js/DEEPJS/docs/introduction.html/) for information on the framework contents, templates and examples, and more.
 
 
-## Status
-https://travis-ci.org/froxworld/DeepJS.svg?branch=master
-https://img.shields.io/ansible/quality/:projectId.svg
-
 
 
 ## Bugs and feature requests
