@@ -2,7 +2,7 @@
 # Deepjs
 
 #badges coveralls
-[![Coverage Status](https://coveralls.io/repos/github/froxworld/DeepJS/badge.svg?branch=master)](https://coveralls.io/github/froxworld/DeepJS?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/deep-js/DeepJS/badge.svg?branch=master)](https://coveralls.io/github/deep-js/DeepJS?branch=master)
 #badges travis build
 [![Build Status](https://travis-ci.com/deep-js/DeepJS.svg?branch=master)](https://travis-ci.com/deep-js/DeepJS)
 
