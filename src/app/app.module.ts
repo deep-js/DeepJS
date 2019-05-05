@@ -59,7 +59,9 @@ declare global {
     HttpClientModule
   ],
   providers: [TrainerServiceImpl],
-  entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl, JSONModelComponentImpl, TSModelComponentImpl],
+  entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl,
+    JSONModelComponentImpl, TSModelComponentImpl, TextVisualizationModelComponent, EpochVisualizationComponent, 
+    VisualizationInferenceImageComponentImpl, VisualizationInferenceJSONComponentImpl],
   //  providers: [ {provide:[ModelTrainer], useClass:[ModelTrainerImpl]} ],
   bootstrap: [AppComponent]
 })

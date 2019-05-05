@@ -1,16 +1,12 @@
-<!--<app-visualization-item>-->
-	<app-text-model-visualization></app-text-model-visualization>
-	<app-text-model-visualization></app-text-model-visualization>
-<!--</app-visualization-item>-->
+<div>
+<h1>Visualizations</h1>
+  <select name="visualizationSelection" [(ngModel)]="selected" >
+    <option *ngFor="let module of modules" [ngValue]="module">
+    {{ module }}
+    </option>
+  </select>
+  <button (click)="presenter.addVisualization(selected);">add</button>
+  <app-visualization-item *ngFor="let s of selection" [component]="s" >
+  </app-visualization-item>
+</div>
 
-<!--<app-visualization-item>-->
-	<app-epoch-visualisation ></app-epoch-visualisation>
-<!--</app-visualization-item>-->
-
-<!--<app-visualization-item>-->
-	<app-epoch-visualisation ></app-epoch-visualisation>
-<!--</app-visualization-item>-->
-<!--<app-visualization-item>-->
-	<app-visualization-inference-json ></app-visualization-inference-json >
-	<app-visualization-inference-image ></app-visualization-inference-image >
-<!--</app-visualization-item>-->
