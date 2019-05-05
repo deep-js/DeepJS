@@ -53,8 +53,7 @@ export class VisualizationContainerPresenterImpl implements VisualizationContain
 
   public removeVisualization(v:VisualizationComponent){
 
-    // NOT COrRECT
-    this.selection.pop();
+    this.selection = this.selection.filter( (a) => a != v);
     this.update();
   }
 
