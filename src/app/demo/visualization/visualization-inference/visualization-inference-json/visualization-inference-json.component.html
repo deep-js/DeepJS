@@ -1,8 +1,14 @@
+<div class="card">
+<div class="card">
 <h2>
 inference JSON
 </h2>
-<textarea [(ngModel)]="inferenceInput" cols="90" rows="5"  (keyup)="this.presenter.getInferenceInput$().next(inferenceInput)">
+<div class="input-group">
+<textarea class="form-control" [(ngModel)]="inferenceInput" cols="90" rows="5"  (keyup)="this.presenter.getInferenceInput$().next(inferenceInput)">
 </textarea>
+</div>
 <p>
 {{ inferenceOutput}}
 </p>
+</div>
+<br />

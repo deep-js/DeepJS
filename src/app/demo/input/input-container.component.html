@@ -1,10 +1,13 @@
-<h1> input definition </h1>
+<div class="card">
+	<h2>Input definition </h2>
 <h3>Select your input type</h3>
-<select  (change)="changeComponent()" [(ngModel)]="typeInput">
+<div class="input-group">
+<select  class="custom-select" (change)="changeComponent()" [(ngModel)]="typeInput">
 	<option *ngFor="let input of typeInputKeys">{{input}}</option>
 </select>
+</div>
 <div >
   <ng-template inject-component></ng-template>
 </div>
-<button (click)=this.presenter.exportJson()>Export JSON</button>
-
+<button type="button" class="btn btn-light" (click)=this.presenter.exportJson()>Export JSON</button>
+</div>

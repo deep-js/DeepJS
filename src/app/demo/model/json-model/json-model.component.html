@@ -1,6 +1,11 @@
+<div class="card">
 <p>
 model json
 </p>
-<input type="file" name="modelFile" (change)="this.presenter.getModelFile$().next($event.target.files)" multiple>
-
+<div class="custom-file">
+<input  class="custom-file-input" type="file" id="id_file2" name="modelFile" (change)="this.presenter.getModelFile$().next($event.target.files)" multiple>
+<label class="custom-file-label" for="id_file2">Choose a file....</label>
+</div>
+</div>
+<br />
 

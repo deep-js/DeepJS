@@ -1,12 +1,21 @@
+<div class="card">
 <h2>
 inference image
 </h2>
-<input type="file" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files)" multiple />
-<label>Number Of Channels <input type="number" name="nbChannels" min="1" max="4" [ngModel]="nbChannels" (change)="presenter.getNbChannels$().next($event.target.value)" > </label>
+<div class="custom-file">
+<input  class="custom-file-input" type="file" id="id_file1" name="fileList" (change)="presenter.getImageFiles$().next($event.target.files)" multiple />
+<label class="custom-file-label" for="id_file1">Choose a file....</label>
+</div>
+<div class="input-group">
+<label>Number Of Channels
+<input  class="form-control" type="number" name="nbChannels" min="1" max="4" [ngModel]="nbChannels" (change)="presenter.getNbChannels$().next($event.target.value)" > </label>
+</div>
 <div *ngFor="let imageData of imageDatas; let i = index">
   <canvas image-drawable [imageData]="imageData"></canvas> 
   <p style="font-size:small" *ngIf="inferenceOutput?.length > 0">
   {{ inferenceOutput[i] }}
   </p>
 </div>
+</div>
+<br />
 
