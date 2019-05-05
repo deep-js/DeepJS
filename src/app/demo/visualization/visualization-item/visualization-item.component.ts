@@ -16,10 +16,11 @@ export class VisualizationItemComponentImpl implements VisualizationItemComponen
 
   presenter:VisualizationItemPresenter;
   @Input() component:VisualizationComponent;
+  @Input() container:VisualizationContainerPresenter;
 
 
-  constructor( ){
-    this.presenter = new VisualizationItemPresenterImpl();	
+  constructor(){
+    this.presenter = new VisualizationItemPresenterImpl(this.container);	
   }
 
   ngOnInit() {

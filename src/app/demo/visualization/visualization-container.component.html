@@ -6,7 +6,7 @@
     </option>
   </select>
   <button (click)="presenter.addVisualization(selected);">add</button>
-  <app-visualization-item *ngFor="let s of selection" [component]="s" >
+  <app-visualization-item *ngFor="let s of selection" [component]="s" [container]="presenter">
   </app-visualization-item>
 </div>
 

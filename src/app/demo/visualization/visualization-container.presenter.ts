@@ -1,5 +1,4 @@
-import { VisualizationContainerPresenter } from '@api/core';
-//import { VisualizationInferenceJSONComponent } from '@api/core';
+import { VisualizationContainerPresenter } from '@api/core'; //import { VisualizationInferenceJSONComponent } from '@api/core';
 import { VisualizationInferenceJSONComponentImpl } from './visualization-inference/visualization-inference-json/visualization-inference-json.component';
 //import { VisualizationInferenceImageComponent } from '@api/core';
 import { VisualizationInferenceImageComponentImpl } from './visualization-inference/visualization-inference-image/visualization-inference-image.component';
@@ -13,10 +12,10 @@ import { Subject } from 'rxjs';
  *
  */
 export class VisualizationContainerPresenterImpl implements VisualizationContainerPresenter{
-  
+
 
   private visualizationModules: Map<String, VisualizationComponent>
-  private selection: VisualizationComponent[];
+    private selection: VisualizationComponent[];
   private selection$:Subject<VisualizationComponent[]>;
 
   constructor() {
@@ -51,6 +50,18 @@ export class VisualizationContainerPresenterImpl implements VisualizationContain
       throw new Error("visualization "+name+" is unknown");
     }
   }
+
+  public removeVisualization(v:VisualizationComponent){
+
+    // NOT COrRECT
+    this.selection.pop();
+    this.update();
+  }
+
+  public moveVisualization(v:VisualizationComponent, i:number){
+
+  }
+
 
 }
 
