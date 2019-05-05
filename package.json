@@ -37,6 +37,7 @@
     "read-image-data": "^1.0.0",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",
+    "tensorspace": "^0.6.1",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
