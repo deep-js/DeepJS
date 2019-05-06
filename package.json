@@ -35,10 +35,16 @@
     "ng-rn": "^1.0.0",
     "path": "^0.12.7",
     "read-image-data": "^1.0.0",
+<<<<<<< HEAD
     "rxjs": "^6.5.1",
     "rxjs-compat": "^6.5.1",
     "tensorspace": "^0.6.1",
     "zone.js": "^0.9.1"
+=======
+    "rxjs": "^6.4.0",
+    "rxjs-compat": "^6.4.0",
+    "zone.js": "^0.8.29"
+>>>>>>> parent of 99db6ed... tensorspace test
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.8",

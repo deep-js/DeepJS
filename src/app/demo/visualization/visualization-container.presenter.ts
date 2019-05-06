@@ -4,7 +4,6 @@ import { VisualizationInferenceJSONComponentImpl } from './visualization-inferen
 import { VisualizationInferenceImageComponentImpl } from './visualization-inference/visualization-inference-image/visualization-inference-image.component';
 import { EpochVisualizationComponent } from './visualization-training/epoch-visualisation/epoch-visualisation.component';
 import { TextVisualizationModelComponent } from './visualization-model/text-model-visualization/text-model-visualization.component';
-import { TensorspaceVisualizationComponent } from './visualization-model/tensorspace-visualization/tensorspace-visualization.component';
 import { VisualizationComponent } from '@api/core';
 import { Subject } from 'rxjs';
 
@@ -25,8 +24,7 @@ export class VisualizationContainerPresenterImpl implements VisualizationContain
       .set('EpochVisualizationComponent', EpochVisualizationComponent)
       .set('TextVisualizationModelComponent', TextVisualizationModelComponent)
       .set('VisualizationInferenceJSONComponentImpl', VisualizationInferenceJSONComponentImpl)
-      .set('VisualizationInferenceImageComponentImpl', VisualizationInferenceImageComponentImpl)
-      .set('TensorspaceVisualizationComponent', TensorspaceVisualizationComponent);
+      .set('VisualizationInferenceImageComponentImpl', VisualizationInferenceImageComponentImpl);
     this.selection = [];
     this.update();
   }
