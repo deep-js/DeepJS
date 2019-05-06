@@ -9,7 +9,7 @@ import * as tf from '@tensorflow/tfjs';
 
 /**
  * Quick implementation of a textual model visualization
- * using tf.Model.summarize
+ * using tf.LayersModel.summarize
  */
 @Component({
   selector: 'app-tensorspace-visualization',
@@ -58,7 +58,7 @@ export class TensorspaceVisualizationComponent implements AfterViewInit, Visuali
   }
 
 
-  convert(model:tf.Model):tf.Model{
+  convert(model:tf.LayersModel):tf.LayersModel{
     var outputList = [];
     for ( let i = 0; i < model.layers.length; i ++ ) {
           outputList.push( model.layers[i].output );
@@ -69,7 +69,7 @@ export class TensorspaceVisualizationComponent implements AfterViewInit, Visuali
   
   }
 
-  render(omodel:tf.Model){
+  render(omodel:tf.LayersModel){
     /*var mm = tf.sequential();
     mm.add(tf.layers.conv2d({ inputShape: [28, 28, 1],kernelSize: 3, filters: 16,activation: 'relu'}));
     mm.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));

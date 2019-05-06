@@ -19,7 +19,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
   private modelDef: string;
   private modelDef$: Subject<string>;
   private training_def: string;
-  private model:tf.Model;
+  private model:tf.LayersModel;
 
 
   constructor(defaultModel:Observable<string>) {
@@ -39,13 +39,13 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
 
   }
 
-  // Imports tf.Model object from TypeScript string
-  import():Observable<tf.Model>{
+  // Imports tf.LayersModel object from TypeScript string
+  import():Observable<tf.LayersModel>{
     let evaluated = this.evaluate(this.modelDef);
-    return new BehaviorSubject<tf.Model>(evaluated);   
+    return new BehaviorSubject<tf.LayersModel>(evaluated);   
   }
 
-  /* Evaluates the TypeScript string to retrieve the tf.Model object
+  /* Evaluates the TypeScript string to retrieve the tf.LayersModel object
    *
    * Evaluating typescript code in the browser is a pain
    * mainly because modules (here tensorflow) must be available

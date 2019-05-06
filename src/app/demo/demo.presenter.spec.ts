@@ -8,7 +8,7 @@ import { DemoPresenterImpl } from './demo.presenter';
 
 describe('DemoPresenterImpl', () => {
   let p: DemoPresenterImpl;
-  let model$:Observable<tf.Model> ;
+  let model$:Observable<tf.LayersModel> ;
   let trainParam;
   let modelP, model;
   let inputP, input$, input;

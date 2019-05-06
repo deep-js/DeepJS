@@ -13,7 +13,7 @@ export class TrainingImpl implements api.Training{
 
   private inputs:api.InputData;
   private config: tf.ModelFitArgs;  // training parameters
-  private model: tf.Model;
+  private model: tf.LayersModel;
 
   constructor(inputs, config, model){
     this.inputs = inputs;
@@ -23,11 +23,11 @@ export class TrainingImpl implements api.Training{
 
   getInputs(): api.InputData { return this.inputs; }
   getConfig(): tf.ModelFitArgs { return this.config; }
-  getModel(): tf.Model { return this.model; }
+  getModel(): tf.LayersModel { return this.model; }
   
   setInputs(inputs: api.InputData):void { this.inputs = inputs; }
   setConfig(config: tf.ModelFitArgs):void { this.config = config; }
-  setModel(model: tf.Model):void { this.model = model; }
+  setModel(model: tf.LayersModel):void { this.model = model; }
 }
 
 
