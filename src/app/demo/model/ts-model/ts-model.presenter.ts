@@ -19,7 +19,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
   private modelDef: string;
   private modelDef$: Subject<string>;
   private training_def: string;
-  private model:tf.Model;
+  private model:tf.LayersModel;
 
 
   constructor(defaultModel:Observable<string>) {
@@ -39,13 +39,13 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
 
   }
 
-  // Imports tf.Model object from TypeScript string
-  import():Observable<tf.Model>{
+  // Imports tf.LayersModel object from TypeScript string
+  import():Observable<tf.LayersModel>{
     let evaluated = this.evaluate(this.modelDef);
-    return new BehaviorSubject<tf.Model>(evaluated);   
+    return new BehaviorSubject<tf.LayersModel>(evaluated);   
   }
 
-  /* Evaluates the TypeScript string to retrieve the tf.Model object
+  /* Evaluates the TypeScript string to retrieve the tf.LayersModel object
    *
    * Evaluating typescript code in the browser is a pain
    * mainly because modules (here tensorflow) must be available
@@ -56,6 +56,40 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
    * #uglyhack
    */
   private evaluate(s:string) {
+
+
+    const model = tf.sequential();
+    
+    model.add(tf.layers.conv2d({
+      inputShape: [28, 28, 1],
+      kernelSize: 3,
+      filters: 16,
+      activation: 'relu'
+    }));
+
+    model.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
+
+    model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
+
+    model.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
+
+    model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
+
+    model.add(tf.layers.flatten({}));
+
+    model.add(tf.layers.dense({units: 64, activation: 'relu'}));
+
+    model.add(tf.layers.dense({units: 10, activation: 'softmax'}));
+
+    const optimizer = 'rmsprop';
+
+      model.compile({
+        optimizer,
+        loss: 'categoricalCrossentropy',
+        metrics: ['accuracy'],
+      });
+    return model;
+
     if (s == null)
       throw new ModelDefBoxEmptyError();
     

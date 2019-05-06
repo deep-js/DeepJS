@@ -58,19 +58,19 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
    */
   getStatus$():Subject<string> { return this.status$; }
 
-  private getTensors(file:File):Observable<tf.Tensor> {
+  private getTensors(file:any):Observable<tf.Tensor> {
     return from(readImageData(file).catch(function(error){
       console.log(error);
 
     })).pipe(
-      map( (imageData) => tf.fromPixels(imageData as ImageData, this.nbChannels)),
-      tap( (tensor) => this.updateStatus(file.webkitRelativePath)),
+      map( (imageData) => tf.browser.fromPixels(imageData as ImageData, this.nbChannels)),
+      tap( (tensor) => this.updateStatus(file.name)),
       take(1)
     );
 
   }
 
-  private getLabel(file:File):tf.Tensor {
+  private getLabel(file:any):tf.Tensor {
     const dirs = file.webkitRelativePath.split("/");
     const label = dirs[dirs.length-2];
     if(this.labels[label] == undefined){
@@ -98,6 +98,9 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
       throw new DatasetImageMissingError();
     
     const files = Array.from(this.imageFiles);
+    console.log(files[0]);
+    const f:any = files[0];
+    console.log(f.webkitRelativePath);
 
     console.log(tf.memory());
     const tensors$ = files.map( (file) => this.getTensors(file));

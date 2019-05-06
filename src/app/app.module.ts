@@ -25,6 +25,7 @@ import { ImageDrawableDirective } from './shared/directives/image-drawable.direc
 import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/modif-param-model.component';
 import { VisualizationInferenceJSONComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-json/visualization-inference-json.component';
 import { VisualizationInferenceImageComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-image/visualization-inference-image.component';
+import { TensorspaceVisualizationComponent } from './demo/visualization/visualization-model/tensorspace-visualization/tensorspace-visualization.component';
 
 declare global {
   interface Window {
@@ -51,7 +52,8 @@ declare global {
     VisualizationItemComponentImpl,
     InjectComponentDirective,
     ImageDrawableDirective,
-    ModifParamModelComponentImpl 
+    ModifParamModelComponentImpl,
+    TensorspaceVisualizationComponent 
   ],
   imports: [
     BrowserModule,
@@ -61,7 +63,7 @@ declare global {
   providers: [TrainerServiceImpl],
   entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl,
     JSONModelComponentImpl, TSModelComponentImpl, TextVisualizationModelComponent, EpochVisualizationComponent, 
-    VisualizationInferenceImageComponentImpl, VisualizationInferenceJSONComponentImpl],
+    VisualizationInferenceImageComponentImpl, VisualizationInferenceJSONComponentImpl, TensorspaceVisualizationComponent  ],
   //  providers: [ {provide:[ModelTrainer], useClass:[ModelTrainerImpl]} ],
   bootstrap: [AppComponent]
 })

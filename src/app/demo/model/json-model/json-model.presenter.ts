@@ -18,7 +18,7 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
 
   private modelFile: FileList;
   private modelFile$: Subject<FileList>;
-  private model:tf.Model;
+  private model:tf.LayersModel;
 
 
   constructor() {
@@ -30,9 +30,9 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
     this.modelFile$.subscribe(s => this.modelFile=s)
   }
 
-  // Imports tf.Model object from files
-  import():Observable<tf.Model>{
-    return from(tf.loadModel(
+  // Imports tf.LayersModel object from files
+  import():Observable<tf.LayersModel>{
+    return from(tf.loadLayersModel(
       tf.io.browserFiles(
         [this.sortTypes(this.modelFile)[0]]
       )
@@ -40,7 +40,7 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
       // TODO : ask for compile options, way to integrate it into json ?
       model.compile({loss: 'meanSquaredError', optimizer: tf.train.momentum(0.1,0.9)});
       return model;
-    }));
+    })) as Observable<tf.LayersModel>;
   }
 
   // tfjs expects the .json file first, then the .weight.bin

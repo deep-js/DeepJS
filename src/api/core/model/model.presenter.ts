@@ -9,8 +9,8 @@ export interface ModelPresenter {
   /**
    * Triggers importation of the model with data provided by ModelComponent
    * and returns it when it is imported
-   * @return {Observable<tf.Model>} an observable emitting the model when it is done importing
+   * @return {Observable<tf.LayersModel>} an observable emitting the model when it is done importing
    */
-  import():Observable<tf.Model>;
+  import():Observable<tf.LayersModel>;
 }
 
