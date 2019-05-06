@@ -22,9 +22,9 @@ export interface Training {
 
   /**
    * Obtain the model of this training
-   * @return {tf.LayersModel} model of this Training
+   * @return {tf.Model} model of this Training
    */
-  getModel(): tf.LayersModel;
+  getModel(): tf.Model;
   
   /**
    * Set the dataset for this Training
@@ -34,15 +34,15 @@ export interface Training {
 
   /**
    * Set training parameters for this model
-   * @param {tf.LayersModelFitConfig} training parameters to be set for this training
+   * @param {tf.ModelFitConfig} training parameters to be set for this training
    */
   setConfig(config: tf.ModelFitArgs):void;
 
   /**
    * Set model for this Training
-   * @param {tf.LayersModel} model to be set
+   * @param {tf.Model} model to be set
    */
-  setModel(model: tf.LayersModel):void;
+  setModel(model: tf.Model):void;
   
 
 }

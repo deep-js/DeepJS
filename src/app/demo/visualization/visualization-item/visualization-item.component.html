@@ -1,4 +1,4 @@
-<ng-container *ngComponentOutlet="component" ></ng-container>
-<a (click)="presenter.remove()">X</a>
-<a (click)="presenter.moveUp()">^</a>
-<a (click)="presenter.moveDown()">v</a>
+<button (click)="presenter.remove()">X</button>
+<button (click)="presenter.moveUp()">^</button>
+<button (click)="presenter.moveDown()">v</button>
+<ng-container #instance *ngComponentOutlet="component" ></ng-container>

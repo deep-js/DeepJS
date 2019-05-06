@@ -1,5 +1,5 @@
-import { Component, OnInit, Input} from '@angular/core';
-import {VisualizationItemPresenter, VisualizationItemComponent, VisualizationComponent} from '@api/core'; 
+import { ViewChild, Component, OnInit, Input} from '@angular/core';
+import {VisualizationItemPresenter, VisualizationItemComponent, VisualizationComponent, VisualizationContainerPresenter} from '@api/core'; 
 import {VisualizationItemPresenterImpl} from './visualization-item.presenter'; 
 
 @Component({
@@ -17,13 +17,14 @@ export class VisualizationItemComponentImpl implements VisualizationItemComponen
   presenter:VisualizationItemPresenter;
   @Input() component:VisualizationComponent;
   @Input() container:VisualizationContainerPresenter;
+  @ViewChild('instance') instance: VisualizationComponent;
 
 
   constructor(){
-    this.presenter = new VisualizationItemPresenterImpl(this.container);	
   }
 
   ngOnInit() {
+    this.presenter = new VisualizationItemPresenterImpl(this.container, this.component);	
 
   }
 

@@ -15,7 +15,7 @@ export class InputContainerPresenterImpl implements InputContainerPresenter{
   }
 
   /* TODO : put it in a service
-   * Evaluates the TypeScript string to retrieve the tf.LayersModel object
+   * Evaluates the TypeScript string to retrieve the tf.Model object
    *
    *
    * Evaluating typescript code in the browser is a pain

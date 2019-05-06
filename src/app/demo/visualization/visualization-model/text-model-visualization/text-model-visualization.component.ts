@@ -7,7 +7,7 @@ import { TextVisualizationModelPresenter } from './text-model-visualization.pres
 
 /**
  * Quick implementation of a textual model visualization
- * using tf.LayersModel.summarize
+ * using tf.Model.summarize
  */
 @Component({
   selector: 'app-text-model-visualization',

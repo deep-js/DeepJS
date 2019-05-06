@@ -18,7 +18,7 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
 
   private modelFile: FileList;
   private modelFile$: Subject<FileList>;
-  private model:tf.LayersModel;
+  private model:tf.Model;
 
 
   constructor() {
@@ -30,8 +30,8 @@ export class JSONModelPresenterImpl implements api.JSONModelPresenter{
     this.modelFile$.subscribe(s => this.modelFile=s)
   }
 
-  // Imports tf.LayersModel object from files
-  import():Observable<tf.LayersModel>{
+  // Imports tf.Model object from files
+  import():Observable<tf.Model>{
     return from(tf.loadModel(
       tf.io.browserFiles(
         [this.sortTypes(this.modelFile)[0]]

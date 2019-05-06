@@ -26,7 +26,7 @@ export class ModelContainerPresenterImpl implements api.ModelContainerPresenter{
     this.modelPresenter = modelPresenter;
   }
 
-  importModel():Observable<tf.LayersModel>{
+  importModel():Observable<tf.Model>{
     return this.modelPresenter.import();
   }
 

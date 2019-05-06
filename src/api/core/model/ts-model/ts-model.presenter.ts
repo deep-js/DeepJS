@@ -16,7 +16,7 @@ export interface TSModelPresenter extends ModelPresenter {
   getModelDef$():Subject<string>;
 
   /**
-   * Set LayersModel definition manually
+   * Set Model definition manually
    * @deprecated
    */
   setModelDef(modelDef:string);

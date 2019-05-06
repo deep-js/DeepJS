@@ -1,4 +1,5 @@
-#tensorspaceContainer {
-  width: 600px;
-  height: 600px;
+#tensorspaceContainer
+{
+  with: 400px;
+  height: 400px;
 }

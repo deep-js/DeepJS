@@ -20,7 +20,7 @@ export class ModelContainerComponentImpl implements OnInit, api.ModelContainerCo
   
   // String from the textarea, corresponding to the definition of the model-container in TypeScript
     private presenter:api.ModelContainerPresenter;
-    private model:tf.LayersModel;
+    private model:tf.Model;
     private trainerService:TrainerServiceImpl;
     
   // map the type of the modele wanted with his real component

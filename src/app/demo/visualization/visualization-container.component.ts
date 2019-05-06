@@ -17,8 +17,8 @@ export class VisualizationContainerComponentImpl implements VisualizationContain
 
   private presenter:VisualizationContainerPresenter;
   private selection:VisualizationComponent[];
-  private modules:String[];
-  private selected:String;
+  private modules: string[];
+  private selected: string;
 
   constructor() { 
     this.presenter = new VisualizationContainerPresenterImpl();

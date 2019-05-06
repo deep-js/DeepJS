@@ -6,6 +6,12 @@
     <app-modif-param-model #modifParam></app-modif-param-model>
     <button type="button" class="btn btn-light" #trainButton >Train</button>
     <app-visualization-container></app-visualization-container>
+
+    <button *ngFor="let i of Arr(nb).fill(1)" (click)="add()" type="button" class="btn btn-light" #test >+</button>
+    <select name="LayerName" [(ngModel)]="selected" >
+      <option *ngFor="let name of names" [ngValue]="name">
+        {{ name }}
+      </option>
+    </select>
   </div>
 </div>
-

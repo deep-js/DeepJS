@@ -6,10 +6,10 @@ import { Observable } from 'rxjs'
 
 
 /**
- * Presenter for TextVisualizationModelComponent
+ * Presenter for TensorspaceVisualizationComponent
  * transmits data to Component via Observable
  */
-export class TextVisualizationModelPresenter implements VisualizationModelPresenter {
+export class TensorspaceVisualizationPresenter implements VisualizationModelPresenter {
 
   modelTrainer: TrainerService;
   out: string;  // textual summary of the model

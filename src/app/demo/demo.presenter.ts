@@ -39,7 +39,7 @@ export class DemoPresenterImpl implements OnInit, DemoPresenter {
         var observableInput = inputPresenter.getInputData();
       } catch(e) {
         this.error$.next(e.message);
-        return new Observable<[tf.LayersModel, InputData]>();
+        return new Observable<[tf.Model, InputData]>();
       }
       return zip(observableModel, observableInput);
     }),
