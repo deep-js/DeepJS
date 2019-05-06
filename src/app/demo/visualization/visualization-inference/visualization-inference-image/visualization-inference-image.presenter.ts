@@ -48,7 +48,7 @@ export class VisualizationInferenceImagePresenterImpl implements VisualizationIn
     this.imageDatas$ = this.imageFiles$.pipe( 
       switchMap( (files) => combineLatest(Array.from(files).map( (file) => this.getImageData(file)))),
       tap( (imageDatas) => {
-        this.imageTensors = tf.stack(imageDatas.map( (imageData) => tf.fromPixels(imageData as ImageData, this.nbChannels)))
+        this.imageTensors = tf.stack(imageDatas.map( (imageData) => tf.browser.fromPixels(imageData as ImageData, this.nbChannels)))
       })
     );
 

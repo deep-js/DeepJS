@@ -63,15 +63,15 @@ export class ImageInputPresenterImpl implements ImageInputPresenter{
       console.log(error);
 
     })).pipe(
-      map( (imageData) => tf.fromPixels(imageData as ImageData, this.nbChannels)),
-      tap( (tensor) => this.updateStatus(file.webkitRelativePath)),
+      map( (imageData) => tf.browser.fromPixels(imageData as ImageData, this.nbChannels)),
+      tap( (tensor) => this.updateStatus(file.name)),
       take(1)
     );
 
   }
 
   private getLabel(file:File):tf.Tensor {
-    const dirs = file.webkitRelativePath.split("/");
+    const dirs = file.name.split("/");
     const label = dirs[dirs.length-2];
     if(this.labels[label] == undefined){
       this.labels[label]=this.nbLabels++;

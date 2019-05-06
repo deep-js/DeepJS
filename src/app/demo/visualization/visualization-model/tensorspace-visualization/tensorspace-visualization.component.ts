@@ -70,34 +70,39 @@ export class TensorspaceVisualizationComponent implements AfterViewInit, Visuali
   }
 
   render(omodel:tf.LayersModel){
-    /*var mm = tf.sequential();
-    mm.add(tf.layers.conv2d({ inputShape: [28, 28, 1],kernelSize: 3, filters: 16,activation: 'relu'}));
+    var mm = tf.sequential();
+    /*mm.add(tf.layers.conv2d({ inputShape: [28, 28, 1],kernelSize: 3, filters: 16,activation: 'relu'}));
     mm.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
     mm.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
     mm.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
     mm.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
-    mm.add(tf.layers.flatten({}));
+    mm.add(tf.layers.flatten({}));*/
     mm.add(tf.layers.dense({units: 64, activation: 'relu'}));
     mm.add(tf.layers.dense({units: 10, activation: 'softmax'}));
     const optimizer = 'rmsprop';
     mm.compile({ optimizer,loss: 'categoricalCrossentropy', metrics: ['accuracy'],});*/
     let modelContainer = document.getElementById("tensorspaceContainer");
     let model = new TSP.models.Sequential(modelContainer);
-    model.add( new TSP.layers.Conv2d({ inputShape: [28, 28, 1],kernelSize: 3, filters: 16,activation: 'relu'}) );
+    /*model.add( new TSP.layers.Conv2d({ inputShape: [28, 28, 1],kernelSize: 3, filters: 16,activation: 'relu'}) );
     model.add( new TSP.layers.Pooling2d({poolSize: 2, strides: 2}) );
     model.add( new TSP.layers.Conv2d({kernelSize: 3, filters: 32, activation: 'relu'}) );
     model.add( new TSP.layers.Pooling2d({poolSize: 2, strides: 2}) );
     model.add( new TSP.layers.Conv2d({kernelSize: 3, filters: 32, activation: 'relu'}) );
-    model.add( new TSP.layers.Flatten() );
+    model.add( new TSP.layers.Flatten() );*/
     /*var mm = tf.sequential();
     mm.add(tf.layers.dense({inputShape: [64], units: 64, activation: 'relu'}));
-    mm.add(tf.layers.dense({units: 10, activation: 'softmax'}));*/
+    mm.add(tf.layers.dense({units: 10, activation: 'softmax'}));
     model.add( new TSP.layers.Dense({units: 64, activation: 'relu'}) );
-    model.add( new TSP.layers.Dense({units: 10, activation: 'softmax'}) );
-    //let outmodel = this.convert(mm);//new TSP.models.Sequential(modelContainer);
+    model.add( new TSP.layers.Dense({units: 10, activation: 'softmax'}) );*/
+
+    model.add(new TSP.layers.GreyscaleInput({ shape: [28, 28, 1] }));
+    model.add(new TSP.layers.Padding2d({ padding: [2, 2] }));
+    model.add(new TSP.layers.Conv2d({ kernelSize: 5, filters: 6, strides: 1 }));
+    model.add(new TSP.layers.Pooling2d({ poolSize: [2, 2], strides: [2, 2] }));
+    let outmodel = this.convert(omodel);//new TSP.models.Sequential(modelContainer);
     model.load({
       type: 'live',
-      modelHandler: omodel
+      modelHandler: outmodel
     })
 
     model.init();
