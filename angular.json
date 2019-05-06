@@ -27,7 +27,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "lb/tfjs@0.15.3"
+              "lb/tfjs@0.15.2"
             ]
           },
           "configurations": {
