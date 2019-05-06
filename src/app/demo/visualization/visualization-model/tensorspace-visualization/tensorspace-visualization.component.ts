@@ -77,7 +77,7 @@ export class TensorspaceVisualizationComponent implements AfterViewInit, Visuali
     mm.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
     mm.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
     mm.add(tf.layers.flatten({}));*/
-    mm.add(tf.layers.dense({units: 64, activation: 'relu'}));
+    /*mm.add(tf.layers.dense({units: 64, activation: 'relu'}));
     mm.add(tf.layers.dense({units: 10, activation: 'softmax'}));
     const optimizer = 'rmsprop';
     mm.compile({ optimizer,loss: 'categoricalCrossentropy', metrics: ['accuracy'],});*/
