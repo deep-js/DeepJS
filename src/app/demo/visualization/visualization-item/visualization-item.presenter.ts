@@ -23,11 +23,11 @@ export class VisualizationItemPresenterImpl implements VisualizationItemPresente
   }
 
   public moveUp(){
-    this.container.moveVisualization(this.component, -1);
+    this.container.move(this.component, -1);
   }
 
   public moveDown(){
-    this.container.moveVisualization(this.component, 1);
+    this.container.move(this.component, 1);
   }
 
 }

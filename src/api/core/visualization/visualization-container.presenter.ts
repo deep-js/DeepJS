@@ -8,7 +8,5 @@ export interface VisualizationContainerPresenter{
   getSelection$():Subject<VisualizationComponent[]>;
   getVisualizationModules();
   addVisualization(name:String);
-  removeVisualization(v:VisualizationComponent);
-  moveVisualization(v:VisualizationComponent, i:number);
 
 }
