@@ -96,8 +96,30 @@ Source : https://github.com/deep-js/doc/tree/gh-pages
 - <https://github.com/froxworld>
 
 
+**Florian DUCHATEAU**
 
-## Thanks
+- <https://github.com/florianInfo>
+
+
+**Thomas FURET**
+
+- <https://github.com/Mino05>
+
+**Sebastien LERAY**
+
+- <https://github.com/sebastienLeray>
+
+**Hai-Trung PHAM**
+
+- <https://github.com/gpbp>
+
+**Christophe SAHID**
+
+- <https://github.com/markhum>
+
+**Guillermo ANDRADE**
+
+- <https://github.com/GuillermoAndrade>
 
 
 ## Development server
