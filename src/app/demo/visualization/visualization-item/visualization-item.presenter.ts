@@ -30,4 +30,5 @@ export class VisualizationItemPresenterImpl implements VisualizationItemPresente
     this.container.moveVisualization(this.component, 1);
   }
 
+
 }

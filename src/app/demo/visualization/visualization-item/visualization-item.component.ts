@@ -18,6 +18,9 @@ export class VisualizationItemComponentImpl implements VisualizationItemComponen
   @Input() component:VisualizationComponent;
   @Input() container:VisualizationContainerPresenter;
   @ViewChild('instance') instance: VisualizationComponent;
+  displayed:boolean = true;
+  displayIcons:string[] = ["+", "-"];
+  name:String;
 
 
   constructor(){
@@ -25,7 +28,12 @@ export class VisualizationItemComponentImpl implements VisualizationItemComponen
 
   ngOnInit() {
     this.presenter = new VisualizationItemPresenterImpl(this.container, this.component);	
+    this.name = this.container.getComponentName(this.component);
 
+  }
+
+  toggleDisplay(){
+    this.displayed=!this.displayed;
   }
 
 }

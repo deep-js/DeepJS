@@ -1,4 +1,12 @@
-<button (click)="presenter.remove()">X</button>
-<button (click)="presenter.moveUp()">^</button>
-<button (click)="presenter.moveDown()">v</button>
-<ng-container #instance *ngComponentOutlet="component" ></ng-container>
+<div >
+  <button (click)="presenter.remove()">X</button>
+  <button (click)="toggleDisplay()">{{displayIcons[+ displayed]}}</button>
+  <button (click)="presenter.moveUp()">^</button>
+  <button (click)="presenter.moveDown()">v</button>
+  <span> {{name}}</span>
+  
+
+  <ng-container *ngIf="displayed" >
+    <ng-container #instance *ngComponentOutlet="component" ></ng-container>
+  </ng-container>
+</div>

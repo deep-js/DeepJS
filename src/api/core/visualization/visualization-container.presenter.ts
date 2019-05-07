@@ -10,5 +10,6 @@ export interface VisualizationContainerPresenter{
   addVisualization(name:String);
   removeVisualization(v:VisualizationComponent);
   moveVisualization(v:VisualizationComponent, i:number);
+  getComponentName(c:VisualizationComponent):String;
 
 }

@@ -22,11 +22,11 @@ export class VisualizationContainerPresenterImpl implements VisualizationContain
   constructor() {
     this.selection$ = new Subject();
     this.visualizationModules = new Map()
-      .set('EpochVisualizationComponent', EpochVisualizationComponent)
-      .set('TextVisualizationModelComponent', TextVisualizationModelComponent)
-      .set('VisualizationInferenceJSONComponentImpl', VisualizationInferenceJSONComponentImpl)
-      .set('VisualizationInferenceImageComponentImpl', VisualizationInferenceImageComponentImpl)
-      .set('TensorspaceVisualizationComponent', TensorspaceVisualizationComponent);
+      .set('Epoch', EpochVisualizationComponent)
+      .set('Textual Model Summary', TextVisualizationModelComponent)
+      .set('Inference JSON', VisualizationInferenceJSONComponentImpl)
+      .set('Inference Image', VisualizationInferenceImageComponentImpl)
+      .set('Tensorspace', TensorspaceVisualizationComponent);
     this.selection = [];
     this.update();
   }
@@ -60,9 +60,21 @@ export class VisualizationContainerPresenterImpl implements VisualizationContain
   }
 
   public moveVisualization(v:VisualizationComponent, i:number){
-
+    const o = this.selection.indexOf(v);
+    const n = o+i;
+    if (n >= this.selection.length) {
+      var k = n - this.selection.length + 1;
+      while (k--) {
+        this.selection.push(undefined);
+      }
+    }
+    this.selection.splice(n, 0, this.selection.splice(o, 1)[0]);
   }
 
-
+  public getComponentName(c:VisualizationComponent):String {
+    const b = Array.from(this.visualizationModules.values()).indexOf(c);
+    const a=Array.from(this.visualizationModules.keys())[b]
+    return a;
+  }
 }
 
