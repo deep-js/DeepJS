@@ -23,6 +23,7 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
 
   // DOM element triggering the training
   @ViewChild('trainButton') trainButton: ElementRef;
+  @ViewChild('stopButton') stopButton: ElementRef;
 
   @ViewChild('modifParam') modifParam: ModifParamModelComponent;
   // Presenter for this component
@@ -30,12 +31,16 @@ export class DemoComponentImpl implements AfterViewInit, DemoComponent {
 
   private errorDiv:String;
 
+
   // Inject the trainer service to give to the presenter
   constructor(private trainerService:TrainerServiceImpl){
-    
   }
 
   ngAfterViewInit() {
+    this.trainerService.getCurrentTrainings$().subscribe( (t) => {
+      fromEvent(this.stopButton.nativeElement, 'click').subscribe( () => t.getModel().stopTraining = true);
+
+    }) ;
     const a$ = new Subject<any>();
     fromEvent(this.trainButton.nativeElement, 'click').subscribe(a$);
     // Presenter takes all child component's presenters as arguments as well as the trainer service
