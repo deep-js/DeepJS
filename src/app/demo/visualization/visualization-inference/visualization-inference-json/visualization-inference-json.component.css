@@ -6,3 +6,6 @@ span, p {
 span {
   font-weight: bold;
 }
+textarea {
+  font-family : monospace;
+}
