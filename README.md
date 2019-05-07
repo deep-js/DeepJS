@@ -6,7 +6,6 @@
   <a href="https://github.com/tensorspace-team/tensorspace/blob/master/LICENSE">
     </a> 
   <a href="https://github.com/mrdoob/three.js">
-    <img src="https://img.shields.io/badge/dependencies-three.js-brightgreen.svg" alt="dependencies badge"></a> 
   <a href="https://travis-ci.org/tensorspace-team/tensorspace">
     <img src="https://travis-ci.org/tensorspace-team/tensorspace.svg?branch=master" alt="build"></a> 
   <a href="https://gitter.im/tensorspacejs/Lobby#"></a> </p>
