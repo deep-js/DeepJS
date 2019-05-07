@@ -12,7 +12,7 @@
   </a> 
   <a href="https://travis-ci.org/tensorspace-team/tensorspace">
     <img src="https://travis-ci.org/tensorspace-team/tensorspace.svg?branch=master" alt="build"></a> 
-  <a href="https://gitter.im/tensorspacejs/Lobby#"><img src="https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg" alt="gitter"></a> </p>
+  <a href="https://gitter.im/tensorspacejs/Lobby#"></a> </p>
 
 
 #badges coveralls
