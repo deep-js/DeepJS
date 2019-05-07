@@ -126,8 +126,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
       }
       return tmp;
     } catch(e) {
-      console.log(e.message);
-      throw new ModelDefBoxEmptyError();
+      throw new ModelDefBoxEmptyError(e.message);
     }
     return null;
 

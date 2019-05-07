@@ -1,6 +1,6 @@
 export class ModelDefBoxEmptyError extends Error {
-    constructor() {
-        super("Please fill the model box !");
+    constructor(s:string) {
+        super(s);
         this.name = "ModelDefBoxEmptyError";
     }
 }
