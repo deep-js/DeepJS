@@ -1,5 +1,5 @@
 import { ElementRef, ViewChild, Component, AfterViewInit} from '@angular/core';
-import { map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 import { TrainerServiceImpl, TrainerService } from '../../../../shared/services/trainer/trainer.service';
 import {VisualizationModelPresenter, VisualizationModelComponent} from '@api/core';
 import { TensorspaceVisualizationPresenter } from './tensorspace-visualization.presenter';
@@ -23,6 +23,7 @@ export class TensorspaceVisualizationComponent implements AfterViewInit, Visuali
   @ViewChild('tensorspace') tensorspaceContainer:ElementRef; 
   modelTrainer: TrainerServiceImpl;
   private tspModel:TSP.Model;
+  private updatePeriod:number = 2;
 
   constructor(modelTrainer: TrainerServiceImpl) {
     this.presenter = new TensorspaceVisualizationPresenter(modelTrainer);
@@ -54,7 +55,11 @@ export class TensorspaceVisualizationComponent implements AfterViewInit, Visuali
 
     if(init){
       // Load data
-      this.tspModel.init(() => this.tspModel.predict(this.data));
+      this.tspModel.init(() => {
+        this.modelTrainer.getTrainer$().pipe(
+          filter((t) => t.getEpoch() % this.updatePeriod == 0))
+          .subscribe(() => this.tspModel.predict(this.data));
+      });
     }
 
   } 
