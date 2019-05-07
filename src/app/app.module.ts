@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 import {TSModelPresenter} from '@api/core';
 
 
@@ -26,6 +27,9 @@ import { ModifParamModelComponentImpl } from './demo/model/modif-param-model/mod
 import { VisualizationInferenceJSONComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-json/visualization-inference-json.component';
 import { VisualizationInferenceImageComponentImpl } from './demo/visualization/visualization-inference/visualization-inference-image/visualization-inference-image.component';
 import { TensorspaceVisualizationComponent } from './demo/visualization/visualization-model/tensorspace-visualization/tensorspace-visualization.component';
+import { LossVisualizationComponent } from './demo/visualization/visualization-training/loss-visualization/loss-visualisation.component';
+import { LossChartVisualizationComponent } from './demo/visualization/visualization-training/loss-chart-visualization/loss-chart-visualisation.component';
+
 
 declare global {
   interface Window {
@@ -53,17 +57,21 @@ declare global {
     InjectComponentDirective,
     ImageDrawableDirective,
     ModifParamModelComponentImpl,
-    TensorspaceVisualizationComponent 
+    TensorspaceVisualizationComponent ,
+    LossVisualizationComponent ,
+    LossChartVisualizationComponent 
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [TrainerServiceImpl],
   entryComponents: [JsonInputComponentImpl, ImageInputComponentImpl,
     JSONModelComponentImpl, TSModelComponentImpl, TextVisualizationModelComponent, EpochVisualizationComponent, 
-    VisualizationInferenceImageComponentImpl, VisualizationInferenceJSONComponentImpl, TensorspaceVisualizationComponent  ],
+    LossVisualizationComponent, VisualizationInferenceImageComponentImpl, VisualizationInferenceJSONComponentImpl, TensorspaceVisualizationComponent, LossChartVisualizationComponent   ],
+    
   //  providers: [ {provide:[ModelTrainer], useClass:[ModelTrainerImpl]} ],
   bootstrap: [AppComponent]
 })

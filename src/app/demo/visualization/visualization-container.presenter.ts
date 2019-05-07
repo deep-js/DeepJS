@@ -6,6 +6,8 @@ import { EpochVisualizationComponent } from './visualization-training/epoch-visu
 import { TextVisualizationModelComponent } from './visualization-model/text-model-visualization/text-model-visualization.component';
 import { TensorspaceVisualizationComponent } from './visualization-model/tensorspace-visualization/tensorspace-visualization.component';
 import { VisualizationComponent } from '@api/core';
+import { LossVisualizationComponent } from './visualization-training/loss-visualization/loss-visualisation.component'
+import { LossChartVisualizationComponent } from './visualization-training/loss-chart-visualization/loss-chart-visualisation.component'
 import { Subject } from 'rxjs';
 
 /**
@@ -23,6 +25,8 @@ export class VisualizationContainerPresenterImpl implements VisualizationContain
     this.selection$ = new Subject();
     this.visualizationModules = new Map()
       .set('Epoch', EpochVisualizationComponent)
+      .set('Loss', LossVisualizationComponent)
+      .set('Loss Chart', LossChartVisualizationComponent)
       .set('Textual Model Summary', TextVisualizationModelComponent)
       .set('Inference JSON', VisualizationInferenceJSONComponentImpl)
       .set('Inference Image', VisualizationInferenceImageComponentImpl)
