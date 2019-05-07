@@ -94,7 +94,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
 
     return model;*/
     if (s == null)
-      throw new ModelDefBoxEmptyError();
+      throw new ModelDefBoxEmptyError("empty");
 
     // Add model at the end so that it is returned by eval
     //let compileOption = { moduleResolution: ts.ModuleResolutionKind.NodeJs} as ts.CompilerOptions;
@@ -122,7 +122,7 @@ export class TSModelPresenterImpl implements api.TSModelPresenter{
       //var tmp = window.execScript(result);
       //tmp = tf.loadLayersModel('indexeddb://model');
       if (tmp == null && tmp != undefined) {
-        throw new ModelDefBoxEmptyError();
+        throw new ModelDefBoxEmptyError("empty");
       }
       return tmp;
     } catch(e) {
