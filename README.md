@@ -4,7 +4,7 @@
 
 <p align="center"> <a href="https://www.npmjs.com/package/tensorspace"><img src="https://img.shields.io/npm/v/tensorspace.svg" alt="npm version" height="18"></a>
   <a href="https://github.com/tensorspace-team/tensorspace/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/dependencies-tfjs-brightgreen.svg" alt="dependencies badge"></a> 
+    </a> 
   <a href="https://github.com/mrdoob/three.js">
     <img src="https://img.shields.io/badge/dependencies-three.js-brightgreen.svg" alt="dependencies badge"></a> 
   <a href="https://travis-ci.org/tensorspace-team/tensorspace">
