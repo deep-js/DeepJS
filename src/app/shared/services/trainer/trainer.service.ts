@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
-import {BehaviorSubject, Subject, ConnectableObservable, Observable, Observer} from 'rxjs'
+import {ReplaySubject, Subject, ConnectableObservable, Observable, Observer} from 'rxjs'
 import {publish, publishReplay, shareReplay, map, share, switchMap} from 'rxjs/operators'
 import {Training} from '@api/core';
 
@@ -77,7 +77,7 @@ export class TrainerServiceImpl implements TrainerService {
 
 
   constructor() {
-    this.currentTrainings$ = new Subject<Training>();
+    this.currentTrainings$ = new ReplaySubject<Training>(null);
     this.trainer$ = new Subject<TrainData>();
 
   }
