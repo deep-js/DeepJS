@@ -18,7 +18,7 @@ import { ChartsModule } from 'ng2-charts';
  */
 export class LossChartVisualizationComponent implements AfterContentInit, VisualizationTrainingComponent{
 
-  private period: number;   // period at which the visualisation is updated (every n end of loss-chart)
+  private period: number = 1;   // period at which the visualisation is updated (every n end of loss-chart)
 
   public SystemName: string = "Loss";
   firstCopy = false;
@@ -35,8 +35,13 @@ export class LossChartVisualizationComponent implements AfterContentInit, Visual
 
   public lineChartOptions: any = {
     responsive: true,
+    type:"line",
     scales : {
       yAxes: [{
+        ticks: {
+          min: 0,
+        }
+
       }],
       xAxes: [{
       }]
@@ -53,6 +58,7 @@ export class LossChartVisualizationComponent implements AfterContentInit, Visual
   }];
 
 
+  public lineChartType = 'line';
 
   private push(t){
     this.data.push(t.getLoss());
