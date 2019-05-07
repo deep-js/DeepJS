@@ -92,6 +92,11 @@ Source : https://github.com/deep-js/doc/tree/gh-pages
 - <https://github.com/w-v>
 
 
+**Francois AUXIETRE**
+
+- <https://github.com/froxworld>
+
+
 **Florian DUCHATEAU**
 
 - <https://github.com/florianInfo>
